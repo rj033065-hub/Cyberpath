@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+:root {
+  --cyber-bg: #0d1117;
+  --cyber-surface: #111821;
+  --cyber-surface-elevated: #162232;
+  --cyber-border: #21262d;
+  --cyber-border-focus: #30363d;
+  --cyber-blue: #2f81f7;
+  --cyber-accent: #58a6ff;
+  --cyber-green: #3fb950;
+  --cyber-text: #f0f6fc;
+  --cyber-muted: #8b98a8;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--cyber-bg);
+  color: var(--cyber-text);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: rgba(47, 129, 247, 0.35);
+  color: #f0f6fc;
+}
+
+/* Accessible focus visible rings */
+:focus-visible {
+  outline: 2px solid var(--cyber-blue);
+  outline-offset: 3px;
+}
+
+/* Subtle background grid pattern */
+.cyber-grid-bg {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.cyber-grid-dots {
+  background-image: radial-gradient(rgba(88, 166, 255, 0.12) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Restrained ambient glow */
+.ambient-glow-blue {
+  background: radial-gradient(circle at 50% 30%, rgba(47, 129, 247, 0.12) 0%, rgba(13, 17, 23, 0) 70%);
+}
+
+.ambient-glow-green {
+  background: radial-gradient(circle at 50% 50%, rgba(63, 185, 80, 0.1) 0%, rgba(13, 17, 23, 0) 70%);
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom dark scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+::-webkit-scrollbar-thumb {
+  background: #21262d;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #30363d;
+}
+
+/* Blinking caret animation for typing quote */
+@keyframes caret {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-caret {
+  animation: caret 1s steps(1) infinite;
+}

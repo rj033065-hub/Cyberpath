@@ -1,0 +1,144 @@
+/* CyberPath Application Specific Styles */
+
+/* Terminal and code typography */
+.font-mono-code {
+  font-family: var(--font-mono);
+}
+
+/* Subtle keyframe animations */
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-cursor {
+  animation: cursorBlink 1.1s ease-in-out infinite;
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float-slow {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+@keyframes floatDelayed {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+.animate-float-delayed {
+  animation: floatDelayed 6s ease-in-out infinite 1.5s;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(1.03);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 8s ease-in-out infinite;
+}
+
+/* Roadmap connector line */
+.roadmap-timeline-line {
+  position: absolute;
+  left: 28px;
+  top: 40px;
+  bottom: 40px;
+  width: 2px;
+  background: linear-gradient(180deg, #2f81f7 0%, #30363d 70%, #21262d 100%);
+}
+
+@media (min-width: 768px) {
+  .roadmap-timeline-line {
+    left: 36px;
+  }
+}
+
+/* Learning loop horizontal connector in desktop */
+.loop-connector-line {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, #21262d 0%, #2f81f7 50%, #21262d 100%);
+  z-index: 0;
+}
+
+/* Responsive typography utilities */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Restrained glass card */
+.glass-panel {
+  background: rgba(17, 24, 33, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Achievement badge emblem aesthetics */
+.badge-glow-blue {
+  box-shadow: 0 0 30px -5px rgba(47, 129, 247, 0.22);
+}
+
+.badge-glow-green {
+  box-shadow: 0 0 30px -5px rgba(63, 185, 80, 0.22);
+}
+
+.badge-glow-purple {
+  box-shadow: 0 0 30px -5px rgba(163, 113, 247, 0.22);
+}
+
+.badge-glow-gold {
+  box-shadow: 0 0 45px -5px rgba(227, 179, 65, 0.32);
+}
+
+@keyframes goldAura {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+.animate-gold-aura {
+  animation: goldAura 6s ease-in-out infinite;
+}
+
+.gold-text-gradient {
+  background: linear-gradient(135deg, #f8e38d 0%, #d29922 60%, #fae69e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Ambient backdrop watermark stacking: ensures content sections and cards sit above backdrop */
+main section,
+main > div,
+.glass-panel {
+  position: relative;
+  z-index: 2;
+}
+
+
