@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --cyber-bg: #0d1117;
-  --cyber-surface: #111821;
-  --cyber-surface-elevated: #162232;
-  --cyber-border: #21262d;
-  --cyber-border-focus: #30363d;
+  --cyber-bg: #090d14;
+  --cyber-surface: #111722;
+  --cyber-surface-elevated: #182232;
+  --cyber-border: #212b38;
+  --cyber-border-focus: #2f81f7;
   --cyber-blue: #2f81f7;
   --cyber-accent: #58a6ff;
   --cyber-green: #3fb950;
@@ -13,6 +13,69 @@
   --cyber-muted: #8b98a8;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* 3 Surface Levels */
+.surface-page {
+  background-color: #090d14;
+}
+
+.surface-panel {
+  background-color: #111722;
+}
+
+.surface-raised {
+  background-color: #182232;
+}
+
+/* Small Purposeful Motion: Hover Lift on interactive cards (2px, 150ms) */
+.card-interactive {
+  transition: transform 150ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 150ms ease, border-color 150ms ease;
+  will-change: transform;
+}
+
+.card-interactive:hover {
+  transform: translateY(-2px);
+}
+
+/* Page fade & slide-in on route load */
+@keyframes page-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-page-enter {
+  animation: page-enter 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Progress bar animate-in */
+@keyframes progress-in {
+  from { width: 0%; }
+}
+
+.animate-progress {
+  animation: progress-in 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Ambient glow pulse for hero sections */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+/* Typography styles */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.025em;
 }
 
 html {
@@ -106,4 +169,62 @@ body {
 
 .animate-caret {
   animation: caret 1s steps(1) infinite;
+}
+
+/* Badge Emblem Keyframes and Micro-interactions */
+@keyframes badge-unlock {
+  0% {
+    transform: scale(0.65);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes ring-burst {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.95;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes shine-sweep {
+  0% {
+    transform: translateX(-160%) rotate(25deg);
+  }
+  100% {
+    transform: translateX(260%) rotate(25deg);
+  }
+}
+
+.animate-badge-unlock {
+  animation: badge-unlock 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-ring-burst {
+  animation: ring-burst 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.badge-shine-container:hover .badge-shine-effect {
+  animation: shine-sweep 0.85s ease-in-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-badge-unlock,
+  .animate-ring-burst,
+  .badge-shine-container:hover .badge-shine-effect {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
 }
