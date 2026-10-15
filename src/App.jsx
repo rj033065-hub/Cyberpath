@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LandingPage from "./pages/LandingPage";
+import DemoOne from "./components/ui/demo";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -29,6 +30,8 @@ function App() {
         <Routes>
           {/* Public Landing Page */}
           <Route path="/" element={<LandingPage />} />
+          {/* Ripple Grid Demo Route */}
+          <Route path="/demo" element={<DemoOne />} />
 
           {/* Authentication Routes — constellation background NOT rendered here */}
           <Route path="/login" element={<Login />} />

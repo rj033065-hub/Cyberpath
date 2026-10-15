@@ -13,7 +13,8 @@ interface RippleGridProps {
   borderWidth?: number
   pulseScale?: number
   pulseDuration?: number
-  rippleDelay?: number 
+  rippleDelay?: number
+  className?: string
 }
 
 export function RippleGrid({
@@ -27,7 +28,8 @@ export function RippleGrid({
   borderWidth = 1,
   pulseScale = 1.1,
   pulseDuration = 300,
-  rippleDelay = 100, 
+  rippleDelay = 100,
+  className = "",
 }: RippleGridProps) {
   const gridRef = useRef<HTMLDivElement>(null)
 
@@ -90,10 +92,10 @@ export function RippleGrid({
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className={`flex justify-center items-center ${className ? className : "min-h-screen"}`}>
       <div
         ref={gridRef}
-        className="grid gap-0 mt-12"
+        className={`grid gap-0 ${className ? "" : "mt-12"}`}
         style={{
           gridTemplateColumns: `repeat(${size}, ${cellSize}px)`,
           gridTemplateRows: `repeat(${size}, ${cellSize}px)`,

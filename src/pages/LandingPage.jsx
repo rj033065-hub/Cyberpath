@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import DecryptText from "../components/ui/DecryptText";
+import { RippleGrid } from "../components/ui/ripple-grid";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -395,6 +396,13 @@ export default function LandingPage() {
             >
               CTF & Labs
             </Link>
+            <a
+              href="#interactive-grid"
+              className="px-3 py-1.5 rounded-md text-[#58a6ff] hover:text-[#f0f6fc] hover:bg-[#111821] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2f81f7] flex items-center gap-1.5 font-medium"
+            >
+              <span className="w-2 h-2 rounded-full bg-[#58a6ff] animate-ping" />
+              Ripple Grid
+            </a>
           </nav>
 
           {/* Auth State & Action CTA */}
@@ -490,6 +498,17 @@ export default function LandingPage() {
                 className="px-3 py-2.5 rounded-md text-[#f0f6fc] hover:bg-[#16202e] text-sm font-medium flex items-center justify-between"
               >
                 <span>Practice Resources</span>
+                <ChevronRight className="w-4 h-4 text-[#8b98a8]" />
+              </a>
+              <a
+                href="#interactive-grid"
+                onClick={handleNavClick}
+                className="px-3 py-2.5 rounded-md text-[#58a6ff] hover:bg-[#16202e] text-sm font-medium flex items-center justify-between"
+              >
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#58a6ff] animate-ping" />
+                  <span>Ripple Grid Demo</span>
+                </span>
                 <ChevronRight className="w-4 h-4 text-[#8b98a8]" />
               </a>
 
@@ -795,6 +814,77 @@ export default function LandingPage() {
                 <p className="text-[#8b98a8] text-sm leading-relaxed">
                   Validate your skills with tangible progress markers and beginner-friendly capture-the-flag (CTF)
                   challenges that reinforce your retention.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION: INTERACTIVE RIPPLE GRID COMPONENT SHOWCASE */}
+        <section className="py-16 border-b border-[#21262d] bg-[#090d14] relative overflow-hidden" id="interactive-grid">
+          {/* Subtle Ambient Glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[300px] bg-[#2f81f7]/10 blur-[130px] rounded-full pointer-events-none" />
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="text-center max-w-3xl mx-auto mb-10">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#2f81f7]/30 bg-[#111821]/80 text-[#58a6ff] text-xs font-mono font-medium tracking-wide mb-3">
+                <Sparkles className="w-3.5 h-3.5 text-[#58a6ff]" />
+                <span>NEW COMPONENT INTEGRATION</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#f0f6fc]">
+                Interactive Ripple Grid
+              </h2>
+              <p className="text-[#8b98a8] text-sm sm:text-base mt-2">
+                Click any cell in the node matrix below to simulate packet propagation waves and animated ripple pulses.
+              </p>
+            </div>
+
+            {/* Matrix Frame Container */}
+            <div className="rounded-2xl border border-[#21262d] bg-[#111722]/90 backdrop-blur-md p-6 sm:p-8 flex flex-col items-center justify-center shadow-2xl relative">
+              <div className="flex flex-wrap items-center justify-between w-full max-w-2xl mb-6 pb-4 border-b border-[#21262d] text-xs font-mono text-[#8b98a8]">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#3fb950] animate-pulse"></span>
+                  <span className="text-[#f0f6fc]">Matrix State: Active</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="hidden sm:inline text-[#8b98a8]">Click cells to trigger ripple</span>
+                  <Link
+                    to="/demo"
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-[#2f81f7]/15 hover:bg-[#2f81f7]/25 text-[#58a6ff] border border-[#2f81f7]/30 transition-colors font-semibold"
+                  >
+                    <span>Fullscreen Demo</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* Grid Component Render */}
+              <div className="overflow-x-auto max-w-full py-4 flex justify-center">
+                <RippleGrid
+                  size={12}
+                  cellSize={44}
+                  cellColor="#111722"
+                  borderColor="#212b38"
+                  filledCellColor="#1f6feb"
+                  pulseColor="#58a6ff"
+                  pulseScale={1.14}
+                  pulseDuration={300}
+                  rippleDelay={80}
+                  className="min-h-[460px] !mt-0"
+                  filledCells={[
+                    { row: 1, col: 1 },
+                    { row: 1, col: 10 },
+                    { row: 5, col: 5 },
+                    { row: 6, col: 6 },
+                    { row: 10, col: 1 },
+                    { row: 10, col: 10 },
+                  ]}
+                />
+              </div>
+
+              <div className="mt-4 text-center">
+                <p className="text-xs text-[#8b98a8]">
+                  Tip: Multiple rapid clicks create cascading interference waves across the nodes.
                 </p>
               </div>
             </div>
