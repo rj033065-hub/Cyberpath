@@ -1,22 +1,16 @@
-import { Award, Crown, Flame, ShieldCheck, Globe, Terminal, Network, Compass, Sparkles, X, ArrowRight } from "lucide-react";
+import { Sparkles, X, ArrowRight, Download } from "lucide-react";
 import { Link } from "react-router-dom";
+import BadgeEmblem from "../badges/BadgeEmblem";
+import { downloadBadgePng } from "../badges/badgeProgressHelper";
 
-const ICON_MAP = {
-  Terminal,
-  Network,
-  Globe,
-  Compass,
-  Flame,
-  ShieldCheck,
-  Crown,
-  Award,
-};
-
-export default function BadgeUnlockedModal({ badge, onClose }) {
+export default function BadgeUnlockedModal({ badge, onClose, studentName = "Student Researcher" }) {
   if (!badge) return null;
 
-  const Icon = ICON_MAP[badge.iconName] || Award;
   const isMaster = badge.slug === "cyberpath-master";
+
+  const handleDownload = () => {
+    downloadBadgePng(badge, new Date().toISOString(), studentName);
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
@@ -31,22 +25,15 @@ export default function BadgeUnlockedModal({ badge, onClose }) {
           <X className="w-5 h-5" />
         </button>
 
-        {/* Emitted Aura */}
-        <div className="relative mx-auto w-24 h-24 flex items-center justify-center">
-          <div
-            className={`absolute inset-0 rounded-full blur-xl opacity-60 ${
-              isMaster ? "bg-[#d29922]" : "bg-[#2f81f7]"
-            }`}
+        {/* Custom SVG Emblem Showcase with Scale-In & Ring Burst */}
+        <div className="relative mx-auto flex items-center justify-center py-2">
+          <BadgeEmblem
+            badge={badge}
+            state="earned"
+            isNewUnlock={true}
+            size={130}
+            showProgressRing={true}
           />
-          <div
-            className={`relative w-20 h-20 rounded-2xl border flex items-center justify-center shadow-lg ${
-              isMaster
-                ? "bg-gradient-to-br from-[#d29922]/30 to-[#111821] border-[#d29922] text-[#f2cc60]"
-                : "bg-gradient-to-br from-[#2f81f7]/30 to-[#111821] border-[#2f81f7] text-[#58a6ff]"
-            }`}
-          >
-            <Icon className="w-10 h-10" />
-          </div>
         </div>
 
         {/* Text */}
@@ -65,14 +52,25 @@ export default function BadgeUnlockedModal({ badge, onClose }) {
           </p>
         </div>
 
-        {/* Security verification stamp */}
-        <div className="p-3 rounded-xl border border-[#21262d] bg-[#0d1117] text-[11px] font-mono text-[#8b98a8] flex items-center justify-between">
-          <span>STATUS: AUTHENTICATED</span>
-          <span className="text-[#3fb950] font-semibold">SAVED TO SUPABASE</span>
+        {/* Security verification stamp & Download action */}
+        <div className="flex flex-col gap-2">
+          <div className="p-3 rounded-xl border border-[#21262d] bg-[#0d1117] text-[11px] font-mono text-[#8b98a8] flex items-center justify-between">
+            <span>STATUS: AUTHENTICATED</span>
+            <span className="text-[#3fb950] font-semibold">SAVED TO SUPABASE</span>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleDownload}
+            className="w-full py-2.5 px-4 rounded-xl border border-[#21262d] bg-[#16202e] hover:bg-[#1f2d40] text-xs font-semibold text-[#f0f6fc] flex items-center justify-center gap-2 transition-colors shadow-sm active:scale-95"
+          >
+            <Download className="w-3.5 h-3.5 text-[#58a6ff]" />
+            <span>Download High-Resolution PNG Credential</span>
+          </button>
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-3 pt-2">
+        <div className="flex items-center gap-3 pt-1">
           <button
             type="button"
             onClick={onClose}

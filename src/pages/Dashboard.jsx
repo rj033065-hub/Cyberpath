@@ -28,6 +28,12 @@ import {
 } from "lucide-react";
 import { BADGES_DEFINITION } from "../data/curriculumData";
 import { getStudentDashboardMetrics } from "../lib/learningService";
+import BadgeCard from "../components/badges/BadgeCard";
+import NextBadgeFeatured from "../components/badges/NextBadgeFeatured";
+import {
+  getBadgeProgress,
+  getNextBadgeToUnlock,
+} from "../components/badges/badgeProgressHelper";
 
 const TRACK_ICONS = {
   "red-team": Flame,
@@ -161,8 +167,14 @@ export default function Dashboard() {
   const totalLessons = metrics?.totalPathLessons || activePathDetails.milestonesCount;
   const remainingCount = metrics?.remainingCount ?? totalLessons;
   const nextLesson = metrics?.nextLesson;
-  const currentModule = metrics?.currentModule;
   const earnedBadges = metrics?.earnedBadges || [];
+  const nextBadgeToUnlock = getNextBadgeToUnlock(
+    BADGES_DEFINITION,
+    metrics?.completedLessonSlugs || [],
+    metrics?.quizAttemptsMap || {},
+    earnedBadges,
+    currentSelectedPath
+  );
 
   // Phase 4 Gamification & Recommendation Engine properties
   const recommendation = metrics?.recommendation;
@@ -236,235 +248,197 @@ export default function Dashboard() {
       </header>
 
       {/* Main Dashboard Content */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* Supabase Connection Banner (if demo mode) */}
-        {!isConfigured && (
-          <div className="p-4 rounded-xl border border-[#d29922]/50 bg-[#d29922]/10 text-xs text-[#f2cc60] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-page-enter">
+        {/* Supabase Connection Banner (development environment only) */}
+        {import.meta.env.DEV && !isConfigured && (
+          <div className="p-4 rounded-xl border border-[#d29922]/40 bg-[#d29922]/10 text-xs text-[#f2cc60] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div className="flex items-start gap-2.5">
               <Database className="w-4 h-4 shrink-0 mt-0.5 text-[#f2cc60]" />
               <div>
                 <strong className="block text-[#f0f6fc]">Demo Mode Active</strong>
                 <span>
-                  Configure your live Supabase project by adding <code className="bg-[#0d1117] px-1 py-0.5 rounded text-white font-mono">VITE_SUPABASE_URL</code> and <code className="bg-[#0d1117] px-1 py-0.5 rounded text-white font-mono">VITE_SUPABASE_PUBLISHABLE_KEY</code> in <code className="bg-[#0d1117] px-1 py-0.5 rounded text-white font-mono">.env</code>.
+                  Configure live Supabase by adding <code className="bg-[#090d14] px-1 py-0.5 rounded text-white font-mono">VITE_SUPABASE_URL</code> and <code className="bg-[#090d14] px-1 py-0.5 rounded text-white font-mono">VITE_SUPABASE_PUBLISHABLE_KEY</code> in <code className="bg-[#090d14] px-1 py-0.5 rounded text-white font-mono">.env</code>.
                 </span>
               </div>
             </div>
-            <span className="font-mono text-[10px] uppercase px-2 py-0.5 rounded bg-[#d29922]/20 border border-[#d29922]/40 shrink-0">
-              Session Preserved Locally
+            <span className="font-mono text-[10px] uppercase px-2 py-0.5 rounded bg-[#d29922]/20 text-[#f2cc60] shrink-0">
+              Local Storage Active
             </span>
           </div>
         )}
 
-        {/* Phase 4.2 & 4.3: Quick Gamification & Streak Status Bar */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Level & XP Widget */}
-          <Link
-            to="/profile"
-            className="p-4 rounded-xl border border-[#21262d] bg-[#111821] hover:border-[#2f81f7]/50 transition-all flex items-center justify-between group"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#2f81f7]/15 border border-[#2f81f7]/40 flex items-center justify-center text-[#58a6ff]">
-                <Zap className="w-5 h-5 text-[#f2cc60]" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-[#2f81f7]/20 text-[#58a6ff] uppercase">
-                    Level {xpProfile.levelInfo.level}
-                  </span>
-                  <span className="text-xs font-bold text-[#f0f6fc] group-hover:text-[#58a6ff] transition-colors">
-                    {xpProfile.levelInfo.title}
-                  </span>
-                </div>
-                <div className="text-[11px] font-mono text-[#8b98a8] mt-0.5">
-                  <strong className="text-[#f0f6fc]">{xpProfile.totalXp}</strong> XP verified
-                </div>
-              </div>
-            </div>
-            <ChevronRight className="w-4 h-4 text-[#8b98a8] group-hover:text-white transition-colors" />
-          </Link>
+        {/* FOCAL HERO ELEMENT: Continue Your Lesson */}
+        <section className="relative overflow-hidden rounded-2xl bg-[#111722] p-6 sm:p-9 border border-[#212b38]/80 shadow-2xl">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#2f81f7]/10 blur-[120px] pointer-events-none rounded-full" />
 
-          {/* Daily Streak Widget */}
-          <Link
-            to="/profile"
-            className="p-4 rounded-xl border border-[#21262d] bg-[#111821] hover:border-[#fa7970]/50 transition-all flex items-center justify-between group"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#fa7970]/15 border border-[#fa7970]/40 flex items-center justify-center text-[#fa7970]">
-                <Flame className="w-5 h-5 text-[#fa7970]" />
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 relative z-10">
+            <div className="space-y-3.5 flex-1 max-w-2xl">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono text-[#58a6ff] uppercase tracking-wider font-semibold">
+                  {activePathDetails.title} Track
+                </span>
+                <span className="text-[#8b98a8] text-xs">·</span>
+                <span className="text-xs text-[#8b98a8]">
+                  {completedCount} of {totalLessons} lessons finished ({percentComplete}%)
+                </span>
               </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-[#f0f6fc]">
-                    {streakData.currentStreak} Day Streak
-                  </span>
-                  <span
-                    className={`text-[9px] font-mono px-1.5 py-0.2 rounded ${
-                      streakData.streakStatus === "active_today"
-                        ? "bg-[#3fb950]/20 text-[#3fb950]"
-                        : streakData.streakStatus === "at_risk"
-                        ? "bg-[#d29922]/20 text-[#f2cc60]"
-                        : "bg-[#21262d] text-[#8b98a8]"
-                    }`}
+
+              <h1 className="text-3xl sm:text-4xl lg:text-[40px] font-extrabold tracking-tight text-[#f0f6fc] leading-[1.15]">
+                Welcome back, <span className="text-[#58a6ff]">{displayName}</span>
+              </h1>
+
+              <p className="text-[15px] sm:text-base text-[#8b98a8] leading-relaxed">
+                {recommendation?.reason || "Pick up right where you left off in your cybersecurity curriculum."}
+              </p>
+
+              {/* Action Buttons: Continue Learning & View Roadmap */}
+              <div className="pt-2 flex flex-wrap items-center gap-3">
+                {recommendation ? (
+                  <Link
+                    to={recommendation.targetUrl}
+                    className="card-interactive inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#2f81f7] hover:bg-[#2069cc] text-white text-xs sm:text-sm font-semibold shadow-md shadow-[#2f81f7]/25 transition-all"
                   >
-                    {streakData.streakStatus === "active_today"
-                      ? "ACTIVE"
-                      : streakData.streakStatus === "at_risk"
-                      ? "AT RISK"
-                      : "INACTIVE"}
-                  </span>
+                    <PlayCircle className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                    <span>{recommendation.actionLabel}: {recommendation.title}</span>
+                  </Link>
+                ) : (
+                  <Link
+                    to={`/learn/${currentSelectedPath}`}
+                    className="card-interactive inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#2f81f7] hover:bg-[#2069cc] text-white text-xs sm:text-sm font-semibold shadow-md shadow-[#2f81f7]/25 transition-all"
+                  >
+                    <PlayCircle className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                    <span>Continue Learning Track</span>
+                  </Link>
+                )}
+
+                <Link
+                  to={`/learn/${currentSelectedPath}`}
+                  className="card-interactive inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-[#182232] hover:bg-[#1f2d40] text-[#f0f6fc] text-xs sm:text-sm font-medium transition-all"
+                >
+                  <BookOpen className="w-4 h-4 text-[#58a6ff]" />
+                  <span>Roadmap</span>
+                </Link>
+
+                <Link
+                  to="/explore"
+                  className="card-interactive inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-[#182232] hover:bg-[#1f2d40] text-[#8b98a8] hover:text-[#f0f6fc] text-xs sm:text-sm font-medium transition-all"
+                >
+                  <Compass className="w-4 h-4 text-[#58a6ff]" />
+                  <span>CTF Labs</span>
+                </Link>
+              </div>
+            </div>
+
+            {/* Hero Right Detail Box: Raised surface with background contrast */}
+            <div className="bg-[#182232] p-5 sm:p-6 rounded-2xl shrink-0 lg:w-80 w-full space-y-3 shadow-md">
+              <div className="flex items-center justify-between text-xs font-mono text-[#8b98a8]">
+                <span className="uppercase text-[10px]">Active Milestone</span>
+                {recommendation?.estimatedMinutes && (
+                  <span>~{recommendation.estimatedMinutes}m study</span>
+                )}
+              </div>
+
+              <h3 className="text-base font-bold text-[#f0f6fc] line-clamp-1">
+                {recommendation?.title || activePathDetails.title}
+              </h3>
+              <p className="text-xs text-[#8b98a8] line-clamp-2 leading-relaxed">
+                {recommendation?.moduleTitle || activePathDetails.description}
+              </p>
+
+              <div className="pt-2 border-t border-white/5 space-y-1.5">
+                <div className="flex justify-between text-[11px] font-mono">
+                  <span className="text-[#8b98a8]">Track Progress</span>
+                  <span className="text-[#58a6ff] font-bold">{percentComplete}%</span>
                 </div>
-                <div className="text-[11px] text-[#8b98a8] mt-0.5">
-                  Longest: <strong className="text-[#f0f6fc]">{streakData.longestStreak} days</strong>
+                <div className="w-full bg-[#090d14] h-2 rounded-full overflow-hidden">
+                  <div
+                    className="bg-[#2f81f7] h-full rounded-full transition-all duration-700 ease-out"
+                    style={{ width: `${percentComplete}%` }}
+                  />
                 </div>
               </div>
             </div>
-            <ChevronRight className="w-4 h-4 text-[#8b98a8] group-hover:text-white transition-colors" />
+          </div>
+        </section>
+
+        {/* SLIM STATS STRIP: Replaces bulky stat cards */}
+        <div className="bg-[#111722] rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4">
+          {/* Level & XP */}
+          <Link
+            to="/profile"
+            className="card-interactive flex items-center gap-3 px-3 py-1.5 rounded-xl hover:bg-[#182232] transition-colors group"
+          >
+            <div className="w-8 h-8 rounded-lg bg-[#2f81f7]/15 flex items-center justify-center text-[#58a6ff]">
+              <Zap className="w-4 h-4 text-[#f2cc60]" />
+            </div>
+            <div className="text-left">
+              <div className="text-xs font-bold text-[#f0f6fc] group-hover:text-[#58a6ff] transition-colors">
+                Level {xpProfile.levelInfo.level} · {xpProfile.levelInfo.title}
+              </div>
+              <div className="text-[11px] font-mono text-[#8b98a8]">
+                <strong className="text-[#f0f6fc]">{xpProfile.totalXp}</strong> XP verified
+              </div>
+            </div>
           </Link>
 
-          {/* Quick 14-Day Activity Heatmap Dots */}
-          <div className="p-4 rounded-xl border border-[#21262d] bg-[#111821] flex flex-col justify-between">
-            <div className="flex items-center justify-between text-[10px] font-mono text-[#8b98a8] mb-2">
-              <span className="flex items-center gap-1">
-                <Calendar className="w-3 h-3 text-[#58a6ff]" />
-                <span>14-DAY ACTIVITY</span>
-              </span>
-              <span>{streakData.totalActiveDays} Days Logged</span>
+          <div className="hidden sm:block w-px h-6 bg-[#212b38]" />
+
+          {/* Daily Streak */}
+          <Link
+            to="/profile"
+            className="card-interactive flex items-center gap-3 px-3 py-1.5 rounded-xl hover:bg-[#182232] transition-colors group"
+          >
+            <div className="w-8 h-8 rounded-lg bg-[#fa7970]/15 flex items-center justify-center text-[#fa7970]">
+              <Flame className="w-4 h-4 text-[#fa7970]" />
             </div>
-            <div className="flex items-center justify-between gap-1">
-              {streakData.recentCalendar?.map((day) => (
+            <div className="text-left">
+              <div className="text-xs font-bold text-[#f0f6fc] group-hover:text-[#fa7970] transition-colors">
+                {streakData.currentStreak} Day Streak
+              </div>
+              <div className="text-[11px] font-mono text-[#8b98a8]">
+                Longest: {streakData.longestStreak} days
+              </div>
+            </div>
+          </Link>
+
+          <div className="hidden sm:block w-px h-6 bg-[#212b38]" />
+
+          {/* Badges Earned */}
+          <Link
+            to="/profile"
+            className="card-interactive flex items-center gap-3 px-3 py-1.5 rounded-xl hover:bg-[#182232] transition-colors group"
+          >
+            <div className="w-8 h-8 rounded-lg bg-[#f2cc60]/15 flex items-center justify-center text-[#f2cc60]">
+              <Award className="w-4 h-4 text-[#f2cc60]" />
+            </div>
+            <div className="text-left">
+              <div className="text-xs font-bold text-[#f0f6fc] group-hover:text-[#f2cc60] transition-colors">
+                {earnedBadges.length} / {BADGES_DEFINITION.length} Badges
+              </div>
+              <div className="text-[11px] font-mono text-[#8b98a8]">
+                {BADGES_DEFINITION.length - earnedBadges.length} to unlock
+              </div>
+            </div>
+          </Link>
+
+          <div className="hidden lg:block w-px h-6 bg-[#212b38]" />
+
+          {/* 14-Day Activity Heatmap */}
+          <div className="hidden lg:flex items-center gap-2.5 px-3 py-1.5">
+            <span className="text-[11px] font-mono text-[#8b98a8]">Activity</span>
+            <div className="flex items-center gap-1">
+              {streakData.recentCalendar?.slice(-10).map((day) => (
                 <div
                   key={day.dateStr}
-                  title={`${day.dateStr}: ${day.hasActivity ? "Active" : "No verified activity"}`}
-                  className={`w-3.5 h-5 rounded flex flex-col items-center justify-center transition-all ${
-                    day.hasActivity
-                      ? "bg-[#3fb950]"
-                      : "bg-[#0d1117] border border-[#21262d]"
+                  title={`${day.dateStr}: ${day.hasActivity ? "Active" : "No activity"}`}
+                  className={`w-3 h-4 rounded-sm transition-all ${
+                    day.hasActivity ? "bg-[#3fb950]" : "bg-[#182232]"
                   } ${day.isToday ? "ring-1 ring-[#58a6ff]" : ""}`}
                 />
               ))}
             </div>
           </div>
         </div>
-
-        {/* Phase 4.1: Deterministic Primary Recommendation Card */}
-        <section className="relative overflow-hidden rounded-2xl border border-[#21262d] bg-[#111821] p-6 sm:p-8 cyber-grid-bg">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-[#2f81f7]/5 blur-[100px] pointer-events-none rounded-full" />
-
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
-            <div className="space-y-3 flex-1">
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[#2f81f7]/30 bg-[#0d1117] text-[#58a6ff] text-xs font-mono">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>DETERMINISTIC RECOMMENDATION</span>
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[#21262d] bg-[#0d1117] text-[#8b98a8] text-xs font-mono">
-                  <span>ACTIVE TRACK: {activePathDetails.title.toUpperCase()}</span>
-                </div>
-              </div>
-
-              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#f0f6fc]">
-                Welcome back, <span className="text-[#58a6ff]">{displayName}</span>!
-              </h1>
-
-              {/* Recommendation Reason Callout */}
-              {recommendation && (
-                <div
-                  className={`p-4 rounded-xl border text-xs space-y-1.5 max-w-2xl ${
-                    recommendation.type === "review"
-                      ? "border-[#d29922]/50 bg-[#d29922]/10 text-[#f2cc60]"
-                      : recommendation.type === "explore"
-                      ? "border-[#a371f7]/50 bg-[#a371f7]/10 text-[#bc8cff]"
-                      : "border-[#2f81f7]/40 bg-[#0d1117] text-[#8b98a8]"
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <strong className="text-[#f0f6fc] font-semibold flex items-center gap-1.5">
-                      {recommendation.type === "review" ? (
-                        <>
-                          <AlertCircle className="w-3.5 h-3.5 text-[#f2cc60]" />
-                          <span>Assessment Review Recommended</span>
-                        </>
-                      ) : (
-                        <>
-                          <Sparkles className="w-3.5 h-3.5 text-[#58a6ff]" />
-                          <span>{recommendation.subtitle || "Next Milestone"}</span>
-                        </>
-                      )}
-                    </strong>
-                    {recommendation.estimatedMinutes && (
-                      <span className="font-mono text-[10px] text-[#8b98a8]">
-                        ~{recommendation.estimatedMinutes} mins
-                      </span>
-                    )}
-                  </div>
-                  <p className="leading-relaxed text-[#c9d1d9]">{recommendation.reason}</p>
-                </div>
-              )}
-
-              {/* Action Buttons: Continue Learning & View Roadmap */}
-              <div className="pt-2 flex flex-wrap items-center gap-3">
-                {recommendation && (
-                  <Link
-                    to={recommendation.targetUrl}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#2f81f7] hover:bg-[#2069cc] text-white text-xs font-semibold shadow-sm shadow-[#2f81f7]/25 transition-all"
-                  >
-                    <PlayCircle className="w-4 h-4" />
-                    <span>{recommendation.actionLabel}</span>
-                  </Link>
-                )}
-
-                <Link
-                  to={`/learn/${currentSelectedPath}`}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#21262d] bg-[#0d1117] hover:bg-[#16202e] text-[#f0f6fc] text-xs font-medium transition-all"
-                >
-                  <BookOpen className="w-4 h-4 text-[#58a6ff]" />
-                  <span>View Curriculum Roadmap</span>
-                </Link>
-
-                <Link
-                  to="/explore"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#21262d] bg-[#0d1117] hover:bg-[#16202e] text-[#8b98a8] hover:text-[#f0f6fc] text-xs font-medium transition-all"
-                >
-                  <Compass className="w-4 h-4 text-[#58a6ff]" />
-                  <span>CTF Discovery</span>
-                </Link>
-              </div>
-            </div>
-
-            {/* Recommendation Detail Box */}
-            <div className="p-5 rounded-xl border border-[#21262d] bg-[#0d1117]/90 text-xs space-y-3 shrink-0 lg:max-w-xs w-full">
-              <div className="flex items-center justify-between border-b border-[#21262d] pb-2">
-                <span className="text-[10px] font-mono text-[#8b98a8]">RECOMMENDED ACTIVITY</span>
-                <span className="text-[10px] font-mono text-[#3fb950]">VERIFIED</span>
-              </div>
-
-              {recommendation ? (
-                <div className="space-y-2">
-                  <h4 className="font-bold text-[#f0f6fc] line-clamp-1">{recommendation.title}</h4>
-                  <p className="text-[11px] text-[#8b98a8] line-clamp-2">
-                    {recommendation.moduleTitle || recommendation.subtitle}
-                  </p>
-                  <div className="pt-2 border-t border-[#21262d] flex items-center justify-between text-[11px]">
-                    <span className="text-[#8b98a8] font-mono">
-                      ~{recommendation.estimatedMinutes} mins study
-                    </span>
-                    <Link
-                      to={recommendation.targetUrl}
-                      className="font-semibold text-[#58a6ff] hover:text-white flex items-center gap-1"
-                    >
-                      <span>Continue</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </Link>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-center py-2 text-xs text-[#3fb950] font-semibold">
-                  All lessons completed!
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
 
         {/* Section: Learning Paths Selector */}
         <section className="space-y-4">
@@ -504,40 +478,46 @@ export default function Dashboard() {
                 <div
                   key={path.slug}
                   onClick={() => handleSelectPath(path.slug)}
-                  className={`rounded-xl border p-5 flex flex-col justify-between cursor-pointer transition-all ${
+                  className={`card-interactive rounded-2xl p-6 flex flex-col justify-between cursor-pointer transition-all ${
                     isSelected
-                      ? "border-[#2f81f7] bg-[#16202e] shadow-lg shadow-[#2f81f7]/10 ring-1 ring-[#2f81f7]"
-                      : "border-[#21262d] bg-[#111821] hover:border-[#30363d] hover:bg-[#16202e]/40"
+                      ? "border border-[#2f81f7] bg-[#182232] shadow-xl shadow-[#2f81f7]/15 ring-1 ring-[#2f81f7]/40"
+                      : "bg-[#111722] hover:bg-[#182232]/70 border border-transparent hover:border-[#212b38]"
                   }`}
                 >
                   <div>
-                    <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center justify-between mb-4">
                       <div
-                        className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                        className={`w-10 h-10 rounded-xl flex items-center justify-center ${
                           isSelected
-                            ? "bg-[#2f81f7]/25 text-[#58a6ff] border border-[#2f81f7]/40"
-                            : "bg-[#0d1117] text-[#8b98a8] border border-[#21262d]"
+                            ? "bg-[#2f81f7]/20 text-[#58a6ff]"
+                            : "bg-[#090d14] text-[#8b98a8]"
                         }`}
                       >
                         <Icon className="w-5 h-5" />
                       </div>
-                      <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${path.pillClass}`}>
-                        {isSelected ? "ACTIVE SELECTION" : path.subtitle}
-                      </span>
+                      {isSelected ? (
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#2f81f7]/20 text-[#58a6ff] font-semibold">
+                          ACTIVE TRACK
+                        </span>
+                      ) : (
+                        <span className="text-xs text-[#8b98a8] font-mono">
+                          {path.milestonesCount} lessons
+                        </span>
+                      )}
                     </div>
 
-                    <h3 className="text-lg font-bold text-[#f0f6fc] mb-1">{path.title}</h3>
-                    <p className="text-xs text-[#8b98a8] leading-relaxed mb-4">{path.description}</p>
+                    <h3 className="text-lg font-bold text-[#f0f6fc] mb-1.5">{path.title}</h3>
+                    <p className="text-[14px] text-[#8b98a8] leading-relaxed mb-5">{path.description}</p>
                   </div>
 
-                  <div className="pt-3 border-t border-[#21262d] flex items-center justify-between text-xs">
+                  <div className="pt-3 border-t border-white/5 flex items-center justify-between text-xs">
                     <Link
                       to={`/learn/${path.slug}`}
                       onClick={(e) => e.stopPropagation()}
-                      className="text-[11px] font-semibold text-[#58a6ff] hover:underline flex items-center gap-1"
+                      className="text-xs font-semibold text-[#58a6ff] hover:text-white flex items-center gap-1 transition-colors"
                     >
-                      <span>View Lessons ({path.milestonesCount})</span>
-                      <ChevronRight className="w-3 h-3" />
+                      <span>Explore Curriculum</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
                     </Link>
 
                     <button
@@ -547,13 +527,13 @@ export default function Dashboard() {
                         e.stopPropagation();
                         handleSelectPath(path.slug);
                       }}
-                      className={`px-3 py-1 rounded-md text-xs font-semibold transition-colors ${
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                         isSelected
-                          ? "bg-[#2f81f7] text-white"
-                          : "bg-[#0d1117] text-[#8b98a8] hover:text-[#f0f6fc] border border-[#21262d]"
+                          ? "bg-[#2f81f7] text-white shadow-sm shadow-[#2f81f7]/30"
+                          : "bg-[#090d14] text-[#8b98a8] hover:text-[#f0f6fc] hover:bg-[#182232]"
                       }`}
                     >
-                      {isSelected ? "Active" : "Select"}
+                      {isSelected ? "Current" : "Switch"}
                     </button>
                   </div>
                 </div>
@@ -563,10 +543,10 @@ export default function Dashboard() {
         </section>
 
         {/* Section: True Calculated Progress Overview */}
-        <section className="rounded-2xl border border-[#21262d] bg-[#111821] p-6 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#21262d] pb-4">
+        <section className="rounded-2xl bg-[#111722] p-6 sm:p-7 space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/5 pb-4">
             <div>
-              <h2 className="text-xl font-bold text-[#f0f6fc] flex items-center gap-2">
+              <h2 className="text-xl sm:text-[22px] font-bold text-[#f0f6fc] tracking-tight flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-[#3fb950]" />
                 <span>Curriculum Progress Overview</span>
               </h2>
@@ -574,46 +554,46 @@ export default function Dashboard() {
                 Calculated strictly from your completed lessons and verified assessment results.
               </p>
             </div>
-            <span className="text-[10px] font-mono text-[#3fb950] px-2.5 py-1 rounded-full bg-[#3fb950]/15 border border-[#3fb950]/30 w-fit">
-              LIVE PERSISTENCE
+            <span className="text-xs font-mono text-[#8b98a8]">
+              {completedCount} of {totalLessons} Track Lessons Finished
             </span>
           </div>
 
-          {/* 4 Stat Metric Cards (Computed from real state) */}
+          {/* 4 Stat Metric Cards (Surface 3: Raised without inner 1px borders) */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="p-4 rounded-xl border border-[#21262d] bg-[#0d1117]">
-              <span className="text-[10px] font-mono text-[#8b98a8] uppercase block mb-1">Track Completion</span>
+            <div className="p-5 rounded-xl bg-[#182232] space-y-1">
+              <span className="text-[11px] font-mono text-[#8b98a8] uppercase block">Track Progress</span>
               <div className="text-2xl font-extrabold text-[#f0f6fc]">{percentComplete}%</div>
-              <span className="text-[10px] text-[#8b98a8] mt-1 block">
-                {completedCount} of {totalLessons} lessons finished
+              <span className="text-[11px] text-[#8b98a8] block">
+                {completedCount} / {totalLessons} lessons
               </span>
             </div>
 
-            <div className="p-4 rounded-xl border border-[#21262d] bg-[#0d1117]">
-              <span className="text-[10px] font-mono text-[#8b98a8] uppercase block mb-1">Global Lessons</span>
+            <div className="p-5 rounded-xl bg-[#182232] space-y-1">
+              <span className="text-[11px] font-mono text-[#8b98a8] uppercase block">Global Lessons</span>
               <div className="text-2xl font-extrabold text-[#f0f6fc]">
                 {metrics?.totalGlobalCompleted || 0}
               </div>
-              <span className="text-[10px] text-[#8b98a8] mt-1 block">
-                Across all 3 learning tracks (31 total)
+              <span className="text-[11px] text-[#8b98a8] block">
+                Across all 3 tracks (31 total)
               </span>
             </div>
 
-            <div className="p-4 rounded-xl border border-[#21262d] bg-[#0d1117]">
-              <span className="text-[10px] font-mono text-[#8b98a8] uppercase block mb-1">Remaining in Track</span>
+            <div className="p-5 rounded-xl bg-[#182232] space-y-1">
+              <span className="text-[11px] font-mono text-[#8b98a8] uppercase block">Remaining in Track</span>
               <div className="text-2xl font-extrabold text-[#f0f6fc]">{remainingCount}</div>
-              <span className="text-[10px] text-[#8b98a8] mt-1 block">
-                Modules remaining: {metrics?.moduleSummaries?.filter((m) => !m.isFinished).length || 0}
+              <span className="text-[11px] text-[#8b98a8] block">
+                {metrics?.moduleSummaries?.filter((m) => !m.isFinished).length || 0} modules left
               </span>
             </div>
 
-            <div className="p-4 rounded-xl border border-[#21262d] bg-[#0d1117]">
-              <span className="text-[10px] font-mono text-[#8b98a8] uppercase block mb-1">Earned Badges</span>
+            <div className="p-5 rounded-xl bg-[#182232] space-y-1">
+              <span className="text-[11px] font-mono text-[#8b98a8] uppercase block">Earned Badges</span>
               <div className="text-2xl font-extrabold text-[#f0f6fc]">
                 {earnedBadges.length}
               </div>
-              <span className="text-[10px] text-[#8b98a8] mt-1 block">
-                {BADGES_DEFINITION.length} total available to earn
+              <span className="text-[11px] text-[#8b98a8] block">
+                {BADGES_DEFINITION.length} total available
               </span>
             </div>
           </div>
@@ -624,9 +604,9 @@ export default function Dashboard() {
               <span>Active Track: <strong className="text-[#f0f6fc]">{activePathDetails.title}</strong></span>
               <span className="font-mono">{completedCount} / {totalLessons} Milestones ({percentComplete}%)</span>
             </div>
-            <div className="w-full bg-[#0d1117] h-2.5 rounded-full overflow-hidden border border-[#21262d]">
+            <div className="w-full bg-[#090d14] h-2.5 rounded-full overflow-hidden">
               <div
-                className="bg-[#2f81f7] h-full rounded-full transition-all duration-500"
+                className="bg-[#2f81f7] h-full rounded-full transition-all duration-700 ease-out"
                 style={{ width: `${percentComplete}%` }}
               />
             </div>
@@ -664,7 +644,7 @@ export default function Dashboard() {
         <section className="space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-bold text-[#f0f6fc] flex items-center gap-2">
+              <h2 className="text-xl sm:text-[22px] font-bold text-[#f0f6fc] tracking-tight flex items-center gap-2">
                 <Award className="w-5 h-5 text-[#f2cc60]" />
                 <span>Path Completion Badges & Credentials</span>
               </h2>
@@ -677,18 +657,24 @@ export default function Dashboard() {
             </span>
           </div>
 
+          {/* Featured Next Badge to Unlock */}
+          <NextBadgeFeatured
+            nextBadgeData={nextBadgeToUnlock}
+            currentPath={currentSelectedPath}
+          />
+
           {/* Subsection 1: Genuinely Earned Badges Only */}
-          <div className="rounded-xl border border-[#21262d] bg-[#111821] p-5">
-            <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#21262d]">
-              <span className="text-xs font-mono font-semibold text-[#8b98a8] uppercase">
-                YOUR EARNED BADGES ({earnedBadges.length})
+          <div className="rounded-2xl bg-[#111722] p-6 sm:p-7 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-white/5">
+              <span className="text-xs font-mono font-semibold text-[#8b98a8] uppercase tracking-wider">
+                Your Earned Badges ({earnedBadges.length})
               </span>
-              <span className="text-[10px] font-mono text-[#3fb950]">AUTHENTICATED CREDENTIALS</span>
+              <span className="text-xs font-mono text-[#3fb950]">Verified</span>
             </div>
 
             {earnedBadges.length === 0 ? (
-              <div className="p-8 rounded-lg bg-[#0d1117] border border-dashed border-[#21262d] text-center space-y-2">
-                <div className="w-10 h-10 rounded-full bg-[#16202e] text-[#8b98a8] flex items-center justify-center mx-auto">
+              <div className="p-8 rounded-xl bg-[#090d14] text-center space-y-2">
+                <div className="w-10 h-10 rounded-full bg-[#182232] text-[#8b98a8] flex items-center justify-center mx-auto">
                   <LockKeyhole className="w-5 h-5" />
                 </div>
                 <h3 className="text-sm font-semibold text-[#f0f6fc]">No badges earned yet</h3>
@@ -698,7 +684,7 @@ export default function Dashboard() {
                 {nextLesson && (
                   <Link
                     to={`/learn/${currentSelectedPath}/${nextLesson.slug}`}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#2f81f7] text-white text-xs font-semibold mt-2"
+                    className="card-interactive inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#2f81f7] text-white text-xs font-semibold mt-2"
                   >
                     <span>Start Lesson 1</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -706,38 +692,22 @@ export default function Dashboard() {
                 )}
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 {earnedBadges.map((badge) => {
                   const def = BADGES_DEFINITION.find((b) => b.slug === badge.slug) || badge;
-                  const Icon = BADGE_ICONS[def.iconName] || Award;
+                  const progress = getBadgeProgress(
+                    def,
+                    metrics?.completedLessonSlugs,
+                    metrics?.quizAttemptsMap,
+                    earnedBadges
+                  );
                   return (
-                    <div
+                    <BadgeCard
                       key={badge.slug}
-                      className="p-4 rounded-xl border border-[#3fb950]/40 bg-[#3fb950]/10 flex flex-col justify-between relative shadow-sm shadow-[#3fb950]/10"
-                    >
-                      <div>
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="w-10 h-10 rounded-lg flex items-center justify-center border border-[#3fb950]/40 bg-[#0d1117] text-[#3fb950]">
-                            <Icon className="w-5 h-5" />
-                          </div>
-                          <span className="text-[9px] font-mono text-[#3fb950] uppercase px-1.5 py-0.5 rounded bg-[#0d1117] border border-[#3fb950]/30">
-                            EARNED
-                          </span>
-                        </div>
-
-                        <h4 className="text-sm font-bold text-[#f0f6fc] mb-1">{def.name}</h4>
-                        <p className="text-[11px] text-[#8b98a8] leading-relaxed mb-3">
-                          {def.description}
-                        </p>
-                      </div>
-
-                      <div className="pt-2 border-t border-[#21262d] flex items-center justify-between text-[10px] text-[#8b98a8]">
-                        <span>Earned:</span>
-                        <span className="text-[#3fb950] font-mono">
-                          {badge.earnedAt ? new Date(badge.earnedAt).toLocaleDateString() : "Verified"}
-                        </span>
-                      </div>
-                    </div>
+                      badge={def}
+                      progress={progress}
+                      studentName={displayName}
+                    />
                   );
                 })}
               </div>
@@ -745,71 +715,30 @@ export default function Dashboard() {
           </div>
 
           {/* Subsection 2: Available Badges Roadmap */}
-          <div className="rounded-xl border border-[#21262d] bg-[#111821] p-5">
-            <div className="flex items-center justify-between mb-4 pb-2 border-b border-[#21262d]">
-              <span className="text-xs font-mono font-semibold text-[#8b98a8] uppercase">
-                AVAILABLE BADGES ROADMAP ({BADGES_DEFINITION.length})
+          <div className="rounded-2xl bg-[#111722] p-6 sm:p-7 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-white/5">
+              <span className="text-xs font-mono font-semibold text-[#8b98a8] uppercase tracking-wider">
+                Available Badges Roadmap ({BADGES_DEFINITION.length})
               </span>
-              <span className="text-[10px] font-mono text-[#58a6ff]">UNLOCKED VIA VERIFIED CRITERIA</span>
+              <span className="text-xs font-mono text-[#58a6ff]">Curriculum Milestones</span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {BADGES_DEFINITION.map((badge) => {
-                const isEarned = earnedBadges.some((b) => b.slug === badge.slug);
-                const Icon = BADGE_ICONS[badge.iconName] || Award;
+                const progress = getBadgeProgress(
+                  badge,
+                  metrics?.completedLessonSlugs,
+                  metrics?.quizAttemptsMap,
+                  earnedBadges
+                );
 
                 return (
-                  <div
+                  <BadgeCard
                     key={badge.slug}
-                    className={`rounded-xl border p-4 flex flex-col justify-between ${
-                      isEarned
-                        ? "border-[#3fb950]/50 bg-[#3fb950]/5"
-                        : `${badge.borderClass} ${badge.bgClass} opacity-85`
-                    } relative`}
-                  >
-                    <div>
-                      <div className="flex items-center justify-between mb-3">
-                        <div
-                          className={`w-10 h-10 rounded-lg flex items-center justify-center border border-[#21262d] bg-[#0d1117] ${
-                            isEarned ? "text-[#3fb950]" : badge.colorClass
-                          }`}
-                        >
-                          <Icon className="w-5 h-5" />
-                        </div>
-                        <span className="text-[9px] font-mono text-[#8b98a8] uppercase px-1.5 py-0.5 rounded bg-[#0d1117] border border-[#21262d]">
-                          {badge.track}
-                        </span>
-                      </div>
-
-                      <h4
-                        className={`text-sm font-bold mb-1 ${
-                          isEarned
-                            ? "text-[#3fb950]"
-                            : badge.isMaster
-                            ? "text-[#f2cc60]"
-                            : "text-[#f0f6fc]"
-                        }`}
-                      >
-                        {badge.name}
-                      </h4>
-                      <p className="text-[11px] text-[#8b98a8] leading-relaxed mb-3">
-                        {badge.description}
-                      </p>
-                    </div>
-
-                    <div className="pt-2 border-t border-[#21262d]/60 flex items-center justify-between text-[10px] text-[#8b98a8]">
-                      <span>Status:</span>
-                      {isEarned ? (
-                        <span className="text-[#3fb950] font-mono font-semibold flex items-center gap-1">
-                          <CheckCircle2 className="w-3 h-3" /> Unlocked
-                        </span>
-                      ) : (
-                        <span className="text-[#8b98a8] font-mono flex items-center gap-1">
-                          <LockKeyhole className="w-3 h-3" /> Locked
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                    badge={badge}
+                    progress={progress}
+                    studentName={displayName}
+                  />
                 );
               })}
             </div>

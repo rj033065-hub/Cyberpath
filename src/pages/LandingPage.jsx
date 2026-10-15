@@ -32,7 +32,10 @@ import {
   Trophy,
   X,
   Zap,
+  Download,
 } from "lucide-react";
+import BadgeEmblem from "../components/badges/BadgeEmblem";
+import { downloadBadgePng } from "../components/badges/badgeProgressHelper";
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -873,20 +876,20 @@ export default function LandingPage() {
                   <div
                     key={path.id}
                     onClick={() => setSelectedPathId(path.id)}
-                    className={`rounded-xl border p-6 flex flex-col justify-between cursor-pointer transition-all relative ${
+                    className={`rounded-2xl p-6 flex flex-col justify-between cursor-pointer transition-all relative card-interactive ${
                       isSelected
-                        ? "border-[#2f81f7] bg-[#16202e] shadow-lg shadow-[#2f81f7]/10 ring-1 ring-[#2f81f7]"
-                        : "border-[#21262d] bg-[#111821] hover:border-[#30363d] hover:bg-[#16202e]/50"
+                        ? "border border-[#2f81f7]/50 bg-[#182232] shadow-xl shadow-black/30 ring-1 ring-[#2f81f7]"
+                        : "bg-[#111722] hover:bg-[#182232]/70"
                     }`}
                   >
                     {/* Top Row: Icon & Status Badge */}
                     <div>
                       <div className="flex items-center justify-between mb-4">
                         <div
-                          className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                          className={`w-12 h-12 rounded-xl flex items-center justify-center ${
                             isSelected
                               ? "bg-[#2f81f7]/25 text-[#58a6ff] border border-[#2f81f7]/50"
-                              : "bg-[#16202e] text-[#8b98a8] border border-[#21262d]"
+                              : "bg-[#182232] text-[#8b98a8]"
                           }`}
                         >
                           <Icon className="w-6 h-6" />
@@ -895,7 +898,7 @@ export default function LandingPage() {
                           className={`text-xs font-mono px-2.5 py-1 rounded-full border ${
                             isSelected
                               ? "bg-[#2f81f7]/20 border-[#2f81f7]/40 text-[#58a6ff]"
-                              : "bg-[#16202e] border-[#21262d] text-[#8b98a8]"
+                              : "bg-[#182232] border-transparent text-[#8b98a8]"
                           }`}
                         >
                           {isSelected ? "ACTIVE SELECTION" : path.badge}
@@ -925,12 +928,12 @@ export default function LandingPage() {
                     </div>
 
                     {/* Bottom: Tags & Selector Action */}
-                    <div className="pt-4 border-t border-[#21262d]/70">
+                    <div className="pt-4 border-t border-white/5">
                       <div className="flex flex-wrap gap-1.5 mb-4">
                         {path.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#0d1117] text-[#8b98a8] border border-[#21262d]"
+                            className="text-[11px] px-2 py-0.5 rounded bg-[#090d14] text-[#8b98a8]"
                           >
                             {tag}
                           </span>
@@ -941,8 +944,8 @@ export default function LandingPage() {
                         to={user ? "/dashboard" : "/signup"}
                         className={`w-full py-2.5 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition-colors ${
                           isSelected
-                            ? "bg-[#2f81f7] text-white shadow-sm"
-                            : "bg-[#111821] text-[#8b98a8] hover:text-[#f0f6fc] border border-[#21262d]"
+                            ? "bg-[#2f81f7] text-white shadow-sm shadow-[#2f81f7]/30"
+                            : "bg-[#182232] text-[#8b98a8] hover:text-[#f0f6fc]"
                         }`}
                       >
                         <span>{user ? "View Track in Dashboard" : "Start This Path"}</span>
@@ -1005,10 +1008,10 @@ export default function LandingPage() {
                   <div
                     key={milestone.step}
                     onClick={() => setActiveRoadmapStep(idx)}
-                    className={`relative rounded-xl border p-5 sm:p-6 transition-all cursor-pointer ${
+                    className={`relative rounded-2xl p-5 sm:p-6 transition-all cursor-pointer card-interactive ${
                       isActive
-                        ? "border-[#2f81f7] bg-[#16202e] shadow-lg shadow-[#2f81f7]/5"
-                        : "border-[#21262d] bg-[#111821] hover:border-[#30363d] hover:bg-[#16202e]/40"
+                        ? "border border-[#2f81f7]/50 bg-[#182232] shadow-xl shadow-black/20"
+                        : "bg-[#111722] hover:bg-[#182232]/70"
                     }`}
                   >
                     <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
@@ -1016,10 +1019,10 @@ export default function LandingPage() {
                       <div className="flex items-start gap-4">
                         {/* Step Marker Icon */}
                         <div
-                          className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 border ${
+                          className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${
                             isActive
-                              ? "bg-[#2f81f7] text-white border-[#58a6ff]"
-                              : "bg-[#111821] text-[#58a6ff] border-[#21262d]"
+                              ? "bg-[#2f81f7] text-white shadow-sm shadow-[#2f81f7]/40"
+                              : "bg-[#182232] text-[#58a6ff]"
                           }`}
                         >
                           <Icon className="w-5 h-5" />
@@ -1030,7 +1033,7 @@ export default function LandingPage() {
                             <span className="text-xs font-mono font-semibold text-[#58a6ff]">
                               STAGE {milestone.step}
                             </span>
-                            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#0d1117] text-[#8b98a8] border border-[#21262d]">
+                            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#090d14] text-[#8b98a8]">
                               {milestone.category}
                             </span>
                           </div>
@@ -1041,7 +1044,7 @@ export default function LandingPage() {
                       </div>
 
                       {/* Right side: Skills & Recommended Lab */}
-                      <div className="md:w-72 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-[#21262d] flex flex-col justify-between">
+                      <div className="md:w-72 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-white/5 flex flex-col justify-between">
                         <div className="mb-3">
                           <span className="text-[11px] font-mono text-[#8b98a8] uppercase block mb-1.5">
                             Key Competencies:
@@ -1050,7 +1053,7 @@ export default function LandingPage() {
                             {milestone.skills.map((skill) => (
                               <span
                                 key={skill}
-                                className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#0d1117] text-[#f0f6fc] border border-[#21262d]"
+                                className="text-[10px] px-2 py-0.5 rounded bg-[#090d14] text-[#f0f6fc]"
                               >
                                 {skill}
                               </span>
@@ -1058,10 +1061,10 @@ export default function LandingPage() {
                           </div>
                         </div>
 
-                        <div className="p-2.5 rounded-lg bg-[#0d1117] border border-[#21262d] text-xs">
+                        <div className="p-2.5 rounded-lg bg-[#090d14] text-xs">
                           <span className="text-[#8b98a8] block text-[10px] font-mono">PRACTICE ENVIRONMENT:</span>
-                          <span className="text-[#58a6ff] font-medium flex items-center gap-1 mt-0.5">
-                            <Terminal className="w-3 h-3 text-[#3fb950]" />
+                          <span className="text-[#58a6ff] font-medium flex items-center gap-1.5 mt-0.5">
+                            <Terminal className="w-3.5 h-3.5 text-[#3fb950]" />
                             {milestone.labSuggestion}
                           </span>
                         </div>
@@ -1158,83 +1161,105 @@ export default function LandingPage() {
             {/* 4 Achievement Badges Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
               {ACHIEVEMENT_BADGES.map((badge) => {
-                const Icon = badge.icon;
                 const isMaster = badge.isMaster;
                 const isSelected = selectedBadgeId === badge.id;
+                const trackNormalized = isMaster
+                  ? "Master"
+                  : badge.track.includes("Offensive")
+                  ? "Red Team"
+                  : badge.track.includes("Defensive")
+                  ? "Blue Team"
+                  : "Web Security";
 
                 return (
                   <div
                     key={badge.id}
                     onClick={() => setSelectedBadgeId(badge.id)}
-                    className={`rounded-2xl border p-6 flex flex-col justify-between transition-all cursor-pointer relative ${
+                    className={`rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 cursor-pointer relative group ${
                       isMaster
-                        ? "bg-gradient-to-b from-[#19150d] via-[#111821] to-[#0d1117] " + badge.cardBorder + " " + badge.cardGlow
-                        : "bg-[#111821] " + badge.cardBorder + " " + (isSelected ? badge.cardGlow : "")
-                    } ${isSelected ? "ring-1 ring-offset-2 ring-offset-[#0d1117] " + (isMaster ? "ring-[#f2cc60]" : "ring-[#2f81f7]") : ""}`}
+                        ? "bg-[#111821]/60 hover:bg-[#111821]/90 border border-[#d29922]/50 hover:border-[#f2cc60] shadow-lg shadow-[#d29922]/10"
+                        : "bg-[#111821]/40 hover:bg-[#111821]/80 border border-[#21262d]/60 hover:border-[#30363d]"
+                    } ${
+                      isSelected
+                        ? "ring-2 ring-offset-2 ring-offset-[#0d1117] " +
+                          (isMaster ? "ring-[#f2cc60]" : "ring-[#2f81f7]")
+                        : ""
+                    }`}
                   >
                     <div>
-                      <div className="flex items-center justify-between mb-5">
-                        <span className={`text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-full border ${badge.pillStyle}`}>
+                      {/* Top Track & Tier Subtle Label */}
+                      <div className="flex items-center justify-between text-[11px] font-mono text-[#8b98a8] mb-3">
+                        <span
+                          className={`font-semibold uppercase tracking-wider text-[10px] ${
+                            isMaster ? "text-[#f2cc60]" : "text-[#8b98a8]"
+                          }`}
+                        >
+                          {badge.track}
+                        </span>
+                        <span className="text-[10px] text-[#8b98a8]">
                           {badge.badgeTier}
                         </span>
-                        <span className="text-[10px] font-mono text-[#8b98a8] flex items-center gap-1">
-                          <LockKeyhole className="w-3 h-3" />
-                          <span>PREVIEW</span>
-                        </span>
                       </div>
 
-                      {/* Achievement Emblem Central Showcase */}
-                      <div className="flex flex-col items-center justify-center my-4">
-                        <div className="relative group">
-                          {isMaster && (
-                            <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-[#d29922]/30 via-[#f2cc60]/40 to-[#d29922]/30 blur-md animate-gold-aura -z-10" />
-                          )}
-
-                          <div
-                            className={`w-24 h-24 rounded-full p-1.5 flex items-center justify-center border transition-transform duration-300 group-hover:scale-105 shadow-xl ${
-                              isMaster
-                                ? "bg-gradient-to-b from-[#d29922]/40 via-[#2a2010] to-[#111821] border-[#f2cc60]"
-                                : badge.emblemBg
-                            }`}
-                          >
-                            <div
-                              className={`w-full h-full rounded-full flex flex-col items-center justify-center border relative ${
-                                isMaster
-                                  ? "border-[#f2cc60]/70 bg-gradient-to-b from-[#2e230e] to-[#120f08]"
-                                  : "border-[#21262d] bg-[#0d1117]"
-                              }`}
-                            >
-                              <Icon className={`w-8 h-8 ${badge.iconColor} transition-transform group-hover:scale-110`} strokeWidth={2.2} />
-                              {isMaster && (
-                                <div className="flex items-center gap-0.5 mt-1">
-                                  <Star className="w-2.5 h-2.5 fill-[#f2cc60] text-[#f2cc60]" />
-                                  <Star className="w-3 h-3 fill-[#f2cc60] text-[#f2cc60]" />
-                                  <Star className="w-2.5 h-2.5 fill-[#f2cc60] text-[#f2cc60]" />
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="text-center mt-4">
-                          <h3 className={`text-lg font-extrabold ${isMaster ? "gold-text-gradient text-xl" : "text-[#f0f6fc]"}`}>
-                            {badge.title}
-                          </h3>
-                          <span className="text-xs font-mono text-[#8b98a8]">{badge.track}</span>
-                        </div>
+                      {/* Large Custom Inline-SVG Emblem */}
+                      <div className="my-3 flex items-center justify-center">
+                        <BadgeEmblem
+                          badge={{
+                            slug: badge.id,
+                            name: badge.title,
+                            track: trackNormalized,
+                            isMaster: badge.isMaster,
+                            icon: badge.icon,
+                          }}
+                          state="earned"
+                          completedSteps={100}
+                          totalSteps={100}
+                          size={128}
+                          showProgressRing={true}
+                        />
                       </div>
 
-                      <p className="text-[#8b98a8] text-xs text-center leading-relaxed mb-4">
-                        {badge.tagline}
-                      </p>
+                      {/* Badge Title */}
+                      <div className="text-center mt-3">
+                        <h3
+                          className={`text-lg font-bold tracking-tight ${
+                            isMaster
+                              ? "text-transparent bg-clip-text bg-gradient-to-r from-[#fef08a] via-[#fbbf24] to-[#f59e0b]"
+                              : "text-[#f0f6fc] group-hover:text-white"
+                          }`}
+                        >
+                          {badge.title}
+                        </h3>
+                        <p className="text-xs text-[#8b98a8] text-center line-clamp-1 px-1 mt-1 leading-normal" title={badge.tagline}>
+                          {badge.tagline}
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="pt-4 border-t border-[#21262d]/70 text-xs">
-                      <div className="flex items-start gap-2 mb-3">
-                        <CheckCircle2 className={`w-3.5 h-3.5 mt-0.5 shrink-0 ${isMaster ? "text-[#f2cc60]" : "text-[#3fb950]"}`} />
-                        <span className="text-[11px] text-[#f0f6fc] font-medium leading-tight">
-                          {badge.curriculumRequirement}
+                    {/* Progress Line & Small Status Text */}
+                    <div className="pt-4 space-y-2">
+                      <div className="w-full bg-[#21262d]/80 h-1.5 rounded-full overflow-hidden">
+                        <div
+                          className="h-full rounded-full transition-all duration-700"
+                          style={{
+                            width: "100%",
+                            backgroundColor: isMaster ? "#f2cc60" : badge.ringColor,
+                          }}
+                        />
+                      </div>
+
+                      {/* Small Status Text - NOT a pill */}
+                      <div className="flex items-center justify-between text-[11px] font-mono text-[#8b98a8] pt-1">
+                        <span className="flex items-center gap-1 text-[#58a6ff]">
+                          <Sparkles className="w-3 h-3" />
+                          Credential Preview
                         </span>
+                        <span className="text-[#3fb950] font-semibold">Verified</span>
+                      </div>
+
+                      {/* One line requirement text */}
+                      <div className="text-[11px] text-[#8b98a8] truncate pt-1 border-t border-[#21262d]/50" title={badge.curriculumRequirement}>
+                        {badge.curriculumRequirement}
                       </div>
 
                       <button
@@ -1243,15 +1268,15 @@ export default function LandingPage() {
                           e.stopPropagation();
                           setSelectedBadgeId(badge.id);
                         }}
-                        className={`w-full py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors ${
+                        className={`w-full py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors mt-2 ${
                           isSelected
                             ? isMaster
                               ? "bg-[#d29922] text-[#0d1117] font-bold shadow-md shadow-[#d29922]/20"
                               : "bg-[#2f81f7] text-white shadow-sm"
-                            : "bg-[#0d1117] text-[#8b98a8] hover:text-[#f0f6fc] border border-[#21262d]"
+                            : "bg-[#16202e] hover:bg-[#1f2d40] text-[#f0f6fc] border border-[#21262d]"
                         }`}
                       >
-                        <span>{isSelected ? "Inspecting Badge" : "View Credential Specs"}</span>
+                        <span>{isSelected ? "Inspecting Specs" : "View Credential Specs"}</span>
                         <ChevronRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
@@ -1264,29 +1289,71 @@ export default function LandingPage() {
             <div className="rounded-2xl border border-[#21262d] bg-[#111821] p-6 lg:p-8 mb-10 shadow-xl relative overflow-hidden">
               <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-6 border-b border-[#21262d]">
                 <div className="flex items-center gap-4">
-                  <div
-                    className={`w-14 h-14 rounded-2xl flex items-center justify-center border shrink-0 ${
-                      activeBadge.isMaster
-                        ? "bg-[#281e0f] border-[#f2cc60] text-[#f2cc60]"
-                        : "bg-[#16202e] border-[#21262d] " + activeBadge.iconColor
-                    }`}
-                  >
-                    <activeBadge.icon className="w-7 h-7" strokeWidth={2.3} />
+                  <div className="shrink-0">
+                    <BadgeEmblem
+                      badge={{
+                        slug: activeBadge.id,
+                        name: activeBadge.title,
+                        track: activeBadge.isMaster
+                          ? "Master"
+                          : activeBadge.track.includes("Offensive")
+                          ? "Red Team"
+                          : activeBadge.track.includes("Defensive")
+                          ? "Blue Team"
+                          : "Web Security",
+                        isMaster: activeBadge.isMaster,
+                        icon: activeBadge.icon,
+                      }}
+                      state="earned"
+                      completedSteps={100}
+                      totalSteps={100}
+                      size={72}
+                      showProgressRing={false}
+                    />
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${activeBadge.pillStyle}`}>
                         {activeBadge.badgeTier}
                       </span>
-                      <span className="text-[11px] font-mono text-[#8b98a8]">CREDENTIAL PREVIEW</span>
+                      <span className="text-[11px] font-mono text-[#8b98a8]">OFFICIAL CREDENTIAL SPECS</span>
                     </div>
                     <h3 className="text-xl sm:text-2xl font-bold text-[#f0f6fc]">{activeBadge.title}</h3>
                   </div>
                 </div>
 
-                <div className="text-xs text-[#8b98a8] flex items-center gap-2 bg-[#0d1117] px-3 py-2 rounded-lg border border-[#21262d]">
-                  <LockKeyhole className="w-3.5 h-3.5 text-[#58a6ff]" />
-                  <span>Phase 2 Database RLS Security Enabled · Untamperable</span>
+                <div className="flex flex-wrap items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      downloadBadgePng(
+                        {
+                          slug: activeBadge.id,
+                          name: activeBadge.title,
+                          track: activeBadge.isMaster
+                            ? "Master"
+                            : activeBadge.track.includes("Offensive")
+                            ? "Red Team"
+                            : activeBadge.track.includes("Defensive")
+                            ? "Blue Team"
+                            : "Web Security",
+                          description: activeBadge.tagline,
+                          isMaster: activeBadge.isMaster,
+                        },
+                        new Date().toISOString(),
+                        user?.email ? user.email.split("@")[0] : "Verified Student"
+                      );
+                    }}
+                    className="py-2 px-3.5 rounded-xl bg-[#16202e] hover:bg-[#1f2d40] text-xs font-semibold text-[#f0f6fc] border border-[#21262d] flex items-center gap-1.5 transition-colors shadow-sm active:scale-95"
+                  >
+                    <Download className="w-3.5 h-3.5 text-[#58a6ff]" />
+                    <span>Download Sample PNG</span>
+                  </button>
+
+                  <div className="text-xs text-[#8b98a8] flex items-center gap-2 bg-[#0d1117] px-3 py-2 rounded-lg border border-[#21262d]">
+                    <LockKeyhole className="w-3.5 h-3.5 text-[#58a6ff]" />
+                    <span>Phase 2 Database RLS Security Enabled · Untamperable</span>
+                  </div>
                 </div>
               </div>
 
