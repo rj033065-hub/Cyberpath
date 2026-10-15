@@ -18,7 +18,7 @@ export const LEARNING_PATHS = [
     badgeAward: "Red Team Specialist",
     colorTheme: "blue",
     description: "Learn the ethical hacker methodology: safe lab setup, reconnaissance, port scanning, vulnerability discovery, web flaws, and authorized penetration testing workflows.",
-    accentColor: "#2f81f7",
+    accentColor: "#ffffff",
     modules: [
       {
         id: "rt-mod-1",
@@ -1005,7 +1005,7 @@ xxd mystery_file | head -n 10 # Hexdump first bytes
     badgeAward: "Blue Team Defender",
     colorTheme: "green",
     description: "Master defensive architecture: continuous event logging, network traffic analysis, Windows and Linux auditing, incident response lifecycles, and SIEM correlation.",
-    accentColor: "#3fb950",
+    accentColor: "#ffffff",
     modules: [
       {
         id: "bt-mod-1",
@@ -1604,7 +1604,7 @@ psort.py -o l2tcsv -w timeline.csv storage.plaso
     badgeAward: "Web Security Expert",
     colorTheme: "purple",
     description: "Explore the inner workings of modern web apps: HTTP headers, cookies, authentication, CORS, Access Controls, SQLi, XSS, CSRF, and PortSwigger Web Security Academy labs.",
-    accentColor: "#a371f7",
+    accentColor: "#ffffff",
     modules: [
       {
         id: "ws-mod-1",
@@ -2287,9 +2287,9 @@ export const BADGES_DEFINITION = [
     track: "Red Team",
     iconName: "Terminal",
     isMaster: false,
-    colorClass: "text-[#58a6ff]",
-    borderClass: "border-[#2f81f7]/40",
-    bgClass: "bg-[#2f81f7]/10",
+    colorClass: "text-[#fafafa]",
+    borderClass: "border-white/20",
+    bgClass: "bg-white/[0.06]",
     description: "Awarded upon completing the Linux fundamentals module and passing the Linux assessment.",
     requirementType: "module_completion",
     targetSlug: "linux-fundamentals"
@@ -2300,9 +2300,9 @@ export const BADGES_DEFINITION = [
     track: "Red Team",
     iconName: "Network",
     isMaster: false,
-    colorClass: "text-[#58a6ff]",
-    borderClass: "border-[#2f81f7]/40",
-    bgClass: "bg-[#2f81f7]/10",
+    colorClass: "text-[#fafafa]",
+    borderClass: "border-white/20",
+    bgClass: "bg-white/[0.06]",
     description: "Awarded upon completing networking fundamentals and passing the networking assessment.",
     requirementType: "module_completion",
     targetSlug: "networking-fundamentals"
@@ -2313,9 +2313,9 @@ export const BADGES_DEFINITION = [
     track: "Web Security",
     iconName: "Globe",
     isMaster: false,
-    colorClass: "text-[#bc8cff]",
-    borderClass: "border-[#a371f7]/40",
-    bgClass: "bg-[#a371f7]/10",
+    colorClass: "text-[#fafafa]",
+    borderClass: "border-white/20",
+    bgClass: "bg-white/[0.06]",
     description: "Awarded upon completing web basics and passing the HTTP and protocol assessment.",
     requirementType: "module_completion",
     targetSlug: "http-requests-and-responses"
@@ -2326,9 +2326,9 @@ export const BADGES_DEFINITION = [
     track: "Red Team",
     iconName: "Compass",
     isMaster: false,
-    colorClass: "text-[#58a6ff]",
-    borderClass: "border-[#2f81f7]/40",
-    bgClass: "bg-[#2f81f7]/10",
+    colorClass: "text-[#fafafa]",
+    borderClass: "border-white/20",
+    bgClass: "bg-white/[0.06]",
     description: "Awarded upon completing the reconnaissance and Nmap scanning fundamentals.",
     requirementType: "module_completion",
     targetSlug: "nmap-fundamentals"
@@ -2339,9 +2339,9 @@ export const BADGES_DEFINITION = [
     track: "Red Team",
     iconName: "Flame",
     isMaster: false,
-    colorClass: "text-[#58a6ff]",
-    borderClass: "border-[#2f81f7]/40",
-    bgClass: "bg-[#2f81f7]/10",
+    colorClass: "text-[#fafafa]",
+    borderClass: "border-white/20",
+    bgClass: "bg-white/[0.06]",
     description: "Awarded upon 100% completion of all 12 Red Team curriculum milestones and assessments.",
     requirementType: "path_completion",
     targetSlug: "red-team"
@@ -2352,9 +2352,9 @@ export const BADGES_DEFINITION = [
     track: "Blue Team",
     iconName: "ShieldCheck",
     isMaster: false,
-    colorClass: "text-[#3fb950]",
-    borderClass: "border-[#3fb950]/40",
-    bgClass: "bg-[#3fb950]/10",
+    colorClass: "text-[#fafafa]",
+    borderClass: "border-white/20",
+    bgClass: "bg-white/[0.06]",
     description: "Awarded upon 100% completion of all 9 Blue Team defensive modules, event monitoring, and SIEM labs.",
     requirementType: "path_completion",
     targetSlug: "blue-team"
@@ -2365,9 +2365,9 @@ export const BADGES_DEFINITION = [
     track: "Web Security",
     iconName: "Globe",
     isMaster: false,
-    colorClass: "text-[#bc8cff]",
-    borderClass: "border-[#a371f7]/40",
-    bgClass: "bg-[#a371f7]/10",
+    colorClass: "text-[#fafafa]",
+    borderClass: "border-white/20",
+    bgClass: "bg-white/[0.06]",
     description: "Awarded upon 100% completion of all 10 Web Security lessons and OWASP assessments.",
     requirementType: "path_completion",
     targetSlug: "web-security"

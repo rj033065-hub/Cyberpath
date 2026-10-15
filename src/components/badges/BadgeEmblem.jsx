@@ -102,38 +102,21 @@ export default function BadgeEmblem({
             <stop offset="100%" stopColor="#fef08a" />
           </linearGradient>
 
-          {/* Red Team (Red / Blue Steel) Rim Gradient */}
-          <linearGradient id={`${uniqueId}-red-rim`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#ef4444" />
-            <stop offset="25%" stopColor="#475569" />
-            <stop offset="50%" stopColor="#f87171" />
-            <stop offset="75%" stopColor="#1e293b" />
-            <stop offset="100%" stopColor="#58a6ff" />
-          </linearGradient>
-
-          {/* Blue Team (Green) Rim Gradient */}
-          <linearGradient id={`${uniqueId}-green-rim`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#34d399" />
-            <stop offset="35%" stopColor="#10b981" />
-            <stop offset="70%" stopColor="#064e3b" />
-            <stop offset="100%" stopColor="#3fb950" />
-          </linearGradient>
-
-          {/* Web Security (Violet) Rim Gradient */}
-          <linearGradient id={`${uniqueId}-violet-rim`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#c084fc" />
-            <stop offset="30%" stopColor="#8b5cf6" />
-            <stop offset="65%" stopColor="#4c1d95" />
-            <stop offset="100%" stopColor="#bc8cff" />
+          {/* Metallic Monochrome Rim Gradient */}
+          <linearGradient id={`${uniqueId}-metallic-rim`} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#f4f4f5" />
+            <stop offset="30%" stopColor="#71717a" />
+            <stop offset="60%" stopColor="#27272a" />
+            <stop offset="100%" stopColor="#d4d4d8" />
           </linearGradient>
 
           {/* Inner Plate Gradients */}
           <radialGradient id={`${uniqueId}-plate`} cx="50%" cy="40%" r="65%">
             <stop
               offset="0%"
-              stopColor={isMaster ? "#2f2008" : isEarned ? palette.plateBg : "#161b22"}
+              stopColor={isMaster ? "#2f2008" : isEarned ? "#1c1c20" : "#141416"}
             />
-            <stop offset="100%" stopColor="#090d14" />
+            <stop offset="100%" stopColor="#09090b" />
           </radialGradient>
 
           {/* Subtle Bevel Highlight Gradient */}
@@ -202,13 +185,9 @@ export default function BadgeEmblem({
               ? "#161b22"
               : isMaster
               ? `url(#${uniqueId}-gold-rim)`
-              : palette.name === "Red Team"
-              ? `url(#${uniqueId}-red-rim)`
-              : palette.name === "Blue Team"
-              ? `url(#${uniqueId}-green-rim)`
-              : `url(#${uniqueId}-violet-rim)`
+              : `url(#${uniqueId}-metallic-rim)`
           }
-          stroke={isLocked ? "rgba(255, 255, 255, 0.1)" : isMaster ? "#fef08a" : palette.accent}
+          stroke={isLocked ? "rgba(255, 255, 255, 0.1)" : isMaster ? "#fef08a" : "rgba(255, 255, 255, 0.4)"}
           strokeWidth="1.5"
           filter={isEarned ? "drop-shadow(0 4px 10px rgba(0,0,0,0.6))" : "none"}
         />

@@ -40,7 +40,7 @@ export default function DecryptText({
   replay = false,
   caret = false,
   onComplete,
-  glowColor = "rgba(47,123,255,0.6)",
+  glowColor = "rgba(255,255,255,0.4)",
   resolvedColor,
   useGradient = false,
 }) {

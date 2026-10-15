@@ -17,7 +17,7 @@ const RadarScan: React.FC = () => {
     const draw = (angle: number) => {
       ctx.clearRect(0, 0, size, size);
       // background circle
-      ctx.fillStyle = "rgba(7,10,18,0.4)"; // dark navy
+      ctx.fillStyle = "rgba(16,16,18,0.5)"; // dark surface
       ctx.beginPath();
       ctx.arc(size / 2, size / 2, size / 2 - 2, 0, Math.PI * 2);
       ctx.fill();
@@ -31,10 +31,10 @@ const RadarScan: React.FC = () => {
         size / 2,
         size / 2
       );
-      gradient.addColorStop(0, "rgba(47,123,255,0.0)");
-      gradient.addColorStop(0.2, "rgba(47,123,255,0.3)");
-      gradient.addColorStop(0.4, "rgba(47,123,255,0.6)");
-      gradient.addColorStop(1, "rgba(47,123,255,0.0)");
+      gradient.addColorStop(0, "rgba(255,255,255,0.0)");
+      gradient.addColorStop(0.2, "rgba(255,255,255,0.1)");
+      gradient.addColorStop(0.4, "rgba(255,255,255,0.25)");
+      gradient.addColorStop(1, "rgba(255,255,255,0.0)");
       ctx.fillStyle = gradient;
       ctx.save();
       ctx.translate(size / 2, size / 2);
@@ -46,7 +46,7 @@ const RadarScan: React.FC = () => {
       ctx.fill();
       ctx.restore();
       // outer ring
-      ctx.strokeStyle = "rgba(158,193,255,0.4)";
+      ctx.strokeStyle = "rgba(255,255,255,0.2)";
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.arc(size / 2, size / 2, size / 2 - 2, 0, Math.PI * 2);

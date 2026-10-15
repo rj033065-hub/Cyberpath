@@ -66,7 +66,7 @@ export default function AuthCallback() {
             <button
               type="button"
               onClick={() => navigate("/login", { replace: true })}
-              className="w-full py-2.5 px-4 rounded-xl bg-[#2f81f7] hover:bg-[#2069cc] text-white text-xs font-semibold transition-all shadow-md shadow-[#2f81f7]/20"
+              className="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-[#e4e4e7] text-[#09090b] text-xs font-semibold transition-all shadow-sm active:scale-95"
             >
               Return to Sign In
             </button>
@@ -74,11 +74,11 @@ export default function AuthCallback() {
         ) : (
           <>
             <div className="relative mb-5">
-              <div className="w-14 h-14 rounded-2xl bg-[#111821] border border-[#2f81f7]/40 flex items-center justify-center text-[#58a6ff] shadow-lg shadow-[#2f81f7]/20">
-                <Shield className="w-7 h-7 text-[#58a6ff]" />
+              <div className="w-14 h-14 rounded-2xl bg-[#1c1c20] border border-white/20 flex items-center justify-center text-white shadow-lg shadow-white/5">
+                <Shield className="w-7 h-7 text-white" />
               </div>
-              <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#0d1117] border border-[#2f81f7]/50 flex items-center justify-center">
-                <Loader2 className="w-3.5 h-3.5 text-[#58a6ff] animate-spin" />
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#101012] border border-white/20 flex items-center justify-center">
+                <Loader2 className="w-3.5 h-3.5 text-white animate-spin" />
               </div>
             </div>
             <h2 className="text-lg font-bold text-white mb-1.5">

@@ -45,7 +45,7 @@ export default function NextBadgeFeatured({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-2xl border border-[#21262d] bg-[#111821] p-6 sm:p-7 shadow-xl ${className}`}
+      className={`relative overflow-hidden rounded-2xl border border-white/12 bg-[#101012] p-6 sm:p-7 shadow-xl ${className}`}
     >
       {/* Background Ambient Aura */}
       <div
@@ -53,7 +53,7 @@ export default function NextBadgeFeatured({
         style={{
           background: isMaster
             ? "radial-gradient(circle, #f59e0b 0%, transparent 70%)"
-            : `radial-gradient(circle, ${palette.primary} 0%, transparent 70%)`,
+            : "radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%)",
         }}
       />
 
@@ -73,32 +73,32 @@ export default function NextBadgeFeatured({
 
           <div className="space-y-2 max-w-lg">
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-[#2f81f7]/40 bg-[#2f81f7]/15 text-[#58a6ff] text-[10px] font-mono uppercase tracking-wider font-semibold">
-                <Target className="w-3 h-3 text-[#58a6ff]" />
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-white/20 bg-white/[0.06] text-white text-[10px] font-mono uppercase tracking-wider font-semibold">
+                <Target className="w-3 h-3 text-white" />
                 Next Badge to Unlock
               </span>
-              <span className="text-[11px] font-mono text-[#8b98a8]">
+              <span className="text-[11px] font-mono text-[#a1a1aa]">
                 {badge.track} · {palette.tierName}
               </span>
             </div>
 
-            <h3 className="text-xl sm:text-2xl font-extrabold text-[#f0f6fc] tracking-tight">
+            <h3 className="text-xl sm:text-2xl font-extrabold text-[#fafafa] tracking-tight">
               {badge.name}
             </h3>
 
-            <p className="text-xs text-[#8b98a8] leading-relaxed">
+            <p className="text-xs text-[#a1a1aa] leading-relaxed">
               {requirementText}
             </p>
 
             {/* Remaining steps prompt */}
             <div className="pt-1 flex items-center justify-center sm:justify-start gap-2 text-xs font-mono">
               <span
-                className="font-bold text-sm"
-                style={{ color: isMaster ? "#f2cc60" : palette.primary }}
+                className="font-bold text-sm text-white"
+                style={{ color: isMaster ? "#f2cc60" : "#ffffff" }}
               >
                 {remainingSteps} {remainingSteps === 1 ? "step" : "steps"} remaining
               </span>
-              <span className="text-[#8b98a8] text-[11px]">
+              <span className="text-[#a1a1aa] text-[11px]">
                 ({completedSteps} of {totalSteps} milestones finished)
               </span>
             </div>
@@ -106,23 +106,23 @@ export default function NextBadgeFeatured({
         </div>
 
         {/* Right Side: Progress Bar & CTA */}
-        <div className="w-full lg:w-72 flex flex-col gap-3 shrink-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-[#21262d]">
+        <div className="w-full lg:w-72 flex flex-col gap-3 shrink-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-white/10">
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-xs font-mono">
-              <span className="text-[#8b98a8]">Unlock Progress</span>
+              <span className="text-[#a1a1aa]">Unlock Progress</span>
               <span
                 className="font-bold"
-                style={{ color: isMaster ? "#f2cc60" : palette.primary }}
+                style={{ color: isMaster ? "#f2cc60" : "#ffffff" }}
               >
                 {percent}%
               </span>
             </div>
-            <div className="w-full bg-[#0d1117] h-2 rounded-full overflow-hidden border border-[#21262d]">
+            <div className="w-full bg-[#1c1c20] h-2 rounded-full overflow-hidden border border-white/10">
               <div
                 className="h-full rounded-full transition-all duration-700 ease-out"
                 style={{
                   width: `${percent}%`,
-                  backgroundColor: isMaster ? "#f2cc60" : palette.primary,
+                  backgroundColor: isMaster ? "#f2cc60" : "#ffffff",
                 }}
               />
             </div>
@@ -130,13 +130,11 @@ export default function NextBadgeFeatured({
 
           <Link
             to={pathSlug === "all" ? `/learn/${currentPath}` : `/learn/${pathSlug}`}
-            className="w-full py-2.5 px-4 rounded-xl text-white text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-md active:scale-95"
-            style={{
-              backgroundColor: isMaster ? "#d29922" : palette.primary,
-              boxShadow: isMaster
-                ? "0 4px 14px rgba(210, 153, 34, 0.3)"
-                : `0 4px 14px ${palette.glowColor}`,
-            }}
+            className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 ${
+              isMaster
+                ? "bg-[#d29922] hover:bg-[#b5831b] text-white"
+                : "bg-white hover:bg-[#e4e4e7] text-[#09090b]"
+            }`}
           >
             <span>Continue Towards Badge</span>
             <ArrowRight className="w-3.5 h-3.5" />

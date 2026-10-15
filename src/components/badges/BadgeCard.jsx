@@ -99,11 +99,11 @@ export default function BadgeCard({
       onClick={onSelect}
       className={`group relative flex flex-col items-center justify-between p-6 rounded-2xl transition-all duration-300 ${
         isEarned
-          ? "bg-[#111821]/50 hover:bg-[#111821]/80 border border-[#21262d]/60 hover:border-[#3fb950]/50 hover:shadow-xl hover:shadow-[#3fb950]/10"
+          ? "bg-[#101012] hover:bg-[#16161a] border border-white/12 hover:border-white/28"
           : state === "in_progress"
-          ? "bg-[#111821]/40 hover:bg-[#111821]/70 border border-[#21262d]/60 hover:border-[#2f81f7]/50"
-          : "bg-[#0d1117]/50 hover:bg-[#111821]/40 border border-[#21262d]/30 hover:border-[#21262d]/60"
-      } ${isSelected ? "ring-2 ring-offset-2 ring-offset-[#0d1117] ring-[#2f81f7]" : ""} ${className}`}
+          ? "bg-[#101012] hover:bg-[#16161a] border border-white/12 hover:border-white/28"
+          : "bg-[#09090b] hover:bg-[#101012] border border-white/10 hover:border-white/20"
+      } ${isSelected ? "ring-2 ring-offset-2 ring-offset-[#09090b] ring-white/40" : ""} ${className}`}
     >
       {/* Subtle track ambient backdrop light */}
       {isEarned && (
@@ -112,23 +112,23 @@ export default function BadgeCard({
           style={{
             background: isMaster
               ? "radial-gradient(circle at 50% 20%, #f59e0b 0%, transparent 70%)"
-              : `radial-gradient(circle at 50% 20%, ${palette.primary} 0%, transparent 70%)`,
+              : `radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 70%)`,
           }}
         />
       )}
 
       {/* Top Track & Tier Subtle Label */}
-      <div className="w-full flex items-center justify-between text-[11px] font-mono text-[#8b98a8] mb-3">
+      <div className="w-full flex items-center justify-between text-[11px] font-mono text-[#a1a1aa] mb-3">
         <span
           className="font-semibold uppercase tracking-wider text-[10px]"
-          style={{ color: isEarned ? (isMaster ? "#f2cc60" : palette.primary) : "#8b98a8" }}
+          style={{ color: isEarned ? (isMaster ? "#f2cc60" : "#ffffff") : "#a1a1aa" }}
         >
           {badge.track}
         </span>
         {isMaster ? (
           <span className="text-[#f2cc60] font-bold text-[10px] tracking-wide">APEX CREDENTIAL</span>
         ) : (
-          <span className="text-[10px] text-[#8b98a8]/80">{palette.tierName}</span>
+          <span className="text-[10px] text-[#a1a1aa]/80">{palette.tierName}</span>
         )}
       </div>
 
@@ -151,22 +151,22 @@ export default function BadgeCard({
             isEarned
               ? isMaster
                 ? "text-transparent bg-clip-text bg-gradient-to-r from-[#fef08a] via-[#fbbf24] to-[#f59e0b]"
-                : "text-[#f0f6fc] group-hover:text-white"
-              : "text-[#8b98a8] group-hover:text-[#f0f6fc]"
+                : "text-white"
+              : "text-[#a1a1aa] group-hover:text-white"
           }`}
         >
           {badge.name}
         </h4>
 
         {/* One line of requirement text */}
-        <p className="text-xs text-[#8b98a8] truncate max-w-full px-1 mt-1 leading-normal" title={requirementText}>
+        <p className="text-xs text-[#a1a1aa] truncate max-w-full px-1 mt-1 leading-normal" title={requirementText}>
           {requirementText}
         </p>
       </div>
 
       {/* Progress Line */}
       <div className="w-full mt-4 space-y-1.5">
-        <div className="w-full bg-[#21262d]/80 h-1.5 rounded-full overflow-hidden">
+        <div className="w-full bg-[#1c1c20] h-1.5 rounded-full overflow-hidden">
           <div
             className="h-full rounded-full transition-all duration-700 ease-out"
             style={{
@@ -174,41 +174,41 @@ export default function BadgeCard({
               backgroundColor: isEarned
                 ? isMaster
                   ? "#f2cc60"
-                  : "#3fb950"
+                  : "#ffffff"
                 : state === "in_progress"
-                ? palette.primary
+                ? "#ffffff"
                 : "transparent",
             }}
           />
         </div>
 
         {/* Small Status Text (NOT A PILL) */}
-        <div className="flex items-center justify-between text-[11px] text-[#8b98a8] font-mono pt-1">
+        <div className="flex items-center justify-between text-[11px] text-[#a1a1aa] font-mono pt-1">
           {isEarned ? (
             <>
-              <span className="flex items-center gap-1.5 text-[#3fb950] font-semibold">
-                <CheckCircle2 className="w-3.5 h-3.5" />
+              <span className="flex items-center gap-1.5 text-[#4ade80] font-semibold">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#4ade80]" />
                 Earned {earnedFormattedDate}
               </span>
-              <span className="text-[#3fb950] font-bold">100%</span>
+              <span className="text-[#4ade80] font-bold">100%</span>
             </>
           ) : state === "in_progress" ? (
             <>
-              <span className="flex items-center gap-1.5 text-[#58a6ff]">
-                <Clock className="w-3.5 h-3.5" />
+              <span className="flex items-center gap-1.5 text-[#fbbf24]">
+                <Clock className="w-3.5 h-3.5 text-[#fbbf24]" />
                 In progress
               </span>
-              <span className="text-[#f0f6fc]">
+              <span className="text-[#fafafa]">
                 {completedSteps}/{totalSteps} completed
               </span>
             </>
           ) : (
             <>
-              <span className="flex items-center gap-1.5 text-[#8b98a8]">
+              <span className="flex items-center gap-1.5 text-[#a1a1aa]">
                 <LockKeyhole className="w-3.5 h-3.5" />
                 Locked
               </span>
-              <span className="text-[#8b98a8]">
+              <span className="text-[#71717a]">
                 {completedSteps}/{totalSteps} steps
               </span>
             </>
@@ -218,28 +218,28 @@ export default function BadgeCard({
 
       {/* Action Row for Earned Badges: Share & Download PNG */}
       {isEarned ? (
-        <div className="w-full flex items-center gap-2 pt-3 mt-3 border-t border-[#21262d]/50">
+        <div className="w-full flex items-center gap-2 pt-3 mt-3 border-t border-white/10">
           <button
             type="button"
             onClick={handleDownload}
             disabled={downloading}
-            className="flex-1 py-1.5 px-2.5 rounded-lg bg-[#16202e] hover:bg-[#1f2d40] text-[#f0f6fc] text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border border-[#21262d] shadow-sm active:scale-95"
+            className="flex-1 py-1.5 px-2.5 rounded-lg bg-[#1c1c20] hover:bg-[#27272a] text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border border-white/12 shadow-sm active:scale-95"
             title="Download high-resolution PNG credential"
           >
-            <Download className="w-3.5 h-3.5 text-[#58a6ff]" />
+            <Download className="w-3.5 h-3.5 text-white" />
             <span>{downloading ? "Exporting..." : "Download PNG"}</span>
           </button>
 
           <button
             type="button"
             onClick={handleShare}
-            className="py-1.5 px-2.5 rounded-lg bg-[#16202e] hover:bg-[#1f2d40] text-[#8b98a8] hover:text-[#f0f6fc] text-xs font-medium flex items-center justify-center gap-1 transition-colors border border-[#21262d] active:scale-95"
+            className="py-1.5 px-2.5 rounded-lg bg-[#1c1c20] hover:bg-[#27272a] text-[#a1a1aa] hover:text-white text-xs font-medium flex items-center justify-center gap-1 transition-colors border border-white/12 active:scale-95"
             title="Share credential link"
           >
             {copied ? (
               <>
-                <Check className="w-3.5 h-3.5 text-[#3fb950]" />
-                <span className="text-[11px] text-[#3fb950] font-semibold">Copied!</span>
+                <Check className="w-3.5 h-3.5 text-[#4ade80]" />
+                <span className="text-[11px] text-[#4ade80] font-semibold">Copied!</span>
               </>
             ) : (
               <>
@@ -251,15 +251,15 @@ export default function BadgeCard({
         </div>
       ) : (
         /* Unearned Action Row */
-        <div className="w-full pt-3 mt-3 border-t border-[#21262d]/30 flex items-center justify-between text-xs">
+        <div className="w-full pt-3 mt-3 border-t border-white/10 flex items-center justify-between text-xs">
           <Link
             to={pathSlug === "all" ? "/dashboard" : `/learn/${pathSlug}`}
-            className="text-[11px] text-[#8b98a8] hover:text-[#58a6ff] transition-colors flex items-center gap-1 font-mono group-hover:translate-x-0.5"
+            className="text-[11px] text-[#a1a1aa] hover:text-white transition-colors flex items-center gap-1 font-mono group-hover:translate-x-0.5"
           >
             <span>View Track Roadmap</span>
             <ChevronRight className="w-3 h-3" />
           </Link>
-          <span className="text-[10px] font-mono text-[#8b98a8]/70">
+          <span className="text-[10px] font-mono text-[#71717a]">
             {totalSteps - completedSteps} steps remaining
           </span>
         </div>

@@ -13,10 +13,10 @@ export interface AstronautIllustrationProps {
  * holding a glowing cyber device, with angular cyan light beams shooting outward,
  * scattered stars, and a smooth curved tether cable flowing behind.
  *
- * Palette:
- * - Brand Blue: #2f7bff
- * - Lighter blue / lavender suit highlights: #8ea5ff, #a5b4fc, #c7d2fe
- * - Soft cyan glow for beams & device: #00f2fe, #38bdf8, #22d3ee (NO YELLOW)
+ * Palette (Monochrome White-on-Dark):
+ * - Primary accent: #ffffff (was brand blue #2f7bff)
+ * - Suit highlights: #e2e8f0, #cbd5e1, #94a3b8
+ * - Soft cyan glow for beams & device: #00f2fe, #38bdf8, #22d3ee (sci-fi atmosphere)
  * - Dark outlines: #0b1329 / #0f172a
  */
 export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
@@ -55,47 +55,47 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
 
         {/* Cable Gradient */}
         <linearGradient id="cableGradient" x1="40" y1="240" x2="480" y2="280" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#2f7bff" stopOpacity="0.2" />
-          <stop offset="35%" stopColor="#2f7bff" stopOpacity="0.85" />
-          <stop offset="70%" stopColor="#00f2fe" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#2f7bff" stopOpacity="0.2" />
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.2" />
+          <stop offset="35%" stopColor="#ffffff" stopOpacity="0.85" />
+          <stop offset="70%" stopColor="#ffffff" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0.2" />
         </linearGradient>
 
         {/* Beams Gradients (Soft Cyan to Transparent - Strictly No Yellow) */}
         <linearGradient id="beamGradUpRight" x1="260" y1="260" x2="410" y2="70" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#00f2fe" stopOpacity="0.95" />
-          <stop offset="30%" stopColor="#38bdf8" stopOpacity="0.75" />
-          <stop offset="75%" stopColor="#2f7bff" stopOpacity="0.4" />
-          <stop offset="100%" stopColor="#00f2fe" stopOpacity="0" />
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
+          <stop offset="30%" stopColor="#e2e8f0" stopOpacity="0.75" />
+          <stop offset="75%" stopColor="#ffffff" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
         </linearGradient>
 
         <linearGradient id="beamGradDownLeft" x1="245" y1="270" x2="90" y2="470" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#00f2fe" stopOpacity="0.95" />
-          <stop offset="35%" stopColor="#38bdf8" stopOpacity="0.7" />
-          <stop offset="80%" stopColor="#2f7bff" stopOpacity="0.3" />
-          <stop offset="100%" stopColor="#00f2fe" stopOpacity="0" />
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
+          <stop offset="35%" stopColor="#e2e8f0" stopOpacity="0.7" />
+          <stop offset="80%" stopColor="#ffffff" stopOpacity="0.3" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
         </linearGradient>
 
         <linearGradient id="beamGradDownRight" x1="275" y1="270" x2="430" y2="465" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#00f2fe" stopOpacity="0.95" />
-          <stop offset="35%" stopColor="#38bdf8" stopOpacity="0.75" />
-          <stop offset="80%" stopColor="#2f7bff" stopOpacity="0.35" />
-          <stop offset="100%" stopColor="#00f2fe" stopOpacity="0" />
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
+          <stop offset="35%" stopColor="#e2e8f0" stopOpacity="0.75" />
+          <stop offset="80%" stopColor="#ffffff" stopOpacity="0.35" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
         </linearGradient>
 
         {/* Device Screen Glow */}
         <linearGradient id="deviceScreenGrad" x1="230" y1="250" x2="290" y2="290" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#00f2fe" />
-          <stop offset="50%" stopColor="#38bdf8" />
-          <stop offset="100%" stopColor="#2f7bff" />
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="50%" stopColor="#e2e8f0" />
+          <stop offset="100%" stopColor="#a1a1aa" />
         </linearGradient>
 
         {/* Visor Reflection Gradient */}
         <linearGradient id="visorGrad" x1="220" y1="130" x2="300" y2="185" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#0e1726" />
           <stop offset="45%" stopColor="#1e293b" />
-          <stop offset="75%" stopColor="#2f7bff" stopOpacity="0.85" />
-          <stop offset="100%" stopColor="#00f2fe" stopOpacity="0.9" />
+          <stop offset="75%" stopColor="#ffffff" stopOpacity="0.85" />
+          <stop offset="100%" stopColor="#e2e8f0" stopOpacity="0.9" />
         </linearGradient>
 
         {/* Visor Glare Line */}
@@ -120,9 +120,9 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
 
         {/* Radial Ambient Glow Behind Astronaut */}
         <radialGradient id="astronautAura" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#2f7bff" stopOpacity="0.25" />
-          <stop offset="60%" stopColor="#00f2fe" stopOpacity="0.08" />
-          <stop offset="100%" stopColor="#00f2fe" stopOpacity="0" />
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.12" />
+          <stop offset="60%" stopColor="#ffffff" stopOpacity="0.04" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
         </radialGradient>
       </defs>
 
@@ -275,7 +275,7 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
           strokeLinecap="round"
         />
         {/* Connection joint connector at left */}
-        <circle cx="35" cy="235" r="4.5" fill="#2f7bff" stroke="#0b1329" strokeWidth="2" />
+        <circle cx="35" cy="235" r="4.5" fill="#ffffff" stroke="#0b1329" strokeWidth="2" />
         {/* Connection joint connector at right */}
         <circle cx="485" cy="245" r="4.5" fill="#00f2fe" stroke="#0b1329" strokeWidth="2" />
       </g>
@@ -323,8 +323,8 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
             strokeWidth="3.5"
           />
           {/* Backpack side vents */}
-          <rect x="186" y="195" width="9" height="30" rx="3" fill="#2f7bff" stroke="#0b1329" strokeWidth="2" />
-          <rect x="325" y="195" width="9" height="30" rx="3" fill="#2f7bff" stroke="#0b1329" strokeWidth="2" />
+          <rect x="186" y="195" width="9" height="30" rx="3" fill="#ffffff" stroke="#0b1329" strokeWidth="2" />
+          <rect x="325" y="195" width="9" height="30" rx="3" fill="#ffffff" stroke="#0b1329" strokeWidth="2" />
 
           {/* ── CROSS-LEGGED LOWER BODY & LEGS ── */}
           {/* Left Thigh (viewer's left) */}
@@ -374,7 +374,7 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
           {/* Left boot cyan sole grip */}
           <path
             d="M 218 435 C 230 445 245 448 258 440"
-            stroke="#2f7bff"
+            stroke="#ffffff"
             strokeWidth="3"
             strokeLinecap="round"
           />
@@ -418,7 +418,7 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
             height="18"
             rx="4"
             fill="#0f172a"
-            stroke="#2f7bff"
+            stroke="#ffffff"
             strokeWidth="1.5"
           />
           {/* Tiny glowing interface dots */}
@@ -440,8 +440,8 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
             strokeLinecap="round"
             strokeLinejoin="round"
           />
-          {/* Left Shoulder Patch (Brand Blue) */}
-          <circle cx="188" cy="235" r="7" fill="#2f7bff" stroke="#0b1329" strokeWidth="2" />
+          {/* Left Shoulder Patch (White Accent) */}
+          <circle cx="188" cy="235" r="7" fill="#ffffff" stroke="#0b1329" strokeWidth="2" />
 
           {/* Right Arm (viewer's right) */}
           <path
@@ -452,8 +452,8 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
             strokeLinecap="round"
             strokeLinejoin="round"
           />
-          {/* Right Shoulder Patch (Brand Blue) */}
-          <circle cx="332" cy="235" r="7" fill="#2f7bff" stroke="#0b1329" strokeWidth="2" />
+          {/* Right Shoulder Patch (White Accent) */}
+          <circle cx="332" cy="235" r="7" fill="#ffffff" stroke="#0b1329" strokeWidth="2" />
 
           {/* ── HOLOGRAPHIC CYBER DEVICE / TABLET ── */}
           {/* Device outer frame */}
@@ -543,11 +543,11 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
             width="10"
             height="26"
             rx="4"
-            fill="#2f7bff"
+            fill="#ffffff"
             stroke="#0b1329"
             strokeWidth="2.5"
           />
-          <circle cx="207" cy="149" r="2.5" fill="#00f2fe" />
+          <circle cx="207" cy="149" r="2.5" fill="#e2e8f0" />
 
           {/* Right Ear Antenna Knob */}
           <rect
@@ -556,11 +556,11 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
             width="10"
             height="26"
             rx="4"
-            fill="#2f7bff"
+            fill="#ffffff"
             stroke="#0b1329"
             strokeWidth="2.5"
           />
-          <circle cx="313" cy="149" r="2.5" fill="#00f2fe" />
+          <circle cx="313" cy="149" r="2.5" fill="#e2e8f0" />
 
           {/* Helmet Visor (Smooth Shield with Reflection) */}
           <path

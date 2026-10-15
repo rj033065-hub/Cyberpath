@@ -41,14 +41,13 @@ export function ConstellationBackground({
   const CURSOR_EASE = 0.012; // how fast nodes ease toward cursor
   const LINE_MAX_OPACITY = 0.12;
   const CURSOR_LINE_OPACITY = 0.18;
-  const BRAND_BLUE = { r: 47, g: 123, b: 255 };
+  const BRAND_WHITE = { r: 255, g: 255, b: 255 };
 
   // ─── Node factory ─────────────────────────────────────────────
   function createNode(w, h) {
-    const isBranded = Math.random() < 0.15; // 15% branded blue
-    const r = isBranded ? BRAND_BLUE.r : 220 + Math.floor(Math.random() * 35);
-    const g = isBranded ? BRAND_BLUE.g : 225 + Math.floor(Math.random() * 30);
-    const b = isBranded ? BRAND_BLUE.b : 240 + Math.floor(Math.random() * 15);
+    const r = 250;
+    const g = 250;
+    const b = 250;
     const size = 0.8 + Math.random() * 1.7; // 0.8 – 2.5 px
 
     return {
@@ -184,7 +183,7 @@ export function ConstellationBackground({
           ctx.beginPath();
           ctx.moveTo(ax, ay);
           ctx.lineTo(bx, by);
-          ctx.strokeStyle = `rgba(180,200,255,${lineAlpha})`;
+          ctx.strokeStyle = `rgba(255,255,255,${lineAlpha * 0.75})`;
           ctx.lineWidth = 0.6;
           ctx.stroke();
         }
@@ -205,7 +204,7 @@ export function ConstellationBackground({
           ctx.beginPath();
           ctx.moveTo(mouse.x, mouse.y);
           ctx.lineTo(nx, ny);
-          ctx.strokeStyle = `rgba(100,160,255,${lineAlpha})`;
+          ctx.strokeStyle = `rgba(255,255,255,${lineAlpha * 0.8})`;
           ctx.lineWidth = 0.5;
           ctx.stroke();
         }
@@ -216,22 +215,22 @@ export function ConstellationBackground({
     for (const n of nodes) {
       const nx = n.x + n.ox;
       const ny = n.y + n.oy;
-      const nodeAlpha = (0.55 + Math.random() * 0.1) * alpha; // subtle twinkle
+      const nodeAlpha = (0.35 + Math.random() * 0.1) * alpha; // subtle twinkle
 
       if (n.glow) {
         // Soft radial glow behind larger nodes
-        const gradient = ctx.createRadialGradient(nx, ny, 0, nx, ny, n.size * 4);
-        gradient.addColorStop(0, `rgba(${n.r},${n.g},${n.b},${nodeAlpha * 0.35})`);
-        gradient.addColorStop(1, `rgba(${n.r},${n.g},${n.b},0)`);
+        const gradient = ctx.createRadialGradient(nx, ny, 0, nx, ny, n.size * 3.5);
+        gradient.addColorStop(0, `rgba(255,255,255,${nodeAlpha * 0.2})`);
+        gradient.addColorStop(1, `rgba(255,255,255,0)`);
         ctx.beginPath();
-        ctx.arc(nx, ny, n.size * 4, 0, Math.PI * 2);
+        ctx.arc(nx, ny, n.size * 3.5, 0, Math.PI * 2);
         ctx.fillStyle = gradient;
         ctx.fill();
       }
 
       ctx.beginPath();
       ctx.arc(nx, ny, n.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${n.r},${n.g},${n.b},${nodeAlpha})`;
+      ctx.fillStyle = `rgba(255,255,255,${nodeAlpha * 0.9})`;
       ctx.fill();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

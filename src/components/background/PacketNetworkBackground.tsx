@@ -25,11 +25,11 @@ const PacketNetworkBackground: React.FC = () => {
     }
 
     const draw = () => {
-      ctx.fillStyle = "rgba(7,10,18,0.6)"; // near‑black navy background (transparent to keep existing page bg)
+      ctx.fillStyle = "rgba(9,9,11,0.6)"; // page dark background
       ctx.fillRect(0, 0, width, height);
-      ctx.strokeStyle = "rgba(47,123,255,0.15)"; // accent blue lines
+      ctx.strokeStyle = "rgba(255,255,255,0.06)"; // subtle white lines
       ctx.lineWidth = 0.8;
-      ctx.fillStyle = "rgba(158,193,255,0.8)"; // light blue dots
+      ctx.fillStyle = "rgba(255,255,255,0.4)"; // white dots at 40% opacity
 
       // draw connections
       for (let i = 0; i < particles.length; i++) {

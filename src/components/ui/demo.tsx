@@ -17,8 +17,8 @@ export default function DemoOne() {
             Ripple Grid Interactive Demo
           </span>
         </div>
-        <div className="flex items-center gap-2 text-xs text-[#8b98a8]">
-          <span className="w-2 h-2 rounded-full bg-[#58a6ff] animate-ping" />
+        <div className="flex items-center gap-2 text-xs text-[#a1a1aa]">
+          <span className="w-2 h-2 rounded-full bg-white animate-ping" />
           <span>Click any cell to trigger ripple waves</span>
         </div>
       </div>
@@ -28,9 +28,10 @@ export default function DemoOne() {
         <RippleGrid
           size={20}
           cellSize={40}
-          cellColor="#111722"
-          borderColor="#212b38"
-          pulseColor="#58a6ff"
+          cellColor="#101012"
+          borderColor="rgba(255,255,255,0.12)"
+          filledCellColor="#27272a"
+          pulseColor="#ffffff"
           pulseScale={1.15}
           pulseDuration={300}
           rippleDelay={90}

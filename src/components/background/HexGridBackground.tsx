@@ -29,9 +29,9 @@ const HexGridBackground: React.FC = () => {
     }
 
     const draw = () => {
-      ctx.fillStyle = "rgba(7,10,18,0.6)";
+      ctx.fillStyle = "rgba(9,9,11,0.6)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = "rgba(47,123,255,0.1)";
+      ctx.strokeStyle = "rgba(255,255,255,0.04)";
       ctx.lineWidth = 0.6;
 
       points.forEach(p => {
