@@ -87,6 +87,12 @@ export default function PathCurriculum() {
 
         <div className="flex items-center gap-2 sm:gap-3">
           <Link
+            to="/labs"
+            className="text-xs text-[#58a6ff] hover:text-white px-2.5 py-1.5 rounded-md hover:bg-[#111821] transition-colors hidden sm:inline"
+          >
+            Labs
+          </Link>
+          <Link
             to="/explore"
             className="text-xs text-[#8b98a8] hover:text-[#f0f6fc] px-2.5 py-1.5 rounded-md hover:bg-[#111821] transition-colors hidden sm:inline"
           >

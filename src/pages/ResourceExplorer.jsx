@@ -161,6 +161,12 @@ export default function ResourceExplorer() {
             Curriculum
           </Link>
           <Link
+            to="/labs"
+            className="text-xs text-[#58a6ff] hover:text-white px-3 py-1.5 rounded-lg hover:bg-[#111722] transition-colors font-medium"
+          >
+            Interactive Labs
+          </Link>
+          <Link
             to="/profile"
             className="text-xs text-[#8b98a8] hover:text-[#f0f6fc] px-3 py-1.5 rounded-lg hover:bg-[#111722] transition-colors flex items-center gap-1.5"
           >

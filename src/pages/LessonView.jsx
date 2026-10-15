@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import {
@@ -38,6 +38,45 @@ import {
 } from "../lib/learningService";
 import AssessmentCard from "../components/learning/AssessmentCard";
 import BadgeUnlockedModal from "../components/learning/BadgeUnlockedModal";
+
+const RELATED_CYBERPATH_LABS = {
+  "introduction-to-sql-injection": {
+    title: "Lab 1: SQL Injection Fundamentals",
+    route: "/labs/sqli-basics",
+    category: "Web Security",
+    difficulty: "Beginner",
+    estTime: "20 min",
+    badge: "CyberPath Interactive Lab",
+    description: "Launch the sandboxed SQLi lab to practice auth bypass simulation, query inspection, and parameterized defense.",
+  },
+  "introduction-to-cross-site-scripting": {
+    title: "Lab 2: XSS Playground",
+    route: "/labs/xss-playground",
+    category: "Browser Security",
+    difficulty: "Beginner",
+    estTime: "25 min",
+    badge: "CyberPath Interactive Lab",
+    description: "Safely test HTML output encoding vs interpretation in our interactive comments simulator without executing unsafe scripts.",
+  },
+  "access-control-vulnerabilities": {
+    title: "Lab 3: IDOR Investigation",
+    route: "/labs/idor-investigation",
+    category: "Access Control",
+    difficulty: "Beginner",
+    estTime: "20 min",
+    badge: "CyberPath Interactive Lab",
+    description: "Investigate broken object-level authorization across mock user records and compare vulnerable vs secure server-side checks.",
+  },
+  "cookies-sessions-and-authentication": {
+    title: "Lab 4: Authentication Checkpoint",
+    route: "/labs/auth-checkpoint",
+    category: "Authentication",
+    difficulty: "Beginner",
+    estTime: "25 min",
+    badge: "CyberPath Interactive Lab",
+    description: "Audit authentication workflows: enforce password policies, rate limiting, session timeout, and secure server-side state.",
+  },
+};
 
 /* ─────────────────────────────────────────────
    Reusable Content Components
@@ -410,6 +449,10 @@ export default function LessonView() {
             </span>
           )}
           <span className="text-[11px] text-[#8b98a8] hidden lg:block">Lesson {currentIndex}/{totalInPath}</span>
+          <Link to="/labs"
+            className="text-xs text-[#58a6ff] hover:text-white px-2.5 py-1.5 rounded-lg border border-[#2f81f7]/30 bg-[#111821] hover:bg-[#16202e] transition-colors hidden md:inline">
+            Labs
+          </Link>
           <Link to="/dashboard"
             className="text-xs text-[#8b98a8] hover:text-[#f0f6fc] px-2.5 py-1.5 rounded-lg border border-[#21262d] bg-[#111821] hover:bg-[#16202e] transition-colors hidden md:inline">
             Dashboard
@@ -580,6 +623,34 @@ export default function LessonView() {
                 <h3 className="text-sm font-bold text-[#f0f6fc]">Hands-On Labs &amp; Documentation</h3>
                 <span className="ml-auto text-[10px] font-mono text-[#8b98a8] uppercase">Legal Only</span>
               </div>
+              {/* Connected CyberPath Interactive Lab */}
+              {RELATED_CYBERPATH_LABS[lesson.slug] && (
+                <div className="mb-4 p-4 rounded-xl border border-[#2f81f7]/40 bg-[#2f81f7]/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-[#2f81f7]/20 text-[#58a6ff] border border-[#2f81f7]/40 uppercase">
+                        {RELATED_CYBERPATH_LABS[lesson.slug].badge}
+                      </span>
+                      <span className="text-[11px] font-mono text-[#8b98a8]">
+                        {RELATED_CYBERPATH_LABS[lesson.slug].estTime} · {RELATED_CYBERPATH_LABS[lesson.slug].difficulty}
+                      </span>
+                    </div>
+                    <h4 className="text-sm font-bold text-[#f0f6fc]">
+                      {RELATED_CYBERPATH_LABS[lesson.slug].title}
+                    </h4>
+                    <p className="text-xs text-[#8b98a8] max-w-xl">
+                      {RELATED_CYBERPATH_LABS[lesson.slug].description}
+                    </p>
+                  </div>
+                  <Link
+                    to={RELATED_CYBERPATH_LABS[lesson.slug].route}
+                    className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#2f81f7] hover:bg-[#2069cc] text-white text-xs font-semibold shadow-md shadow-[#2f81f7]/25 transition-all"
+                  >
+                    <Terminal className="w-4 h-4" />
+                    <span>Launch Lab</span>
+                  </Link>
+                </div>
+              )}
               {lesson.labGuidance && (
                 <Callout type="tip" title="Practical Mission">{lesson.labGuidance}</Callout>
               )}

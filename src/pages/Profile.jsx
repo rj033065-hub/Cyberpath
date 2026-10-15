@@ -159,6 +159,12 @@ export default function Profile() {
             Dashboard
           </Link>
           <Link
+            to="/labs"
+            className="text-xs text-[#58a6ff] hover:text-white px-3 py-1.5 rounded-lg hover:bg-[#111722] transition-colors font-medium"
+          >
+            Labs
+          </Link>
+          <Link
             to="/explore"
             className="text-xs text-[#8b98a8] hover:text-[#f0f6fc] px-3 py-1.5 rounded-lg hover:bg-[#111722] transition-colors"
           >

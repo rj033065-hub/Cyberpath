@@ -14,6 +14,11 @@ import LessonView from "./pages/LessonView";
 import ResourceExplorer from "./pages/ResourceExplorer";
 import Profile from "./pages/Profile";
 import BackgroundLayer from "./components/background/BackgroundLayer";
+import LabCatalog from "./pages/LabCatalog";
+import SQLiLab from "./pages/labs/SQLiLab";
+import XSSLab from "./pages/labs/XSSLab";
+import IDORLab from "./pages/labs/IDORLab";
+import AuthCheckpointLab from "./pages/labs/AuthCheckpointLab";
 
 import "./App.css";
 
@@ -46,6 +51,48 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Interactive Security Labs */}
+          <Route
+            path="/labs"
+            element={
+              <ProtectedRoute>
+                <LabCatalog />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/labs/sqli-basics"
+            element={
+              <ProtectedRoute>
+                <SQLiLab />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/labs/xss-playground"
+            element={
+              <ProtectedRoute>
+                <XSSLab />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/labs/idor-investigation"
+            element={
+              <ProtectedRoute>
+                <IDORLab />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/labs/auth-checkpoint"
+            element={
+              <ProtectedRoute>
+                <AuthCheckpointLab />
               </ProtectedRoute>
             }
           />

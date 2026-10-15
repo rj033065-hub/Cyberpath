@@ -229,6 +229,14 @@ export default function Dashboard() {
           </Link>
 
           <Link
+            to="/labs"
+            className="text-xs text-[#58a6ff] hover:text-white px-2.5 py-1.5 rounded-md hover:bg-[#111821] transition-colors flex items-center gap-1 font-medium"
+          >
+            <Terminal className="w-3.5 h-3.5 text-[#58a6ff]" />
+            <span className="hidden sm:inline">Labs</span>
+          </Link>
+
+          <Link
             to="/profile"
             className="text-xs text-[#8b98a8] hover:text-[#f0f6fc] px-2.5 py-1.5 rounded-md hover:bg-[#111821] transition-colors flex items-center gap-1"
           >
@@ -325,6 +333,14 @@ export default function Dashboard() {
                 >
                   <Compass className="w-4 h-4 text-[#58a6ff]" />
                   <span>CTF Labs</span>
+                </Link>
+
+                <Link
+                  to="/labs"
+                  className="card-interactive inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-[#182232] hover:bg-[#1f2d40] text-[#58a6ff] hover:text-white text-xs sm:text-sm font-medium transition-all border border-[#2f81f7]/30"
+                >
+                  <Terminal className="w-4 h-4 text-[#58a6ff]" />
+                  <span>Interactive Labs</span>
                 </Link>
               </div>
             </div>
