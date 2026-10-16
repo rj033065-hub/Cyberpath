@@ -385,6 +385,18 @@ export default function SQLiLab() {
       estimatedTime="20–25 min"
       totalSteps={TOTAL_STEPS}
       currentStep={currentStep}
+      mentorContext={{
+        labId: "sqli-basics",
+        topic: "Web Security & SQL Injection",
+        currentStep,
+        totalSteps: TOTAL_STEPS,
+        learningObjectives: [
+          "Understand how string-concatenated SQL queries are constructed",
+          "Demonstrate how an injection bypass works in a simulated panel",
+          "Observe that the same input fails against a parameterized query",
+          "Explain why parameterized queries are the correct defense",
+        ],
+      }}
     >
       {/* ─────────────────────────────────────────────────────────────
           TASK 1: Unsafe Query Construction & Simulated Vulnerable Panel
