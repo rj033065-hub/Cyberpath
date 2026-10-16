@@ -157,6 +157,18 @@ export default function LabCatalog() {
     (l) => labProgress[l.slug]?.status === "completed"
   ).length;
 
+  const handleCardSpotlight = (e) => {
+    if (e.pointerType === 'touch') return;
+    const el = e.currentTarget;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+    el.style.setProperty('--my', `${e.clientY - rect.top}px`);
+  };
+  const clearCardSpotlight = (e) => {
+    e.currentTarget.style.setProperty('--mx', '-9999px');
+    e.currentTarget.style.setProperty('--my', '-9999px');
+  };
+
   const filtered = LABS.filter((lab) => {
     const matchSearch =
       !search ||
@@ -288,7 +300,9 @@ export default function LabCatalog() {
               return (
                 <article
                   key={lab.slug}
-                  className="rounded-xl border border-white/12 bg-page hover:border-white/12 card-interactive flex flex-col"
+                  className="spotlight-card rounded-xl border border-white/12 bg-page hover:border-white/12 card-interactive flex flex-col"
+                  onPointerMove={handleCardSpotlight}
+                  onPointerLeave={clearCardSpotlight}
                 >
                   <div className="p-5 flex-1">
                     <div className="flex items-start justify-between gap-3 mb-3">

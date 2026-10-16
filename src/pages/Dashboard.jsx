@@ -34,6 +34,8 @@ import {
   getBadgeProgress,
   getNextBadgeToUnlock,
 } from "../components/badges/badgeProgressHelper";
+import { useCardSpotlight } from "../hooks/useCardSpotlight";
+import { useAnimatedNumber, useAnimatedBar } from "../hooks/useAnimatedNumber";
 
 const TRACK_ICONS = {
   "red-team": Flame,
@@ -90,6 +92,78 @@ const LEARNING_PATHS_INFO = [
     badgeAward: "Web Security Expert",
   },
 ];
+
+/**
+ * SpotlightPathCard — learning path card with cursor spotlight effect.
+ * Extracted to a named component so each card gets its own spotlight ref.
+ */
+function SpotlightPathCard({ path, isSelected, onSelect, savingPath }) {
+  const cardRef = useCardSpotlight();
+  const Icon = path.icon;
+
+  return (
+    <div
+      ref={cardRef}
+      onClick={() => onSelect(path.slug)}
+      className={`spotlight-card card-interactive rounded-2xl p-6 flex flex-col justify-between cursor-pointer transition-all ${
+        isSelected
+          ? "border border-white/28 bg-white/[0.06] shadow-xl shadow-black/20"
+          : "bg-surface hover:bg-raised/70 border border-transparent hover:border-white/28"
+      }`}
+    >
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <div
+            className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+              isSelected ? "bg-white/[0.06] text-accent" : "bg-page text-muted"
+            }`}
+          >
+            <Icon className="w-5 h-5" />
+          </div>
+          {isSelected ? (
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.06] text-accent font-semibold">
+              ACTIVE TRACK
+            </span>
+          ) : (
+            <span className="text-xs text-muted font-mono">
+              {path.milestonesCount} lessons
+            </span>
+          )}
+        </div>
+
+        <h3 className="text-lg font-bold text-fg mb-1.5">{path.title}</h3>
+        <p className="text-[14px] text-muted leading-relaxed mb-5">{path.description}</p>
+      </div>
+
+      <div className="pt-3 border-t border-white/5 flex items-center justify-between text-xs">
+        <Link
+          to={`/learn/${path.slug}`}
+          onClick={(e) => e.stopPropagation()}
+          className="text-xs font-semibold text-accent hover:text-white flex items-center gap-1 transition-colors"
+        >
+          <span>Explore Curriculum</span>
+          <ChevronRight className="w-3.5 h-3.5" />
+        </Link>
+
+        <button
+          type="button"
+          disabled={savingPath}
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelect(path.slug);
+          }}
+          className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            isSelected
+              ? "bg-accent text-on-accent shadow-sm"
+              : "bg-page text-muted hover:text-fg hover:bg-raised"
+          }`}
+        >
+          {isSelected ? "Current" : "Switch"}
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function Dashboard() {
   const { user, profile, signOut, updateProfileSelectedPath } = useAuth();
@@ -190,6 +264,19 @@ export default function Dashboard() {
     recentCalendar: [],
   };
 
+  // Phase 5: Spotlight refs for hero and stat strip
+  const heroSpotlightRef = useCardSpotlight();
+  const statsSpotlightRef = useCardSpotlight();
+
+  // Phase 5: Animated stat numbers
+  const [animPercent, percentRef] = useAnimatedNumber(percentComplete, 800);
+  const [animGlobal, globalRef] = useAnimatedNumber(metrics?.totalGlobalCompleted || 0, 800);
+  const [animRemaining, remainingRef] = useAnimatedNumber(remainingCount, 600);
+  const [animBadges, badgesRef] = useAnimatedNumber(earnedBadges.length, 600);
+
+  // Phase 5: Animated progress bar
+  const [barWidth, barRef] = useAnimatedBar(percentComplete, 800);
+
   return (
     <div className="min-h-screen bg-page text-fg flex flex-col selection:bg-white/20 selection:text-white">
       {/* Top Navbar */}
@@ -260,7 +347,7 @@ export default function Dashboard() {
 
 
         {/* FOCAL HERO ELEMENT: Continue Your Lesson */}
-        <section className="relative overflow-hidden rounded-2xl bg-surface p-6 sm:p-9 border border-white/12 shadow-2xl">
+        <section ref={heroSpotlightRef} className="spotlight-card relative overflow-hidden rounded-2xl bg-surface p-6 sm:p-9 border border-white/12 shadow-2xl">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white/[0.04] blur-[120px] pointer-events-none rounded-full" />
 
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 relative z-10">
@@ -362,7 +449,7 @@ export default function Dashboard() {
         </section>
 
         {/* SLIM STATS STRIP: Replaces bulky stat cards */}
-        <div className="bg-surface rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4">
+        <div ref={statsSpotlightRef} className="spotlight-card bg-surface rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4">
           {/* Level & XP */}
           <Link
             to="/profile"
@@ -475,68 +562,13 @@ export default function Dashboard() {
               const isSelected = currentSelectedPath === path.slug;
 
               return (
-                <div
+                <SpotlightPathCard
                   key={path.slug}
-                  onClick={() => handleSelectPath(path.slug)}
-                  className={`card-interactive rounded-2xl p-6 flex flex-col justify-between cursor-pointer transition-all ${
-                    isSelected
-                      ? "border border-white/28 bg-white/[0.06] shadow-xl shadow-black/20"
-                      : "bg-surface hover:bg-raised/70 border border-transparent hover:border-white/28"
-                  }`}
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div
-                        className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                          isSelected
-                            ? "bg-white/[0.06] text-accent"
-                            : "bg-page text-muted"
-                        }`}
-                      >
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      {isSelected ? (
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.06] text-accent font-semibold">
-                          ACTIVE TRACK
-                        </span>
-                      ) : (
-                        <span className="text-xs text-muted font-mono">
-                          {path.milestonesCount} lessons
-                        </span>
-                      )}
-                    </div>
-
-                    <h3 className="text-lg font-bold text-fg mb-1.5">{path.title}</h3>
-                    <p className="text-[14px] text-muted leading-relaxed mb-5">{path.description}</p>
-                  </div>
-
-                  <div className="pt-3 border-t border-white/5 flex items-center justify-between text-xs">
-                    <Link
-                      to={`/learn/${path.slug}`}
-                      onClick={(e) => e.stopPropagation()}
-                      className="text-xs font-semibold text-accent hover:text-white flex items-center gap-1 transition-colors"
-                    >
-                      <span>Explore Curriculum</span>
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    </Link>
-
-                    <button
-                      type="button"
-                      disabled={savingPath}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleSelectPath(path.slug);
-                      }}
-                      className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                        isSelected
-                          ? "bg-accent text-on-accent shadow-sm"
-                          : "bg-page text-muted hover:text-fg hover:bg-raised"
-                      }`}
-                    >
-                      {isSelected ? "Current" : "Switch"}
-                    </button>
-                  </div>
-                </div>
+                  path={path}
+                  isSelected={isSelected}
+                  onSelect={handleSelectPath}
+                  savingPath={savingPath}
+                />
               );
             })}
           </div>
@@ -559,38 +591,38 @@ export default function Dashboard() {
             </span>
           </div>
 
-          {/* 4 Stat Metric Cards (Surface 3: Raised without inner 1px borders) */}
+          {/* 4 Stat Metric Cards — numbers animate in via IntersectionObserver */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="p-5 rounded-xl bg-raised space-y-1">
+            <div className="spotlight-card p-5 rounded-xl bg-raised space-y-1">
               <span className="text-[11px] font-mono text-muted uppercase block">Track Progress</span>
-              <div className="text-2xl font-extrabold text-fg">{percentComplete}%</div>
+              <div ref={percentRef} className="text-2xl font-extrabold text-fg">{animPercent}%</div>
               <span className="text-[11px] text-muted block">
                 {completedCount} / {totalLessons} lessons
               </span>
             </div>
 
-            <div className="p-5 rounded-xl bg-raised space-y-1">
+            <div className="spotlight-card p-5 rounded-xl bg-raised space-y-1">
               <span className="text-[11px] font-mono text-muted uppercase block">Global Lessons</span>
-              <div className="text-2xl font-extrabold text-fg">
-                {metrics?.totalGlobalCompleted || 0}
+              <div ref={globalRef} className="text-2xl font-extrabold text-fg">
+                {animGlobal}
               </div>
               <span className="text-[11px] text-muted block">
                 Across all 3 tracks (31 total)
               </span>
             </div>
 
-            <div className="p-5 rounded-xl bg-raised space-y-1">
+            <div className="spotlight-card p-5 rounded-xl bg-raised space-y-1">
               <span className="text-[11px] font-mono text-muted uppercase block">Remaining in Track</span>
-              <div className="text-2xl font-extrabold text-fg">{remainingCount}</div>
+              <div ref={remainingRef} className="text-2xl font-extrabold text-fg">{animRemaining}</div>
               <span className="text-[11px] text-muted block">
                 {metrics?.moduleSummaries?.filter((m) => !m.isFinished).length || 0} modules left
               </span>
             </div>
 
-            <div className="p-5 rounded-xl bg-raised space-y-1">
+            <div className="spotlight-card p-5 rounded-xl bg-raised space-y-1">
               <span className="text-[11px] font-mono text-muted uppercase block">Earned Badges</span>
-              <div className="text-2xl font-extrabold text-fg">
-                {earnedBadges.length}
+              <div ref={badgesRef} className="text-2xl font-extrabold text-fg">
+                {animBadges}
               </div>
               <span className="text-[11px] text-muted block">
                 {BADGES_DEFINITION.length} total available
@@ -604,10 +636,10 @@ export default function Dashboard() {
               <span>Active Track: <strong className="text-fg">{activePathDetails.title}</strong></span>
               <span className="font-mono">{completedCount} / {totalLessons} Milestones ({percentComplete}%)</span>
             </div>
-            <div className="w-full bg-page h-2.5 rounded-full overflow-hidden">
+            <div ref={barRef} className="w-full bg-page h-2.5 rounded-full overflow-hidden">
               <div
-                className="bg-accent h-full rounded-full transition-all duration-700 ease-out"
-                style={{ width: `${percentComplete}%` }}
+                className="bg-accent h-full rounded-full"
+                style={{ width: `${barWidth}%`, transition: "width 16ms linear" }}
               />
             </div>
           </div>

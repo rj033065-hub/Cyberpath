@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import {
   LockKeyhole,
@@ -12,6 +12,59 @@ import {
 } from "lucide-react";
 import BadgeEmblem from "./BadgeEmblem";
 import { getTrackPalette, downloadBadgePng } from "./badgeProgressHelper";
+
+/**
+ * BadgeTiltEmblem — Wraps BadgeEmblem with a 3D perspective tilt effect.
+ * On mouse hover, the emblem tilts up to ±12deg based on mouse position.
+ * Eases back to 0deg on mouse leave. Respects prefers-reduced-motion via CSS.
+ */
+function BadgeTiltEmblem({ badge, state, completedSteps, totalSteps }) {
+  const containerRef = useRef(null);
+
+  const handlePointerMove = useCallback((e) => {
+    if (e.pointerType === "touch") return;
+    const el = containerRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    // Normalize -1 to 1
+    const nx = (e.clientX - cx) / (rect.width / 2);
+    const ny = (e.clientY - cy) / (rect.height / 2);
+    const maxDeg = 12;
+    const ry = nx * maxDeg;
+    const rx = -ny * maxDeg;
+    el.style.setProperty("--rx", `${rx}deg`);
+    el.style.setProperty("--ry", `${ry}deg`);
+  }, []);
+
+  const handlePointerLeave = useCallback(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    el.style.setProperty("--rx", "0deg");
+    el.style.setProperty("--ry", "0deg");
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className="badge-tilt-container my-2 flex items-center justify-center"
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+    >
+      <div className="badge-tilt-inner">
+        <BadgeEmblem
+          badge={badge}
+          state={state}
+          completedSteps={completedSteps}
+          totalSteps={totalSteps}
+          size={120}
+          showProgressRing={true}
+        />
+      </div>
+    </div>
+  );
+}
 
 /**
  * Modern Clean Badge Card Component
@@ -132,17 +185,8 @@ export default function BadgeCard({
         )}
       </div>
 
-      {/* Large Custom SVG Emblem */}
-      <div className="my-2 flex items-center justify-center">
-        <BadgeEmblem
-          badge={badge}
-          state={state}
-          completedSteps={completedSteps}
-          totalSteps={totalSteps}
-          size={120}
-          showProgressRing={true}
-        />
-      </div>
+      {/* Large Custom SVG Emblem — 3D tilt on hover */}
+      <BadgeTiltEmblem badge={badge} state={state} completedSteps={completedSteps} totalSteps={totalSteps} />
 
       {/* Badge Title */}
       <div className="w-full text-center mt-3">
