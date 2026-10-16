@@ -92,7 +92,7 @@ const LEARNING_PATHS_INFO = [
 ];
 
 export default function Dashboard() {
-  const { user, profile, signOut, updateProfileSelectedPath, isConfigured } = useAuth();
+  const { user, profile, signOut, updateProfileSelectedPath } = useAuth();
   const navigate = useNavigate();
 
   const [savingPath, setSavingPath] = useState(false);
@@ -257,23 +257,7 @@ export default function Dashboard() {
 
       {/* Main Dashboard Content */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-page-enter">
-        {/* Supabase Connection Banner (development environment only) */}
-        {import.meta.env.DEV && !isConfigured && (
-          <div className="p-4 rounded-xl border border-white/12 bg-surface text-xs text-muted flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            <div className="flex items-start gap-2.5">
-              <Database className="w-4 h-4 shrink-0 mt-0.5 text-accent" />
-              <div>
-                <strong className="block text-fg">Demo Mode Active</strong>
-                <span>
-                  Configure live Supabase by adding <code className="bg-page px-1 py-0.5 rounded text-white font-mono">VITE_SUPABASE_URL</code> and <code className="bg-page px-1 py-0.5 rounded text-white font-mono">VITE_SUPABASE_PUBLISHABLE_KEY</code> in <code className="bg-page px-1 py-0.5 rounded text-white font-mono">.env</code>.
-                </span>
-              </div>
-            </div>
-            <span className="font-mono text-[10px] uppercase px-2 py-0.5 rounded border border-white/12 bg-white/[0.06] text-fg shrink-0">
-              Local Storage Active
-            </span>
-          </div>
-        )}
+
 
         {/* FOCAL HERO ELEMENT: Continue Your Lesson */}
         <section className="relative overflow-hidden rounded-2xl bg-surface p-6 sm:p-9 border border-white/12 shadow-2xl">
