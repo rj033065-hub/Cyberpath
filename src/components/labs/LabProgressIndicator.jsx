@@ -5,9 +5,9 @@ export default function LabProgressIndicator({ total, current }) {
   const pct = total > 0 ? Math.round((current / total) * 100) : 0;
   return (
     <div className="px-4 sm:px-6 py-2 flex items-center gap-3">
-      <div className="flex-1 h-1 bg-[#21262d] rounded-full overflow-hidden">
+      <div className="flex-1 h-1 bg-raised rounded-full overflow-hidden">
         <div
-          className="h-full bg-[#2f81f7] rounded-full transition-all duration-500"
+          className="h-full bg-accent rounded-full transition-all duration-500"
           style={{ width: `${pct}%` }}
           role="progressbar"
           aria-valuenow={current}
@@ -15,7 +15,7 @@ export default function LabProgressIndicator({ total, current }) {
           aria-valuemax={total}
         />
       </div>
-      <span className="text-xs text-[#8b949e] shrink-0 tabular-nums">
+      <span className="text-xs text-muted shrink-0 tabular-nums">
         Step {current} of {total}
       </span>
     </div>

@@ -16,39 +16,39 @@ export default function LabLayout({
   children,
 }) {
   return (
-    <div className="min-h-screen bg-[#0d1117] text-[#f0f6fc] flex flex-col">
+    <div className="min-h-screen bg-page text-fg flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-[#21262d] bg-[#0d1117]/90 backdrop-blur-md px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-50 border-b border-white/12 bg-page/90 backdrop-blur-md px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3 min-w-0">
           <Link
             to="/labs"
-            className="flex items-center gap-1.5 text-[#8b949e] hover:text-[#f0f6fc] text-sm transition-colors shrink-0"
+            className="flex items-center gap-1.5 text-muted hover:text-fg text-sm transition-colors shrink-0"
             aria-label="Return to labs catalog"
           >
             <ArrowLeft className="w-4 h-4" />
             <span className="hidden sm:inline">Labs</span>
           </Link>
-          <span className="text-[#30363d] text-sm hidden sm:inline" aria-hidden="true">/</span>
+          <span className="text-faint text-sm hidden sm:inline" aria-hidden="true">/</span>
           <div className="flex items-center gap-2 min-w-0">
-            <FlaskConical className="w-4 h-4 text-[#2f81f7] shrink-0" />
-            <span className="text-sm font-medium text-[#f0f6fc] truncate">{title}</span>
+            <FlaskConical className="w-4 h-4 text-accent shrink-0" />
+            <span className="text-sm font-medium text-fg truncate">{title}</span>
           </div>
         </div>
         <div className="flex items-center gap-3 shrink-0">
           {category && (
-            <span className="hidden md:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-[#2f81f7]/10 border border-[#2f81f7]/30 text-[#58a6ff]">
+            <span className="hidden md:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-white/[0.06] border border-white/12 text-accent">
               {category}
             </span>
           )}
-          <span className="hidden md:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-[#21262d] text-[#8b949e]">
+          <span className="hidden md:inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-raised text-muted">
             {difficulty}
           </span>
           {estimatedTime && (
-            <span className="text-xs text-[#8b949e] hidden lg:inline">~{estimatedTime}</span>
+            <span className="text-xs text-muted hidden lg:inline">~{estimatedTime}</span>
           )}
           <Link
             to="/dashboard"
-            className="flex items-center gap-1.5 text-[#8b949e] hover:text-[#f0f6fc] text-xs border border-[#30363d] hover:border-[#58a6ff]/40 px-2.5 py-1 rounded transition-all"
+            className="flex items-center gap-1.5 text-muted hover:text-fg text-xs border border-white/12 hover:border-white/28 px-2.5 py-1 rounded transition-all"
           >
             <Shield className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Dashboard</span>
@@ -58,7 +58,7 @@ export default function LabLayout({
 
       {/* Progress indicator */}
       {totalSteps && currentStep !== undefined && (
-        <div className="border-b border-[#21262d] bg-[#010409]">
+        <div className="border-b border-white/12 bg-page">
           <LabProgressIndicator total={totalSteps} current={currentStep} />
         </div>
       )}

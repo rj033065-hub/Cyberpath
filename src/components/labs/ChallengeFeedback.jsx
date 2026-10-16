@@ -6,22 +6,22 @@ import { CheckCircle2, XCircle, Info } from "lucide-react";
 
 const STYLES = {
   success: {
-    wrapper: "border-[#3fb950]/30 bg-[#3fb950]/8",
-    icon: <CheckCircle2 className="w-5 h-5 text-[#3fb950] shrink-0" />,
-    title: "text-[#3fb950]",
-    body: "text-[#c9d1d9]",
+    wrapper: "border-white/12 bg-white/[0.04]",
+    icon: <CheckCircle2 className="w-5 h-5 text-success shrink-0" />,
+    title: "text-success",
+    body: "text-fg",
   },
   error: {
-    wrapper: "border-[#f85149]/30 bg-[#f85149]/8",
-    icon: <XCircle className="w-5 h-5 text-[#f85149] shrink-0" />,
-    title: "text-[#f85149]",
-    body: "text-[#c9d1d9]",
+    wrapper: "border-danger/30 bg-white/[0.04]",
+    icon: <XCircle className="w-5 h-5 text-danger shrink-0" />,
+    title: "text-danger",
+    body: "text-fg",
   },
   info: {
-    wrapper: "border-[#2f81f7]/30 bg-[#2f81f7]/8",
-    icon: <Info className="w-5 h-5 text-[#58a6ff] shrink-0" />,
-    title: "text-[#58a6ff]",
-    body: "text-[#c9d1d9]",
+    wrapper: "border-white/12 bg-white/[0.06]",
+    icon: <Info className="w-5 h-5 text-accent shrink-0" />,
+    title: "text-accent",
+    body: "text-fg",
   },
 };
 

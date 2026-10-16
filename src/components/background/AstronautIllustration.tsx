@@ -16,7 +16,7 @@ export interface AstronautIllustrationProps {
  * Palette (Monochrome White-on-Dark):
  * - Primary accent: #ffffff (was brand blue #2f7bff)
  * - Suit highlights: #e2e8f0, #cbd5e1, #94a3b8
- * - Soft cyan glow for beams & device: #00f2fe, #38bdf8, #22d3ee (sci-fi atmosphere)
+ * - Soft white glow for beams & device (monochrome)
  * - Dark outlines: #0b1329 / #0f172a
  */
 export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
@@ -113,9 +113,9 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
         </linearGradient>
 
         <linearGradient id="lavenderGlowGrad" x1="210" y1="200" x2="310" y2="330" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#c7d2fe" stopOpacity="0.8" />
-          <stop offset="50%" stopColor="#a5b4fc" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#818cf8" stopOpacity="0.2" />
+          <stop offset="0%" stopColor="#e4e4e7" stopOpacity="0.8" />
+          <stop offset="50%" stopColor="#d4d4d8" stopOpacity="0.6" />
+          <stop offset="100%" stopColor="#a1a1aa" stopOpacity="0.2" />
         </linearGradient>
 
         {/* Radial Ambient Glow Behind Astronaut */}
@@ -229,31 +229,31 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
         <g className="star-twinkle-1" style={{ transformOrigin: "85px 95px" }}>
           <path
             d="M 85 85 Q 85 95 95 95 Q 85 95 85 105 Q 85 95 75 95 Q 85 95 85 85 Z"
-            fill="#a5b4fc"
+            fill="#d4d4d8"
           />
         </g>
         {/* Star 2 - Top Right small dot */}
-        <circle cx="430" cy="110" r="2.5" fill="#38bdf8" className="star-twinkle-2" style={{ transformOrigin: "430px 110px" }} />
+        <circle cx="430" cy="110" r="2.5" fill="#e4e4e7" className="star-twinkle-2" style={{ transformOrigin: "430px 110px" }} />
         {/* Star 3 - Mid Right sparkle */}
         <g className="star-twinkle-3" style={{ transformOrigin: "475px 200px" }}>
           <path
             d="M 475 192 Q 475 200 483 200 Q 475 200 475 208 Q 475 200 467 200 Q 475 200 475 192 Z"
-            fill="#00f2fe"
+            fill="#ffffff"
           />
         </g>
         {/* Star 4 - Mid Left dot */}
-        <circle cx="65" cy="285" r="2" fill="#c7d2fe" className="star-twinkle-4" style={{ transformOrigin: "65px 285px" }} />
+        <circle cx="65" cy="285" r="2" fill="#e4e4e7" className="star-twinkle-4" style={{ transformOrigin: "65px 285px" }} />
         {/* Star 5 - Bottom Left sparkle */}
         <g className="star-twinkle-2" style={{ transformOrigin: "115px 430px" }}>
           <path
             d="M 115 422 Q 115 430 123 430 Q 115 430 115 438 Q 115 430 107 430 Q 115 430 115 422 Z"
-            fill="#38bdf8"
+            fill="#e4e4e7"
           />
         </g>
         {/* Star 6 - Bottom Right dot */}
-        <circle cx="455" cy="405" r="2.5" fill="#a5b4fc" className="star-twinkle-1" style={{ transformOrigin: "455px 405px" }} />
+        <circle cx="455" cy="405" r="2.5" fill="#d4d4d8" className="star-twinkle-1" style={{ transformOrigin: "455px 405px" }} />
         {/* Star 7 - Upper Center small sparkle */}
-        <circle cx="210" cy="55" r="2" fill="#00f2fe" className="star-twinkle-3" style={{ transformOrigin: "210px 55px" }} />
+        <circle cx="210" cy="55" r="2" fill="#ffffff" className="star-twinkle-3" style={{ transformOrigin: "210px 55px" }} />
       </g>
 
       {/* ─── CURVED TETHER / CABLE FLOWING BEHIND ─── */}
@@ -277,7 +277,7 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
         {/* Connection joint connector at left */}
         <circle cx="35" cy="235" r="4.5" fill="#ffffff" stroke="#0b1329" strokeWidth="2" />
         {/* Connection joint connector at right */}
-        <circle cx="485" cy="245" r="4.5" fill="#00f2fe" stroke="#0b1329" strokeWidth="2" />
+        <circle cx="485" cy="245" r="4.5" fill="#ffffff" stroke="#0b1329" strokeWidth="2" />
       </g>
 
       {/* ─── FLOATING ASTRONAUT & LIGHT BEAMS GROUP ─── */}
@@ -390,7 +390,7 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
           {/* Right boot cyan sole grip */}
           <path
             d="M 302 435 C 290 445 275 448 262 440"
-            stroke="#00f2fe"
+            stroke="#ffffff"
             strokeWidth="3"
             strokeLinecap="round"
           />
@@ -422,9 +422,9 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
             strokeWidth="1.5"
           />
           {/* Tiny glowing interface dots */}
-          <circle cx="252" cy="211" r="2" fill="#00f2fe" />
-          <circle cx="260" cy="211" r="2" fill="#38bdf8" />
-          <circle cx="268" cy="211" r="2" fill="#818cf8" />
+          <circle cx="252" cy="211" r="2" fill="#ffffff" />
+          <circle cx="260" cy="211" r="2" fill="#e4e4e7" />
+          <circle cx="268" cy="211" r="2" fill="#a1a1aa" />
 
           {/* Suit harness straps */}
           <path d="M 230 185 L 244 235" stroke="#0b1329" strokeWidth="2.5" strokeLinecap="round" />
@@ -463,8 +463,8 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
             width="52"
             height="34"
             rx="6"
-            fill="#090d16"
-            stroke="#00f2fe"
+            fill="#09090b"
+            stroke="#ffffff"
             strokeWidth="2.5"
             filter="url(#softCyanGlow)"
           />
@@ -574,7 +574,7 @@ export const AstronautIllustration: React.FC<AstronautIllustrationProps> = ({
           {/* Glowing Visor Reflection from the Cyber Device Below */}
           <path
             d="M 230 156 C 240 168 280 168 290 156 C 282 170 238 170 230 156 Z"
-            fill="#00f2fe"
+            fill="#ffffff"
             opacity="0.8"
             filter="url(#softCyanGlow)"
           />

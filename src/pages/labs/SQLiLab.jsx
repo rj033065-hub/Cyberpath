@@ -161,7 +161,7 @@ export default function SQLiLab() {
         <div className="flex justify-center">
           <button
             onClick={startLab}
-            className="px-6 py-3 rounded-lg bg-[#2f81f7] text-white font-semibold hover:bg-[#388bfd] transition-colors"
+            className="px-6 py-3 rounded-lg bg-accent text-on-accent font-semibold hover:bg-accent-hover transition-colors"
           >
             Begin Lab
           </button>
@@ -211,24 +211,24 @@ export default function SQLiLab() {
             </p>
 
             {/* Fictional query illustration */}
-            <div className="mt-4 rounded-lg bg-[#010409] border border-[#21262d] p-4 font-mono text-xs leading-relaxed overflow-x-auto">
-              <p className="text-[#6e7681] mb-1">// Unsafe string concatenation (fictional example)</p>
-              <p className="text-[#f0f6fc]">
-                <span className="text-[#e3b341]">const</span> query = <span className="text-[#a5d6ff]">"SELECT * FROM users WHERE username = '"</span>
-                <span className="text-[#f0f6fc]"> + </span>
-                <span className="text-[#79c0ff]">username</span>
-                <span className="text-[#f0f6fc]"> + </span>
-                <span className="text-[#a5d6ff]">"' AND password = '"</span>
-                <span className="text-[#f0f6fc]"> + </span>
-                <span className="text-[#79c0ff]">password</span>
-                <span className="text-[#f0f6fc]"> + </span>
-                <span className="text-[#a5d6ff]">"'"</span>;
+            <div className="mt-4 rounded-lg bg-page border border-white/12 p-4 font-mono text-xs leading-relaxed overflow-x-auto">
+              <p className="text-faint mb-1">// Unsafe string concatenation (fictional example)</p>
+              <p className="text-fg">
+                <span className="text-warning">const</span> query = <span className="text-fg">"SELECT * FROM users WHERE username = '"</span>
+                <span className="text-fg"> + </span>
+                <span className="text-accent">username</span>
+                <span className="text-fg"> + </span>
+                <span className="text-fg">"' AND password = '"</span>
+                <span className="text-fg"> + </span>
+                <span className="text-accent">password</span>
+                <span className="text-fg"> + </span>
+                <span className="text-fg">"'"</span>;
               </p>
-              <p className="text-[#6e7681] mt-3 mb-1">// With normal input:</p>
-              <p className="text-[#3fb950]">SELECT * FROM users WHERE username = 'alice' AND password = 'hunter2'</p>
-              <p className="text-[#6e7681] mt-3 mb-1">// With injected input: username = <span className="text-[#f85149]">' OR '1'='1</span></p>
-              <p className="text-[#f85149]">{"SELECT * FROM users WHERE username = '' OR '1'='1' AND password = ''"}</p>
-              <p className="text-[#6e7681] mt-1">// '1'='1' is always true → all rows returned → bypass!</p>
+              <p className="text-faint mt-3 mb-1">// With normal input:</p>
+              <p className="text-success">SELECT * FROM users WHERE username = 'alice' AND password = 'hunter2'</p>
+              <p className="text-faint mt-3 mb-1">// With injected input: username = <span className="text-danger">' OR '1'='1</span></p>
+              <p className="text-danger">{"SELECT * FROM users WHERE username = '' OR '1'='1' AND password = ''"}</p>
+              <p className="text-faint mt-1">// '1'='1' is always true → all rows returned → bypass!</p>
             </div>
 
             <ChallengeFeedback
@@ -242,7 +242,7 @@ export default function SQLiLab() {
             <div className="flex justify-end mt-2 mb-8">
               <button
                 onClick={() => setCurrentStep(2)}
-                className="px-4 py-2 rounded-lg bg-[#2f81f7] text-white text-sm font-semibold hover:bg-[#388bfd] transition-colors"
+                className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-semibold hover:bg-accent-hover transition-colors"
               >
                 Continue →
               </button>
@@ -258,14 +258,14 @@ export default function SQLiLab() {
             <p>
               The form below simulates a login backed by an unsafe string-concatenated query.
               Try to bypass authentication <strong>without knowing a real password</strong>.
-              Use the fictional accounts (username: <code className="bg-[#21262d] px-1 rounded">alice</code> / password: <code className="bg-[#21262d] px-1 rounded">hunter2</code>) or an injection string.
+              Use the fictional accounts (username: <code className="bg-raised px-1 rounded">alice</code> / password: <code className="bg-raised px-1 rounded">hunter2</code>) or an injection string.
             </p>
           </LabInstructions>
 
           <SimulatedTarget label="TrainingApp — Vulnerable Login (Fictional)">
             <form onSubmit={handleVulnSubmit} className="space-y-4 max-w-sm">
               <div>
-                <label htmlFor="vuln-username" className="block text-xs text-[#8b949e] mb-1 font-medium">
+                <label htmlFor="vuln-username" className="block text-xs text-muted mb-1 font-medium">
                   Username
                 </label>
                 <input
@@ -275,11 +275,11 @@ export default function SQLiLab() {
                   onChange={(e) => setVulnUser(e.target.value)}
                   placeholder="Enter username"
                   autoComplete="off"
-                  className="w-full px-3 py-2 rounded-lg border border-[#30363d] bg-[#0d1117] text-sm text-[#f0f6fc] placeholder:text-[#6e7681] focus-visible:border-[#2f81f7] focus-visible:outline-none transition-colors font-mono"
+                  className="w-full px-3 py-2 rounded-lg border border-white/12 bg-page text-sm text-fg placeholder:text-faint focus-visible:border-white/40 focus-visible:outline-none transition-colors font-mono"
                 />
               </div>
               <div>
-                <label htmlFor="vuln-password" className="block text-xs text-[#8b949e] mb-1 font-medium">
+                <label htmlFor="vuln-password" className="block text-xs text-muted mb-1 font-medium">
                   Password
                 </label>
                 <input
@@ -289,35 +289,35 @@ export default function SQLiLab() {
                   onChange={(e) => setVulnPass(e.target.value)}
                   placeholder="Enter password"
                   autoComplete="off"
-                  className="w-full px-3 py-2 rounded-lg border border-[#30363d] bg-[#0d1117] text-sm text-[#f0f6fc] placeholder:text-[#6e7681] focus-visible:border-[#2f81f7] focus-visible:outline-none transition-colors font-mono"
+                  className="w-full px-3 py-2 rounded-lg border border-white/12 bg-page text-sm text-fg placeholder:text-faint focus-visible:border-white/40 focus-visible:outline-none transition-colors font-mono"
                 />
               </div>
               <button
                 type="submit"
-                className="px-4 py-2 rounded-lg bg-[#f85149]/15 border border-[#f85149]/40 text-[#f85149] text-sm font-semibold hover:bg-[#f85149]/25 transition-colors"
+                className="px-4 py-2 rounded-lg bg-white/[0.06] border border-danger/40 text-danger text-sm font-semibold hover:bg-white/[0.08] transition-colors"
               >
                 Login (Vulnerable)
               </button>
             </form>
 
             {vulnResult === "bypassed" && (
-              <div className="mt-4 rounded-lg border border-[#f85149]/40 bg-[#f85149]/10 p-4">
-                <p className="text-sm font-semibold text-[#f85149]">⚠ Authentication Bypassed!</p>
-                <p className="text-xs text-[#c9d1d9] mt-1">
+              <div className="mt-4 rounded-lg border border-danger/40 bg-white/[0.04] p-4">
+                <p className="text-sm font-semibold text-danger">⚠ Authentication Bypassed!</p>
+                <p className="text-xs text-fg mt-1">
                   The simulated query returned all rows because OR '1'='1' evaluates to true.
                   In a real application, this could grant access to any account.
                 </p>
               </div>
             )}
             {vulnResult === "success" && (
-              <div className="mt-4 rounded-lg border border-[#3fb950]/40 bg-[#3fb950]/10 p-4">
-                <p className="text-sm font-semibold text-[#3fb950]">✓ Logged in as {vulnUser}</p>
-                <p className="text-xs text-[#c9d1d9] mt-1">Valid credentials for a fictional account.</p>
+              <div className="mt-4 rounded-lg border border-white/12 bg-white/[0.06] p-4">
+                <p className="text-sm font-semibold text-success">✓ Logged in as {vulnUser}</p>
+                <p className="text-xs text-fg mt-1">Valid credentials for a fictional account.</p>
               </div>
             )}
             {vulnResult === "failed" && (
-              <div className="mt-4 rounded-lg border border-[#21262d] bg-[#0d1117] p-4">
-                <p className="text-sm text-[#8b949e]">✗ Login failed — try a bypass pattern.</p>
+              <div className="mt-4 rounded-lg border border-white/12 bg-page p-4">
+                <p className="text-sm text-muted">✗ Login failed — try a bypass pattern.</p>
               </div>
             )}
           </SimulatedTarget>
@@ -334,7 +334,7 @@ export default function SQLiLab() {
               <div className="flex justify-end mb-8">
                 <button
                   onClick={() => setCurrentStep(3)}
-                  className="px-4 py-2 rounded-lg bg-[#2f81f7] text-white text-sm font-semibold hover:bg-[#388bfd] transition-colors"
+                  className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-semibold hover:bg-accent-hover transition-colors"
                 >
                   Continue →
                 </button>
@@ -342,7 +342,7 @@ export default function SQLiLab() {
             </>
           )}
           {!challengeBypassDone && currentStep === 2 && (
-            <p className="text-xs text-[#8b949e] italic mb-8">
+            <p className="text-xs text-muted italic mb-8">
               Complete the bypass in the vulnerable panel above to continue.
             </p>
           )}
@@ -358,14 +358,14 @@ export default function SQLiLab() {
               the data. The database driver handles escaping automatically — user input is always
               treated as a literal value, never as SQL syntax.
             </p>
-            <div className="mt-3 rounded-lg bg-[#010409] border border-[#21262d] p-4 font-mono text-xs leading-relaxed overflow-x-auto">
-              <p className="text-[#6e7681] mb-1">// Safe parameterized query (fictional example)</p>
-              <p className="text-[#3fb950]">{"const query = \"SELECT * FROM users WHERE username = $1 AND password = $2\";"}</p>
-              <p className="text-[#3fb950]">{"const result = db.query(query, [username, password]);"}</p>
-              <p className="text-[#6e7681] mt-2">// With injection input ' OR '1'='1 :</p>
-              <p className="text-[#3fb950]">{"// username is passed as the literal string \" ' OR '1'='1 \" — no SQL meaning"}</p>
-              <p className="text-[#3fb950]">{"SELECT * FROM users WHERE username = ''' OR ''1''=''1' AND password = ''"}</p>
-              <p className="text-[#6e7681]">// No rows match → bypass fails</p>
+            <div className="mt-3 rounded-lg bg-page border border-white/12 p-4 font-mono text-xs leading-relaxed overflow-x-auto">
+              <p className="text-faint mb-1">// Safe parameterized query (fictional example)</p>
+              <p className="text-success">{"const query = \"SELECT * FROM users WHERE username = $1 AND password = $2\";"}</p>
+              <p className="text-success">{"const result = db.query(query, [username, password]);"}</p>
+              <p className="text-faint mt-2">// With injection input ' OR '1'='1 :</p>
+              <p className="text-success">{"// username is passed as the literal string \" ' OR '1'='1 \" — no SQL meaning"}</p>
+              <p className="text-success">{"SELECT * FROM users WHERE username = ''' OR ''1''=''1' AND password = ''"}</p>
+              <p className="text-faint">// No rows match → bypass fails</p>
             </div>
             <p className="mt-3">
               Now try the same bypass payload in the safe panel below. Notice that it fails.
@@ -375,7 +375,7 @@ export default function SQLiLab() {
           <SimulatedTarget label="TrainingApp — Safe Login (Parameterized)">
             <form onSubmit={handleSafeSubmit} className="space-y-4 max-w-sm">
               <div>
-                <label htmlFor="safe-username" className="block text-xs text-[#8b949e] mb-1 font-medium">
+                <label htmlFor="safe-username" className="block text-xs text-muted mb-1 font-medium">
                   Username
                 </label>
                 <input
@@ -385,11 +385,11 @@ export default function SQLiLab() {
                   onChange={(e) => setSafeUser(e.target.value)}
                   placeholder="Enter username"
                   autoComplete="off"
-                  className="w-full px-3 py-2 rounded-lg border border-[#30363d] bg-[#0d1117] text-sm text-[#f0f6fc] placeholder:text-[#6e7681] focus-visible:border-[#3fb950]/40 focus-visible:outline-none transition-colors font-mono"
+                  className="w-full px-3 py-2 rounded-lg border border-white/12 bg-page text-sm text-fg placeholder:text-faint focus-visible:border-white/12 focus-visible:outline-none transition-colors font-mono"
                 />
               </div>
               <div>
-                <label htmlFor="safe-password" className="block text-xs text-[#8b949e] mb-1 font-medium">
+                <label htmlFor="safe-password" className="block text-xs text-muted mb-1 font-medium">
                   Password
                 </label>
                 <input
@@ -399,25 +399,25 @@ export default function SQLiLab() {
                   onChange={(e) => setSafePass(e.target.value)}
                   placeholder="Enter password"
                   autoComplete="off"
-                  className="w-full px-3 py-2 rounded-lg border border-[#30363d] bg-[#0d1117] text-sm text-[#f0f6fc] placeholder:text-[#6e7681] focus-visible:border-[#3fb950]/40 focus-visible:outline-none transition-colors font-mono"
+                  className="w-full px-3 py-2 rounded-lg border border-white/12 bg-page text-sm text-fg placeholder:text-faint focus-visible:border-white/12 focus-visible:outline-none transition-colors font-mono"
                 />
               </div>
               <button
                 type="submit"
-                className="px-4 py-2 rounded-lg bg-[#3fb950]/15 border border-[#3fb950]/40 text-[#3fb950] text-sm font-semibold hover:bg-[#3fb950]/25 transition-colors"
+                className="px-4 py-2 rounded-lg bg-white/[0.06] border border-white/12 text-success text-sm font-semibold hover:bg-white/25 transition-colors"
               >
                 Login (Safe)
               </button>
             </form>
 
             {safeResult === "success" && (
-              <div className="mt-4 rounded-lg border border-[#3fb950]/40 bg-[#3fb950]/10 p-4">
-                <p className="text-sm font-semibold text-[#3fb950]">✓ Logged in as {safeUser}</p>
+              <div className="mt-4 rounded-lg border border-white/12 bg-white/[0.06] p-4">
+                <p className="text-sm font-semibold text-success">✓ Logged in as {safeUser}</p>
               </div>
             )}
             {safeResult === "failed" && (
-              <div className="mt-4 rounded-lg border border-[#21262d] bg-[#0d1117] p-4">
-                <p className="text-sm text-[#8b949e]">✗ Login failed — input treated as a literal string, not SQL syntax.</p>
+              <div className="mt-4 rounded-lg border border-white/12 bg-page p-4">
+                <p className="text-sm text-muted">✗ Login failed — input treated as a literal string, not SQL syntax.</p>
               </div>
             )}
           </SimulatedTarget>
@@ -432,7 +432,7 @@ export default function SQLiLab() {
               <div className="flex justify-end mb-8">
                 <button
                   onClick={() => setCurrentStep(4)}
-                  className="px-4 py-2 rounded-lg bg-[#2f81f7] text-white text-sm font-semibold hover:bg-[#388bfd] transition-colors"
+                  className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-semibold hover:bg-accent-hover transition-colors"
                 >
                   Continue to Knowledge Check →
                 </button>
@@ -440,7 +440,7 @@ export default function SQLiLab() {
             </>
           )}
           {!challengeSafeDone && currentStep === 3 && (
-            <p className="text-xs text-[#8b949e] italic mb-8">
+            <p className="text-xs text-muted italic mb-8">
               Try the bypass payload in the safe panel, then observe it fails to continue.
             </p>
           )}
@@ -490,8 +490,8 @@ export default function SQLiLab() {
             onCorrect={() => {}}
           />
 
-          <div className="mt-6 p-4 rounded-lg border border-[#21262d] bg-[#010409] text-xs text-[#8b949e]">
-            <strong className="text-[#c9d1d9]">Real-world note:</strong> This simulation demonstrates
+          <div className="mt-6 p-4 rounded-lg border border-white/12 bg-page text-xs text-muted">
+            <strong className="text-fg">Real-world note:</strong> This simulation demonstrates
             the conceptual behaviour of SQL injection. A successful-looking result in this fictional
             panel does NOT indicate that any real system is vulnerable. Always obtain written
             authorization before testing real applications.
@@ -501,7 +501,7 @@ export default function SQLiLab() {
             <div className="flex justify-end mt-6">
               <button
                 onClick={handleComplete}
-                className="px-6 py-2.5 rounded-lg bg-[#3fb950] text-[#010409] text-sm font-bold hover:bg-[#46c85a] transition-colors"
+                className="px-6 py-2.5 rounded-lg bg-accent text-on-accent text-sm font-bold hover:bg-accent-hover transition-colors"
               >
                 Complete Lab ✓
               </button>

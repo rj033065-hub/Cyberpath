@@ -84,7 +84,7 @@ export default function AssessmentCard({
   };
 
   return (
-    <div className="rounded-2xl border border-white/12 bg-[#101012] p-6 sm:p-8 space-y-6">
+    <div className="rounded-2xl border border-white/12 bg-surface p-6 sm:p-8 space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-5">
         <div className="flex items-center gap-3">
@@ -96,11 +96,11 @@ export default function AssessmentCard({
               <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-white/[0.06] text-white border border-white/15">
                 Knowledge Check
               </span>
-              <span className="text-xs text-[#a1a1aa]">
+              <span className="text-xs text-muted">
                 Passing Score: {quiz.passingScore}%
               </span>
             </div>
-            <h3 className="text-lg font-bold text-[#fafafa] mt-1">{quiz.title}</h3>
+            <h3 className="text-lg font-bold text-fg mt-1">{quiz.title}</h3>
           </div>
         </div>
 
@@ -141,13 +141,13 @@ export default function AssessmentCard({
           return (
             <div
               key={q.id}
-              className="p-5 rounded-xl border border-white/10 bg-[#09090b] space-y-4"
+              className="p-5 rounded-xl border border-white/10 bg-page space-y-4"
             >
               <div className="flex items-start gap-3">
-                <span className="w-6 h-6 rounded-md bg-[#1c1c20] border border-white/15 text-xs font-mono font-semibold flex items-center justify-center text-white shrink-0 mt-0.5">
+                <span className="w-6 h-6 rounded-md bg-raised border border-white/15 text-xs font-mono font-semibold flex items-center justify-center text-white shrink-0 mt-0.5">
                   {idx + 1}
                 </span>
-                <p className="text-sm font-medium text-[#fafafa] leading-relaxed">
+                <p className="text-sm font-medium text-fg leading-relaxed">
                   {q.questionText}
                 </p>
               </div>
@@ -157,7 +157,7 @@ export default function AssessmentCard({
                 {q.options.map((opt) => {
                   const isChecked = selectedOption === opt.id;
                   let optionStateClasses =
-                    "border-white/10 bg-[#101012] hover:border-white/28 text-[#fafafa]";
+                    "border-white/10 bg-surface hover:border-white/28 text-fg";
 
                   if (isChecked && !submitted) {
                     optionStateClasses =
@@ -191,11 +191,11 @@ export default function AssessmentCard({
                         className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ${
                           isChecked
                             ? "border-white bg-white"
-                            : "border-white/20 bg-[#09090b]"
+                            : "border-white/20 bg-page"
                         }`}
                       >
                         {isChecked && (
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#09090b]" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-page" />
                         )}
                       </span>
                       <span className="leading-relaxed">{opt.text}</span>
@@ -209,8 +209,8 @@ export default function AssessmentCard({
                 <div
                   className={`mt-3 ml-9 p-3 rounded-lg text-xs leading-relaxed border ${
                     questionFeedback.isCorrect
-                      ? "bg-[#4ade80]/10 border-[#4ade80]/30 text-[#fafafa]"
-                      : "bg-[#f87171]/10 border-[#f87171]/30 text-[#fafafa]"
+                      ? "bg-[#4ade80]/10 border-[#4ade80]/30 text-fg"
+                      : "bg-[#f87171]/10 border-[#f87171]/30 text-fg"
                   }`}
                 >
                   <strong className="block mb-1 font-semibold text-white">
@@ -218,7 +218,7 @@ export default function AssessmentCard({
                       ? "✓ Correct!"
                       : "✕ Needs Review:"}
                   </strong>
-                  <span className="text-[#a1a1aa]">{questionFeedback.explanation}</span>
+                  <span className="text-muted">{questionFeedback.explanation}</span>
                 </div>
               )}
             </div>
@@ -238,9 +238,9 @@ export default function AssessmentCard({
             <button
               type="submit"
               disabled={loading || !allAnswered}
-              className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-white hover:bg-[#e4e4e7] disabled:opacity-50 disabled:cursor-not-allowed text-[#09090b] text-xs font-semibold shadow-sm transition-all flex items-center justify-center gap-2 active:scale-95"
+              className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-white hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed text-on-accent text-xs font-semibold shadow-sm transition-all flex items-center justify-center gap-2 active:scale-95"
             >
-              <ShieldCheck className="w-4 h-4 text-[#09090b]" />
+              <ShieldCheck className="w-4 h-4 text-on-accent" />
               <span>{loading ? "Evaluating Assessment..." : "Submit Answers"}</span>
             </button>
           ) : (

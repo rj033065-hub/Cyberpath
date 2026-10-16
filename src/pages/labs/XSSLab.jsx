@@ -106,7 +106,7 @@ export default function XSSLab() {
         <div className="flex justify-center">
           <button
             onClick={startLab}
-            className="px-6 py-3 rounded-lg bg-[#2f81f7] text-white font-semibold hover:bg-[#388bfd] transition-colors"
+            className="px-6 py-3 rounded-lg bg-accent text-on-accent font-semibold hover:bg-accent-hover transition-colors"
           >
             Begin Lab
           </button>
@@ -152,22 +152,22 @@ export default function XSSLab() {
             <p>Three main types exist:</p>
             <ul className="list-none space-y-1.5 mt-2">
               <li className="flex items-start gap-2">
-                <span className="mt-1 w-1.5 h-1.5 rounded-full bg-[#2f81f7] shrink-0" />
-                <span><strong className="text-[#f0f6fc]">Reflected XSS</strong> — the payload is embedded in a URL and reflected in the response.</span>
+                <span className="mt-1 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span><strong className="text-fg">Reflected XSS</strong> — the payload is embedded in a URL and reflected in the response.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="mt-1 w-1.5 h-1.5 rounded-full bg-[#2f81f7] shrink-0" />
-                <span><strong className="text-[#f0f6fc]">Stored XSS</strong> — the payload is saved to the server (e.g., a comment) and rendered to all viewers.</span>
+                <span className="mt-1 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span><strong className="text-fg">Stored XSS</strong> — the payload is saved to the server (e.g., a comment) and rendered to all viewers.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="mt-1 w-1.5 h-1.5 rounded-full bg-[#2f81f7] shrink-0" />
-                <span><strong className="text-[#f0f6fc]">DOM-based XSS</strong> — the payload is processed by client-side JavaScript that writes to the DOM unsafely.</span>
+                <span className="mt-1 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span><strong className="text-fg">DOM-based XSS</strong> — the payload is processed by client-side JavaScript that writes to the DOM unsafely.</span>
               </li>
             </ul>
           </LabInstructions>
           {currentStep === 1 && (
             <div className="flex justify-end mt-2 mb-8">
-              <button onClick={() => setCurrentStep(2)} className="px-4 py-2 rounded-lg bg-[#2f81f7] text-white text-sm font-semibold hover:bg-[#388bfd] transition-colors">
+              <button onClick={() => setCurrentStep(2)} className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-semibold hover:bg-accent-hover transition-colors">
                 Continue →
               </button>
             </div>
@@ -181,8 +181,8 @@ export default function XSSLab() {
           <LabInstructions step={2} title="Unsafe Rendering — Static Demonstration">
             <p>
               The panel below shows a <strong>hardcoded, static example</strong> of how a comment
-              that contains an <code className="bg-[#21262d] px-1 rounded text-[#a5d6ff]">{"<img onerror=…>"}</code> tag
-              would appear if an app used <code className="bg-[#21262d] px-1 rounded text-[#a5d6ff]">innerHTML</code> to
+              that contains an <code className="bg-raised px-1 rounded text-fg">{"<img onerror=…>"}</code> tag
+              would appear if an app used <code className="bg-raised px-1 rounded text-fg">innerHTML</code> to
               render untrusted content.
             </p>
             <ChallengeFeedback
@@ -194,26 +194,26 @@ export default function XSSLab() {
 
           <SimulatedTarget label="BlogApp — Comment Section (Unsafe innerHTML Demo)">
             <div className="space-y-3">
-              <div className="rounded-lg border border-[#21262d] bg-[#0d1117] p-3">
-                <p className="text-xs text-[#8b949e] mb-1 font-medium">alice_defender</p>
-                <p className="text-sm text-[#c9d1d9]">Great tutorial on secure coding!</p>
+              <div className="rounded-lg border border-white/12 bg-page p-3">
+                <p className="text-xs text-muted mb-1 font-medium">alice_defender</p>
+                <p className="text-sm text-fg">Great tutorial on secure coding!</p>
               </div>
               {/* Hardcoded demonstration — rendered as SAFE text, not HTML */}
-              <div className="rounded-lg border border-[#f85149]/40 bg-[#f85149]/8 p-3">
-                <p className="text-xs text-[#f85149] mb-1 font-medium">
+              <div className="rounded-lg border border-danger/40 bg-white/[0.04] p-3">
+                <p className="text-xs text-danger mb-1 font-medium">
                   attacker — what they submitted:
                 </p>
-                <p className="text-xs font-mono text-[#c9d1d9] bg-[#010409] p-2 rounded mb-2 break-all">
+                <p className="text-xs font-mono text-fg bg-page p-2 rounded mb-2 break-all">
                   {STATIC_UNSAFE_LABEL}
                 </p>
-                <p className="text-xs text-[#8b949e] mb-1">
+                <p className="text-xs text-muted mb-1">
                   If the app used <code>innerHTML</code>, the browser would execute the onerror handler.
                   Because this panel uses React text interpolation, you see the literal string instead.
                 </p>
                 {/* Safe text rendering — this IS the safe output */}
-                <div className="mt-2 border-t border-[#f85149]/20 pt-2">
-                  <p className="text-xs text-[#6e7681] mb-1">✓ What you actually see (safe text node):</p>
-                  <p className="text-sm text-[#c9d1d9] break-all">{STATIC_UNSAFE_DEMO}</p>
+                <div className="mt-2 border-t border-danger/20 pt-2">
+                  <p className="text-xs text-faint mb-1">✓ What you actually see (safe text node):</p>
+                  <p className="text-sm text-fg break-all">{STATIC_UNSAFE_DEMO}</p>
                 </div>
               </div>
             </div>
@@ -221,7 +221,7 @@ export default function XSSLab() {
 
           {currentStep === 2 && (
             <div className="flex justify-end mb-8">
-              <button onClick={() => setCurrentStep(3)} className="px-4 py-2 rounded-lg bg-[#2f81f7] text-white text-sm font-semibold hover:bg-[#388bfd] transition-colors">
+              <button onClick={() => setCurrentStep(3)} className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-semibold hover:bg-accent-hover transition-colors">
                 Continue →
               </button>
             </div>
@@ -246,10 +246,10 @@ export default function XSSLab() {
           <SimulatedTarget label="BlogApp — Safe Comment Section">
             <div className="space-y-3 mb-4 max-h-48 overflow-y-auto">
               {postedComments.map((c) => (
-                <div key={c.id} className="rounded-lg border border-[#21262d] bg-[#0d1117] p-3">
-                  <p className="text-xs text-[#8b949e] mb-1 font-medium">{c.author}</p>
+                <div key={c.id} className="rounded-lg border border-white/12 bg-page p-3">
+                  <p className="text-xs text-muted mb-1 font-medium">{c.author}</p>
                   {/* Safe: React renders this as a text node, never as HTML */}
-                  <p className="text-sm text-[#c9d1d9] break-all">{c.text}</p>
+                  <p className="text-sm text-fg break-all">{c.text}</p>
                 </div>
               ))}
             </div>
@@ -263,12 +263,12 @@ export default function XSSLab() {
                 value={commentInput}
                 onChange={(e) => setCommentInput(e.target.value)}
                 placeholder='Try: <script>alert(1)</script>'
-                className="flex-1 px-3 py-2 rounded-lg border border-[#30363d] bg-[#0d1117] text-sm text-[#f0f6fc] placeholder:text-[#6e7681] focus-visible:border-[#2f81f7] focus-visible:outline-none transition-colors font-mono"
+                className="flex-1 px-3 py-2 rounded-lg border border-white/12 bg-page text-sm text-fg placeholder:text-faint focus-visible:border-white/40 focus-visible:outline-none transition-colors font-mono"
                 maxLength={300}
               />
               <button
                 type="submit"
-                className="px-4 py-2 rounded-lg bg-[#2f81f7] text-white text-sm font-semibold hover:bg-[#388bfd] transition-colors shrink-0"
+                className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-semibold hover:bg-accent-hover transition-colors shrink-0"
               >
                 Post
               </button>
@@ -285,14 +285,14 @@ export default function XSSLab() {
                 message="Your HTML/script input was rendered as literal text, not executed markup. This is React's default behaviour — and the correct approach for all untrusted content."
               />
               <div className="flex justify-end mb-8">
-                <button onClick={() => setCurrentStep(4)} className="px-4 py-2 rounded-lg bg-[#2f81f7] text-white text-sm font-semibold hover:bg-[#388bfd] transition-colors">
+                <button onClick={() => setCurrentStep(4)} className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-semibold hover:bg-accent-hover transition-colors">
                   Continue to Knowledge Check →
                 </button>
               </div>
             </>
           )}
           {!challengeDone && currentStep === 3 && (
-            <p className="text-xs text-[#8b949e] italic mb-8">
+            <p className="text-xs text-muted italic mb-8">
               Post a comment containing an HTML tag (e.g., <code>&lt;script&gt;</code>) to continue.
             </p>
           )}
@@ -342,7 +342,7 @@ export default function XSSLab() {
             <div className="flex justify-end mt-6">
               <button
                 onClick={handleComplete}
-                className="px-6 py-2.5 rounded-lg bg-[#3fb950] text-[#010409] text-sm font-bold hover:bg-[#46c85a] transition-colors"
+                className="px-6 py-2.5 rounded-lg bg-accent text-on-accent text-sm font-bold hover:bg-accent-hover transition-colors"
               >
                 Complete Lab ✓
               </button>

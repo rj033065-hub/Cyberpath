@@ -134,7 +134,7 @@ export default function AuthCheckpointLab() {
           estimatedTime="25–30 minutes"
         />
         <div className="flex justify-center">
-          <button onClick={startLab} className="px-6 py-3 rounded-lg bg-[#2f81f7] text-white font-semibold hover:bg-[#388bfd] transition-colors">
+          <button onClick={startLab} className="px-6 py-3 rounded-lg bg-accent text-on-accent font-semibold hover:bg-accent-hover transition-colors">
             Begin Lab
           </button>
         </div>
@@ -185,11 +185,11 @@ export default function AuthCheckpointLab() {
                 { icon: Clock, label: "Session Expiry", desc: "Absolute & idle timeout + server revocation" },
                 { icon: CheckCircle2, label: "Post-Login AuthZ", desc: "Server validates role on every request" },
               ].map(({ icon: Icon, label, desc }) => (
-                <div key={label} className="flex items-start gap-2.5 p-3 rounded-lg border border-[#21262d] bg-[#010409]">
-                  <Icon className="w-4 h-4 text-[#2f81f7] mt-0.5 shrink-0" />
+                <div key={label} className="flex items-start gap-2.5 p-3 rounded-lg border border-white/12 bg-page">
+                  <Icon className="w-4 h-4 text-accent mt-0.5 shrink-0" />
                   <div>
-                    <p className="text-xs font-semibold text-[#f0f6fc]">{label}</p>
-                    <p className="text-xs text-[#8b949e]">{desc}</p>
+                    <p className="text-xs font-semibold text-fg">{label}</p>
+                    <p className="text-xs text-muted">{desc}</p>
                   </div>
                 </div>
               ))}
@@ -197,7 +197,7 @@ export default function AuthCheckpointLab() {
           </LabInstructions>
           {currentStep === 1 && (
             <div className="flex justify-end mt-2 mb-8">
-              <button onClick={() => setCurrentStep(2)} className="px-4 py-2 rounded-lg bg-[#2f81f7] text-white text-sm font-semibold hover:bg-[#388bfd] transition-colors">
+              <button onClick={() => setCurrentStep(2)} className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-semibold hover:bg-accent-hover transition-colors">
                 Continue →
               </button>
             </div>
@@ -220,41 +220,41 @@ export default function AuthCheckpointLab() {
               const isOpen = expandedScenario === s.id;
               const isReviewed = reviewedScenarios.has(s.id);
               return (
-                <div key={s.id} className={`rounded-xl border transition-colors ${isOpen ? "border-[#2f81f7]/40" : isReviewed ? "border-[#3fb950]/30" : "border-[#21262d]"} bg-[#010409]`}>
+                <div key={s.id} className={`rounded-xl border transition-colors ${isOpen ? "border-white/28" : isReviewed ? "border-white/12" : "border-white/12"} bg-page`}>
                   <button
-                    className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2f81f7]/40 rounded-xl"
+                    className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded-xl"
                     onClick={() => handleScenarioToggle(s.id)}
                     aria-expanded={isOpen}
                   >
                     <div className="flex items-center gap-2">
                       {isReviewed ? (
-                        <CheckCircle2 className="w-4 h-4 text-[#3fb950] shrink-0" />
+                        <CheckCircle2 className="w-4 h-4 text-success shrink-0" />
                       ) : (
-                        <div className={`w-4 h-4 rounded-full border-2 shrink-0 ${s.severity === "critical" ? "border-[#f85149]" : "border-[#e3b341]"}`} />
+                        <div className={`w-4 h-4 rounded-full border-2 shrink-0 ${s.severity === "critical" ? "border-danger" : "border-warning"}`} />
                       )}
-                      <span className="text-sm font-medium text-[#f0f6fc]">{s.title}</span>
+                      <span className="text-sm font-medium text-fg">{s.title}</span>
                     </div>
-                    <span className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${s.severity === "critical" ? "bg-[#f85149]/15 text-[#f85149]" : "bg-[#e3b341]/15 text-[#e3b341]"}`}>
+                    <span className={`text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${s.severity === "critical" ? "bg-white/[0.06] text-danger" : "bg-white/[0.06] text-warning"}`}>
                       {s.severity}
                     </span>
                   </button>
                   {isOpen && (
-                    <div className="px-4 pb-4 border-t border-[#21262d] pt-3 space-y-3">
-                      <p className="text-sm text-[#c9d1d9]">{s.description}</p>
+                    <div className="px-4 pb-4 border-t border-white/12 pt-3 space-y-3">
+                      <p className="text-sm text-fg">{s.description}</p>
                       <div>
-                        <p className="text-xs font-semibold text-[#f85149] uppercase tracking-wider mb-1.5">Vulnerabilities:</p>
+                        <p className="text-xs font-semibold text-danger uppercase tracking-wider mb-1.5">Vulnerabilities:</p>
                         <ul className="space-y-1">
                           {s.vulnerabilities.map((v, i) => (
-                            <li key={i} className="flex items-start gap-2 text-xs text-[#c9d1d9]">
-                              <XCircle className="w-3.5 h-3.5 text-[#f85149] shrink-0 mt-0.5" />
+                            <li key={i} className="flex items-start gap-2 text-xs text-fg">
+                              <XCircle className="w-3.5 h-3.5 text-danger shrink-0 mt-0.5" />
                               {v}
                             </li>
                           ))}
                         </ul>
                       </div>
-                      <div className="rounded-lg border border-[#3fb950]/25 bg-[#3fb950]/5 p-3">
-                        <p className="text-xs font-semibold text-[#3fb950] uppercase tracking-wider mb-1.5">Recommended Fix:</p>
-                        <p className="text-xs text-[#c9d1d9]">{s.fix}</p>
+                      <div className="rounded-lg border border-white/12 bg-white/[0.04] p-3">
+                        <p className="text-xs font-semibold text-success uppercase tracking-wider mb-1.5">Recommended Fix:</p>
+                        <p className="text-xs text-fg">{s.fix}</p>
                       </div>
                     </div>
                   )}
@@ -267,14 +267,14 @@ export default function AuthCheckpointLab() {
             <>
               <ChallengeFeedback type="success" title="All Scenarios Reviewed" message="You've examined all four fictional authentication vulnerability scenarios." />
               <div className="flex justify-end mb-8">
-                <button onClick={() => setCurrentStep(3)} className="px-4 py-2 rounded-lg bg-[#2f81f7] text-white text-sm font-semibold hover:bg-[#388bfd] transition-colors">
+                <button onClick={() => setCurrentStep(3)} className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-semibold hover:bg-accent-hover transition-colors">
                   Continue →
                 </button>
               </div>
             </>
           )}
           {!allScenariosReviewed && currentStep === 2 && (
-            <p className="text-xs text-[#8b949e] italic mb-8">
+            <p className="text-xs text-muted italic mb-8">
               Expand and review all {AUTH_SCENARIOS.length} scenarios to continue ({reviewedScenarios.size}/{AUTH_SCENARIOS.length} done).
             </p>
           )}
@@ -296,17 +296,17 @@ export default function AuthCheckpointLab() {
             {!rateLimited ? (
               <form onSubmit={handleSimulatedLogin} className="space-y-3 max-w-sm">
                 <div>
-                  <label htmlFor="rl-username" className="block text-xs text-[#8b949e] mb-1">Username</label>
+                  <label htmlFor="rl-username" className="block text-xs text-muted mb-1">Username</label>
                   <input
                     id="rl-username"
                     type="text"
                     defaultValue="admin"
                     readOnly
-                    className="w-full px-3 py-2 rounded-lg border border-[#30363d] bg-[#161b22] text-sm text-[#8b949e] font-mono"
+                    className="w-full px-3 py-2 rounded-lg border border-white/12 bg-surface text-sm text-muted font-mono"
                   />
                 </div>
                 <div>
-                  <label htmlFor="rl-password" className="block text-xs text-[#8b949e] mb-1">
+                  <label htmlFor="rl-password" className="block text-xs text-muted mb-1">
                     Password (attempts: {loginAttempts}/5)
                   </label>
                   <input
@@ -315,22 +315,22 @@ export default function AuthCheckpointLab() {
                     value={loginInput}
                     onChange={(e) => setLoginInput(e.target.value)}
                     placeholder="Try any password…"
-                    className="w-full px-3 py-2 rounded-lg border border-[#30363d] bg-[#0d1117] text-sm text-[#f0f6fc] placeholder:text-[#6e7681] focus-visible:border-[#2f81f7] focus-visible:outline-none transition-colors font-mono"
+                    className="w-full px-3 py-2 rounded-lg border border-white/12 bg-page text-sm text-fg placeholder:text-faint focus-visible:border-white/40 focus-visible:outline-none transition-colors font-mono"
                   />
                 </div>
-                <button type="submit" className="px-4 py-2 rounded-lg bg-[#2f81f7] text-white text-sm font-semibold hover:bg-[#388bfd] transition-colors">
+                <button type="submit" className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-semibold hover:bg-accent-hover transition-colors">
                   Login
                 </button>
                 {loginAttempts > 0 && (
-                  <p className="text-xs text-[#f85149]">
+                  <p className="text-xs text-danger">
                     ✗ Login failed ({loginAttempts}/5 attempts). {5 - loginAttempts} remaining before lockout.
                   </p>
                 )}
               </form>
             ) : (
-              <div className="rounded-lg border border-[#e3b341]/40 bg-[#e3b341]/10 p-4">
-                <p className="text-sm font-semibold text-[#e3b341]">⚠ Rate limit reached — account temporarily locked</p>
-                <p className="text-xs text-[#c9d1d9] mt-1">
+              <div className="rounded-lg border border-warning/40 bg-white/[0.04] p-4">
+                <p className="text-sm font-semibold text-warning">⚠ Rate limit reached — account temporarily locked</p>
+                <p className="text-xs text-fg mt-1">
                   A real server would enforce a cooldown period or require CAPTCHA. This simulation simply locks the form after 5 attempts.
                 </p>
               </div>
@@ -341,7 +341,7 @@ export default function AuthCheckpointLab() {
 
           {currentStep === 3 && (
             <div className="flex justify-end mb-8">
-              <button onClick={() => setCurrentStep(4)} className="px-4 py-2 rounded-lg bg-[#2f81f7] text-white text-sm font-semibold hover:bg-[#388bfd] transition-colors">
+              <button onClick={() => setCurrentStep(4)} className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-semibold hover:bg-accent-hover transition-colors">
                 Continue →
               </button>
             </div>
@@ -361,23 +361,23 @@ export default function AuthCheckpointLab() {
                 "Clear all sensitive state from browser memory (e.g., localStorage, sessionStorage).",
                 "Prevent back-button access to authenticated pages after logout (Cache-Control headers).",
               ].map((item, i) => (
-                <li key={i} className="flex items-start gap-2 text-xs text-[#c9d1d9]">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#3fb950] shrink-0 mt-0.5" />
+                <li key={i} className="flex items-start gap-2 text-xs text-fg">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-success shrink-0 mt-0.5" />
                   {item}
                 </li>
               ))}
             </ul>
-            <div className="mt-3 rounded-lg border border-[#f85149]/25 bg-[#f85149]/5 p-3">
-              <p className="text-xs text-[#f85149] font-semibold mb-1">Common mistake:</p>
-              <p className="text-xs text-[#c9d1d9]">
-                Deleting a cookie only from the browser (e.g., <code className="bg-[#21262d] px-1 rounded">document.cookie = 'session=; Max-Age=0'</code>)
+            <div className="mt-3 rounded-lg border border-danger/30 bg-white/[0.04] p-3">
+              <p className="text-xs text-danger font-semibold mb-1">Common mistake:</p>
+              <p className="text-xs text-fg">
+                Deleting a cookie only from the browser (e.g., <code className="bg-raised px-1 rounded">document.cookie = 'session=; Max-Age=0'</code>)
                 without invalidating the token on the server. The token remains valid — an attacker who captured it can still use it.
               </p>
             </div>
           </LabInstructions>
           {currentStep === 4 && (
             <div className="flex justify-end mb-8">
-              <button onClick={() => setCurrentStep(5)} className="px-4 py-2 rounded-lg bg-[#2f81f7] text-white text-sm font-semibold hover:bg-[#388bfd] transition-colors">
+              <button onClick={() => setCurrentStep(5)} className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-semibold hover:bg-accent-hover transition-colors">
                 Continue to Knowledge Check →
               </button>
             </div>
@@ -426,7 +426,7 @@ export default function AuthCheckpointLab() {
 
           {user?.id && !completed && (
             <div className="flex justify-end mt-6">
-              <button onClick={handleComplete} className="px-6 py-2.5 rounded-lg bg-[#3fb950] text-[#010409] text-sm font-bold hover:bg-[#46c85a] transition-colors">
+              <button onClick={handleComplete} className="px-6 py-2.5 rounded-lg bg-accent text-on-accent text-sm font-bold hover:bg-accent-hover transition-colors">
                 Complete Lab ✓
               </button>
             </div>

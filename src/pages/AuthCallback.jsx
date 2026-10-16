@@ -50,23 +50,23 @@ export default function AuthCallback() {
   }, [user, loading, navigate, location]);
 
   return (
-    <div className="min-h-screen bg-[#070a12] text-[#f0f6fc] flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md p-8 rounded-2xl bg-[#0d1117] border border-[#21262d] shadow-2xl flex flex-col items-center text-center">
+    <div className="min-h-screen bg-page text-fg flex flex-col items-center justify-center p-4">
+      <div className="w-full max-w-md p-8 rounded-2xl bg-page border border-white/12 shadow-2xl flex flex-col items-center text-center">
         {errorMsg ? (
           <>
-            <div className="w-14 h-14 rounded-2xl bg-[#fa7970]/10 border border-[#fa7970]/30 flex items-center justify-center text-[#fa7970] mb-4">
+            <div className="w-14 h-14 rounded-2xl bg-white/[0.06] border border-danger/40 flex items-center justify-center text-danger mb-4">
               <AlertCircle className="w-7 h-7" />
             </div>
             <h2 className="text-xl font-bold text-white mb-2">
               Authentication Failed
             </h2>
-            <p className="text-xs text-[#8b98a8] leading-relaxed mb-6">
+            <p className="text-xs text-muted leading-relaxed mb-6">
               {errorMsg}
             </p>
             <button
               type="button"
               onClick={() => navigate("/login", { replace: true })}
-              className="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-[#e4e4e7] text-[#09090b] text-xs font-semibold transition-all shadow-sm active:scale-95"
+              className="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-accent-hover text-on-accent text-xs font-semibold transition-all shadow-sm active:scale-95"
             >
               Return to Sign In
             </button>
@@ -74,17 +74,17 @@ export default function AuthCallback() {
         ) : (
           <>
             <div className="relative mb-5">
-              <div className="w-14 h-14 rounded-2xl bg-[#1c1c20] border border-white/20 flex items-center justify-center text-white shadow-lg shadow-white/5">
+              <div className="w-14 h-14 rounded-2xl bg-raised border border-white/20 flex items-center justify-center text-white shadow-lg shadow-white/5">
                 <Shield className="w-7 h-7 text-white" />
               </div>
-              <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#101012] border border-white/20 flex items-center justify-center">
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-surface border border-white/20 flex items-center justify-center">
                 <Loader2 className="w-3.5 h-3.5 text-white animate-spin" />
               </div>
             </div>
             <h2 className="text-lg font-bold text-white mb-1.5">
               Authenticating Security Session
             </h2>
-            <p className="text-xs text-[#8b98a8] font-mono leading-relaxed">
+            <p className="text-xs text-muted font-mono leading-relaxed">
               Verifying token credentials and establishing secure session...
             </p>
           </>

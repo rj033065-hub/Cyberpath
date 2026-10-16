@@ -195,7 +195,7 @@ export default function BadgeEmblem({
         {/* 6. Subtle Bevel / Shadow Offset Rim (Layer 2) */}
         <path
           d="M 45,25 L 115,25 L 134,45 L 134,90 L 80,140 L 26,90 L 26,45 Z"
-          fill="#0d1117"
+          fill="#09090b"
           stroke="rgba(0,0,0,0.4)"
           strokeWidth="1"
         />
@@ -248,13 +248,13 @@ export default function BadgeEmblem({
               <IconComponent
                 className={`w-8 h-8 transition-transform duration-300 group-hover:scale-110 ${
                   isLocked
-                    ? "text-[#8b98a8]"
+                    ? "text-muted"
                     : isMaster
                     ? "text-[#fef08a] filter drop-shadow-[0_2px_8px_rgba(250,204,21,0.6)]"
                     : "text-white"
                 }`}
                 style={{
-                  color: isLocked ? "#8b98a8" : isMaster ? "#fef08a" : palette.primary,
+                  color: isLocked ? "#a1a1aa" : isMaster ? "#fef08a" : palette.primary,
                   filter: isEarned ? `drop-shadow(0 0 6px ${palette.primary})` : "none",
                 }}
                 strokeWidth={2.2}
@@ -266,8 +266,8 @@ export default function BadgeEmblem({
           {isLocked && (
             <foreignObject x="-12" y="10" width="24" height="24">
               <div className="w-full h-full flex items-center justify-center">
-                <div className="p-1 rounded-full bg-[#0d1117] border border-[#21262d] shadow-sm text-[#8b98a8]">
-                  <LockKeyhole className="w-3.5 h-3.5 text-[#8b98a8]" />
+                <div className="p-1 rounded-full bg-page border border-white/12 shadow-sm text-muted">
+                  <LockKeyhole className="w-3.5 h-3.5 text-muted" />
                 </div>
               </div>
             </foreignObject>
@@ -290,7 +290,7 @@ export default function BadgeEmblem({
             <g transform="translate(0, -38)">
               <polygon
                 points="0,-4 4,0 0,4 -4,0"
-                fill={isLocked ? "#8b98a8" : palette.accent}
+                fill={isLocked ? "#a1a1aa" : palette.accent}
                 stroke={isLocked ? "transparent" : palette.primary}
                 strokeWidth="1"
               />
@@ -307,7 +307,7 @@ export default function BadgeEmblem({
               width="44"
               height="18"
               rx="9"
-              fill="#0d1117"
+              fill="#09090b"
               stroke={isInProgress ? palette.primary : "rgba(255,255,255,0.15)"}
               strokeWidth="1.2"
             />
@@ -315,7 +315,7 @@ export default function BadgeEmblem({
               x="0"
               y="2.5"
               textAnchor="middle"
-              fill={isInProgress ? palette.primary : "#8b98a8"}
+              fill={isInProgress ? palette.primary : "#a1a1aa"}
               fontSize="9"
               fontFamily="monospace"
               fontWeight="bold"

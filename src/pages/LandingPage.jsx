@@ -197,7 +197,7 @@ const ACHIEVEMENT_BADGES = [
     cardBorder: "border-white/12 hover:border-white/28",
     cardGlow: "badge-glow-metallic",
     iconColor: "text-white",
-    emblemBg: "bg-[#101012] border-white/15",
+    emblemBg: "bg-surface border-white/15",
     pillStyle: "bg-white/[0.06] border-white/15 text-white",
     ringColor: "#ffffff",
     icon: Flame,
@@ -214,7 +214,7 @@ const ACHIEVEMENT_BADGES = [
     cardBorder: "border-white/12 hover:border-white/28",
     cardGlow: "badge-glow-metallic",
     iconColor: "text-white",
-    emblemBg: "bg-[#101012] border-white/15",
+    emblemBg: "bg-surface border-white/15",
     pillStyle: "bg-white/[0.06] border-white/15 text-white",
     ringColor: "#ffffff",
     icon: ShieldCheck,
@@ -231,7 +231,7 @@ const ACHIEVEMENT_BADGES = [
     cardBorder: "border-white/12 hover:border-white/28",
     cardGlow: "badge-glow-metallic",
     iconColor: "text-white",
-    emblemBg: "bg-[#101012] border-white/15",
+    emblemBg: "bg-surface border-white/15",
     pillStyle: "bg-white/[0.06] border-white/15 text-white",
     ringColor: "#ffffff",
     icon: Globe,
@@ -248,9 +248,9 @@ const ACHIEVEMENT_BADGES = [
     isMaster: true,
     cardBorder: "border-[#d29922]/70 hover:border-[#f2cc60]",
     cardGlow: "badge-glow-gold",
-    iconColor: "text-[#f2cc60]",
+    iconColor: "text-gold-bright",
     emblemBg: "bg-gradient-to-b from-[#221c10] to-[#141008] border-[#f2cc60]/60",
-    pillStyle: "bg-[#d29922]/25 border-[#f2cc60]/50 text-[#f2cc60]",
+    pillStyle: "bg-[#d29922]/25 border-[#f2cc60]/50 text-gold-bright",
     ringColor: "#f2cc60",
     icon: Crown,
     tagline: "The highest honor on CyberPath. Awarded to elite students who conquer all core tracks.",
@@ -340,9 +340,9 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-[#fafafa] flex flex-col selection:bg-white/20 selection:text-white relative">
+    <div className="min-h-screen bg-page text-fg flex flex-col selection:bg-white/20 selection:text-white relative">
       {/* SECTION 1: STICKY NAVIGATION */}
-      <header className="sticky top-0 z-50 w-full border-b border-white/12 bg-[#09090b]/90 backdrop-blur-md transition-all">
+      <header className="sticky top-0 z-50 w-full border-b border-white/12 bg-page/90 backdrop-blur-md transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           {/* Brand Logo & Wordmark */}
           <a
@@ -350,11 +350,11 @@ export default function LandingPage() {
             className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded-md px-1 py-0.5"
             aria-label="CyberPath Home"
           >
-            <div className="w-8 h-8 rounded-lg bg-[#1c1c20] border border-white/20 flex items-center justify-center text-white group-hover:border-white/40 transition-colors shadow-sm">
+            <div className="w-8 h-8 rounded-lg bg-raised border border-white/20 flex items-center justify-center text-white group-hover:border-white/40 transition-colors shadow-sm">
               <Shield className="w-4 h-4 text-white" strokeWidth={2.4} />
             </div>
             <div className="flex flex-col">
-              <span className="font-bold tracking-tight text-base text-[#fafafa] flex items-center">
+              <span className="font-bold tracking-tight text-base text-fg flex items-center">
                 Cyber<span className="text-white">Path</span>
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#4ade80] ml-1"></span>
               </span>
@@ -365,7 +365,7 @@ export default function LandingPage() {
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1 lg:gap-2 text-sm text-[#a1a1aa] font-medium" aria-label="Main Navigation">
+          <nav className="hidden md:flex items-center gap-1 lg:gap-2 text-sm text-muted font-medium" aria-label="Main Navigation">
             <a
               href="#how-it-works"
               className="px-3 py-1.5 rounded-md hover:text-white hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
@@ -411,7 +411,7 @@ export default function LandingPage() {
               <div className="hidden sm:flex items-center gap-2">
                 <Link
                   to="/dashboard"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-md bg-white hover:bg-[#e4e4e7] text-[#09090b] transition-all active:scale-[0.98] shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-md bg-white hover:bg-accent-hover text-on-accent transition-all active:scale-[0.98] shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                 >
                   <Shield className="w-3.5 h-3.5" />
                   <span>Dashboard</span>
@@ -419,7 +419,7 @@ export default function LandingPage() {
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="p-2 rounded-md text-[#a1a1aa] hover:text-[#f87171] hover:bg-white/[0.06] transition-colors"
+                  className="p-2 rounded-md text-muted hover:text-[#f87171] hover:bg-white/[0.06] transition-colors"
                   title="Sign Out"
                 >
                   <LogOut className="w-4 h-4" />
@@ -429,13 +429,13 @@ export default function LandingPage() {
               <div className="hidden sm:flex items-center gap-2">
                 <Link
                   to="/login"
-                  className="px-3 py-1.5 rounded-md text-xs font-medium text-[#a1a1aa] hover:text-white hover:bg-white/[0.06] transition-colors"
+                  className="px-3 py-1.5 rounded-md text-xs font-medium text-muted hover:text-white hover:bg-white/[0.06] transition-colors"
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/signup"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-md bg-white hover:bg-[#e4e4e7] text-[#09090b] transition-all active:scale-[0.98] shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-md bg-white hover:bg-accent-hover text-on-accent transition-all active:scale-[0.98] shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                 >
                   <span>Get Started</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -447,7 +447,7 @@ export default function LandingPage() {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-[#a1a1aa] hover:text-white hover:bg-white/[0.06] border border-white/12 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+              className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-muted hover:text-white hover:bg-white/[0.06] border border-white/12 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
               aria-label="Toggle mobile menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -458,47 +458,47 @@ export default function LandingPage() {
 
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-b border-white/12 bg-[#101012]/95 backdrop-blur-lg px-4 pt-3 pb-6 shadow-xl animate-in slide-in-from-top duration-200">
+          <div className="md:hidden border-b border-white/12 bg-surface/95 backdrop-blur-lg px-4 pt-3 pb-6 shadow-xl animate-in slide-in-from-top duration-200">
             <nav className="flex flex-col gap-1.5" aria-label="Mobile Navigation">
               <a
                 href="#how-it-works"
                 onClick={handleNavClick}
-                className="px-3 py-2.5 rounded-md text-[#fafafa] hover:bg-white/[0.06] text-sm font-medium flex items-center justify-between"
+                className="px-3 py-2.5 rounded-md text-fg hover:bg-white/[0.06] text-sm font-medium flex items-center justify-between"
               >
                 <span>How It Works</span>
-                <ChevronRight className="w-4 h-4 text-[#a1a1aa]" />
+                <ChevronRight className="w-4 h-4 text-muted" />
               </a>
               <a
                 href="#paths"
                 onClick={handleNavClick}
-                className="px-3 py-2.5 rounded-md text-[#fafafa] hover:bg-white/[0.06] text-sm font-medium flex items-center justify-between"
+                className="px-3 py-2.5 rounded-md text-fg hover:bg-white/[0.06] text-sm font-medium flex items-center justify-between"
               >
                 <span>Learning Paths</span>
-                <ChevronRight className="w-4 h-4 text-[#a1a1aa]" />
+                <ChevronRight className="w-4 h-4 text-muted" />
               </a>
               <a
                 href="#roadmap"
                 onClick={handleNavClick}
-                className="px-3 py-2.5 rounded-md text-[#fafafa] hover:bg-white/[0.06] text-sm font-medium flex items-center justify-between"
+                className="px-3 py-2.5 rounded-md text-fg hover:bg-white/[0.06] text-sm font-medium flex items-center justify-between"
               >
                 <span>Beginner Roadmap</span>
-                <ChevronRight className="w-4 h-4 text-[#a1a1aa]" />
+                <ChevronRight className="w-4 h-4 text-muted" />
               </a>
               <a
                 href="#achievements"
                 onClick={handleNavClick}
-                className="px-3 py-2.5 rounded-md text-[#fafafa] hover:bg-white/[0.06] text-sm font-medium flex items-center justify-between"
+                className="px-3 py-2.5 rounded-md text-fg hover:bg-white/[0.06] text-sm font-medium flex items-center justify-between"
               >
                 <span>Achievements & Badges</span>
-                <ChevronRight className="w-4 h-4 text-[#a1a1aa]" />
+                <ChevronRight className="w-4 h-4 text-muted" />
               </a>
               <a
                 href="#resources"
                 onClick={handleNavClick}
-                className="px-3 py-2.5 rounded-md text-[#fafafa] hover:bg-white/[0.06] text-sm font-medium flex items-center justify-between"
+                className="px-3 py-2.5 rounded-md text-fg hover:bg-white/[0.06] text-sm font-medium flex items-center justify-between"
               >
                 <span>Practice Resources</span>
-                <ChevronRight className="w-4 h-4 text-[#a1a1aa]" />
+                <ChevronRight className="w-4 h-4 text-muted" />
               </a>
               <a
                 href="#interactive-grid"
@@ -509,7 +509,7 @@ export default function LandingPage() {
                   <span className="w-2 h-2 rounded-full bg-white/70 animate-ping" />
                   <span>Ripple Grid Demo</span>
                 </span>
-                <ChevronRight className="w-4 h-4 text-[#a1a1aa]" />
+                <ChevronRight className="w-4 h-4 text-muted" />
               </a>
 
               <div className="pt-3 mt-1 border-t border-white/12 space-y-2">
@@ -518,7 +518,7 @@ export default function LandingPage() {
                     <Link
                       to="/dashboard"
                       onClick={handleNavClick}
-                      className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-md bg-white hover:bg-[#e4e4e7] text-[#09090b] text-sm font-semibold active:scale-[0.98] shadow-md"
+                      className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-md bg-white hover:bg-accent-hover text-on-accent text-sm font-semibold active:scale-[0.98] shadow-md"
                     >
                       <span>Open Student Dashboard</span>
                       <ArrowRight className="w-4 h-4" />
@@ -537,7 +537,7 @@ export default function LandingPage() {
                     <Link
                       to="/signup"
                       onClick={handleNavClick}
-                      className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-md bg-white hover:bg-[#e4e4e7] text-[#09090b] text-sm font-semibold active:scale-[0.98] shadow-md"
+                      className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-md bg-white hover:bg-accent-hover text-on-accent text-sm font-semibold active:scale-[0.98] shadow-md"
                     >
                       <span>Create Free Account</span>
                       <ArrowRight className="w-4 h-4" />
@@ -545,7 +545,7 @@ export default function LandingPage() {
                     <Link
                       to="/login"
                       onClick={handleNavClick}
-                      className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-transparent border border-white/12 text-[#fafafa] text-xs font-medium hover:bg-white/[0.06]"
+                      className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-transparent border border-white/12 text-fg text-xs font-medium hover:bg-white/[0.06]"
                     >
                       <span>Sign In to Existing Account</span>
                     </Link>
@@ -568,7 +568,7 @@ export default function LandingPage() {
               {/* Left Column: Headline & Value Proposition */}
               <div className="lg:col-span-7 flex flex-col items-start text-left">
                 {/* Eyebrow Pill */}
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/12 bg-[#101012] text-[#fafafa] text-xs font-mono font-medium tracking-wide mb-6 shadow-sm">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/12 bg-surface text-fg text-xs font-mono font-medium tracking-wide mb-6 shadow-sm">
                   <span className="w-2 h-2 rounded-full bg-[#4ade80] animate-pulse" />
                   <span>YOUR CYBERSECURITY JOURNEY STARTS HERE</span>
                 </div>
@@ -601,7 +601,7 @@ export default function LandingPage() {
                 </h1>
 
                 {/* Supporting Text */}
-                <p className="text-base sm:text-lg text-[#a1a1aa] leading-relaxed max-w-2xl mb-8">
+                <p className="text-base sm:text-lg text-muted leading-relaxed max-w-2xl mb-8">
                   Feeling lost between endless tools and confusing tutorials? CyberPath gives beginners a clear,
                   step-by-step roadmap. Learn the fundamentals first, practice in real legal labs, and build genuine
                   practical confidence one milestone at a time.
@@ -611,7 +611,7 @@ export default function LandingPage() {
                 <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto mb-10">
                   <Link
                     to={user ? "/dashboard" : "/signup"}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-white hover:bg-[#e4e4e7] text-[#09090b] text-sm font-semibold transition-all shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-white hover:bg-accent-hover text-on-accent text-sm font-semibold transition-all shadow-md active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                   >
                     <span>{user ? "Open Your Dashboard" : "Find Your Path"}</span>
                     <ArrowRight className="w-4 h-4" />
@@ -626,10 +626,10 @@ export default function LandingPage() {
                 </div>
 
                 {/* Trust & Ethics Badge */}
-                <div className="flex items-center gap-3 p-3 rounded-lg border border-white/12 bg-[#101012] text-xs text-[#a1a1aa]">
+                <div className="flex items-center gap-3 p-3 rounded-lg border border-white/12 bg-surface text-xs text-muted">
                   <ShieldCheck className="w-4 h-4 text-[#4ade80] shrink-0" />
                   <p>
-                    <span className="text-[#fafafa] font-medium">Beginner-Friendly:</span> 100% legal, hands-on labs,
+                    <span className="text-fg font-medium">Beginner-Friendly:</span> 100% legal, hands-on labs,
                     and ethical hacking methodologies. Powered by secure Supabase authentication.
                   </p>
                 </div>
@@ -638,36 +638,36 @@ export default function LandingPage() {
               {/* Right Column: Custom Terminal-Style Learning Interface */}
               <div className="lg:col-span-5 relative w-full">
                 {/* Floating UI Elements */}
-                <div className="absolute -top-4 -left-3 sm:-left-6 z-20 hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg border border-white/12 bg-[#101012] text-xs shadow-xl animate-float-slow">
+                <div className="absolute -top-4 -left-3 sm:-left-6 z-20 hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg border border-white/12 bg-surface text-xs shadow-xl animate-float-slow">
                   <span className="p-1.5 rounded-md bg-white/10 text-white">
                     <GitBranch className="w-3.5 h-3.5" />
                   </span>
                   <div>
-                    <div className="font-semibold text-[#fafafa]">Structured Paths</div>
-                    <div className="text-[11px] text-[#a1a1aa]">No random tutorial hopping</div>
+                    <div className="font-semibold text-fg">Structured Paths</div>
+                    <div className="text-[11px] text-muted">No random tutorial hopping</div>
                   </div>
                 </div>
 
-                <div className="absolute -bottom-5 -right-2 sm:-right-4 z-20 hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg border border-white/12 bg-[#101012] text-xs shadow-xl animate-float-delayed">
+                <div className="absolute -bottom-5 -right-2 sm:-right-4 z-20 hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg border border-white/12 bg-surface text-xs shadow-xl animate-float-delayed">
                   <span className="p-1.5 rounded-md bg-white/10 text-white">
                     <Trophy className="w-3.5 h-3.5" />
                   </span>
                   <div>
-                    <div className="font-semibold text-[#fafafa]">Learn By Doing</div>
-                    <div className="text-[11px] text-[#a1a1aa]">Labs & real CTF puzzles</div>
+                    <div className="font-semibold text-fg">Learn By Doing</div>
+                    <div className="text-[11px] text-muted">Labs & real CTF puzzles</div>
                   </div>
                 </div>
 
                 {/* The Terminal Window Card */}
-                <div className="rounded-xl border border-white/12 bg-[#101012] shadow-2xl overflow-hidden relative">
+                <div className="rounded-xl border border-white/12 bg-surface shadow-2xl overflow-hidden relative">
                   {/* Terminal Header Bar */}
-                  <div className="flex items-center justify-between px-4 py-3 bg-[#161619] border-b border-white/12">
+                  <div className="flex items-center justify-between px-4 py-3 bg-raised border-b border-white/12">
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded-full bg-[#f87171]/80" />
                       <div className="w-3 h-3 rounded-full bg-[#fbbf24]/80" />
                       <div className="w-3 h-3 rounded-full bg-[#4ade80]/80" />
                     </div>
-                    <div className="font-mono text-xs text-[#a1a1aa] flex items-center gap-1.5">
+                    <div className="font-mono text-xs text-muted flex items-center gap-1.5">
                       <Terminal className="w-3.5 h-3.5 text-white" />
                       <span>cyberpath — student_terminal</span>
                     </div>
@@ -677,27 +677,27 @@ export default function LandingPage() {
                   </div>
 
                   {/* Terminal Body */}
-                  <div className="p-4 sm:p-5 font-mono text-xs leading-relaxed space-y-3 bg-[#09090b]">
+                  <div className="p-4 sm:p-5 font-mono text-xs leading-relaxed space-y-3 bg-page">
                     <div className="text-[#71717a]"># Welcome to CyberPath Interactive Demo</div>
 
                     <div>
                       <span className="text-[#4ade80]">student@cyberpath</span>
                       <span className="text-[#71717a]">:</span>
                       <span className="text-white">~</span>
-                      <span className="text-[#fafafa]">$ whoami</span>
-                      <div className="text-[#a1a1aa] mt-0.5">future_security_analyst</div>
+                      <span className="text-fg">$ whoami</span>
+                      <div className="text-muted mt-0.5">future_security_analyst</div>
                     </div>
 
                     <div>
                       <span className="text-[#4ade80]">student@cyberpath</span>
                       <span className="text-[#71717a]">:</span>
                       <span className="text-white">~</span>
-                      <span className="text-[#fafafa]">$ cyberpath status --track</span>
+                      <span className="text-fg">$ cyberpath status --track</span>
                     </div>
 
                     {/* Progress Checklist */}
-                    <div className="bg-[#101012] p-3 rounded-lg border border-white/12 space-y-2 mt-2">
-                      <div className="flex items-center justify-between text-[11px] text-[#a1a1aa] font-mono border-b border-white/10 pb-1.5">
+                    <div className="bg-surface p-3 rounded-lg border border-white/12 space-y-2 mt-2">
+                      <div className="flex items-center justify-between text-[11px] text-muted font-mono border-b border-white/10 pb-1.5">
                         <span>LEARNING PROGRESSION PREVIEW</span>
                         <span className="text-white font-semibold">2 / 4 COMPLETED</span>
                       </div>
@@ -705,12 +705,12 @@ export default function LandingPage() {
                       <div className="space-y-1.5 pt-1">
                         <div className="flex items-center gap-2 text-[#4ade80]">
                           <CheckCircle2 className="w-3.5 h-3.5" />
-                          <span className="text-[#fafafa]">01. Linux Fundamentals</span>
+                          <span className="text-fg">01. Linux Fundamentals</span>
                           <span className="ml-auto text-[10px] text-[#4ade80] font-mono">COMPLETE</span>
                         </div>
                         <div className="flex items-center gap-2 text-[#4ade80]">
                           <CheckCircle2 className="w-3.5 h-3.5" />
-                          <span className="text-[#fafafa]">02. Computer Networking</span>
+                          <span className="text-fg">02. Computer Networking</span>
                           <span className="ml-auto text-[10px] text-[#4ade80] font-mono">COMPLETE</span>
                         </div>
                         <div className="flex items-center gap-2 text-white">
@@ -720,25 +720,25 @@ export default function LandingPage() {
                         </div>
                         <div className="flex items-center gap-2 text-[#71717a]">
                           <div className="w-3.5 h-3.5 rounded-full border border-white/20" />
-                          <span className="text-[#a1a1aa]">04. First CTF Challenge</span>
+                          <span className="text-muted">04. First CTF Challenge</span>
                           <span className="ml-auto text-[10px] text-[#71717a] font-mono">NEXT UP</span>
                         </div>
                       </div>
 
                       {/* Progress Bar */}
                       <div className="pt-2">
-                        <div className="w-full bg-[#1c1c20] h-1.5 rounded-full overflow-hidden">
+                        <div className="w-full bg-raised h-1.5 rounded-full overflow-hidden">
                           <div className="bg-white h-full rounded-full w-1/2 transition-all duration-500" />
                         </div>
                       </div>
                     </div>
 
                     {/* Active Command Prompt with Blinking Cursor */}
-                    <div className="pt-1 flex items-center gap-1 text-[#fafafa]">
+                    <div className="pt-1 flex items-center gap-1 text-fg">
                       <span className="text-[#4ade80]">student@cyberpath</span>
                       <span className="text-[#71717a]">:</span>
                       <span className="text-white">~</span>
-                      <span className="text-[#fafafa]">$ start-lab --level=starter</span>
+                      <span className="text-fg">$ start-lab --level=starter</span>
                       <span className="inline-block w-2 h-4 bg-white ml-1 animate-cursor" />
                     </div>
 
@@ -754,17 +754,17 @@ export default function LandingPage() {
         </section>
 
         {/* SECTION 3: HOW CYBERPATH WORKS */}
-        <section className="py-20 border-b border-white/12 bg-[#09090b] relative" id="how-it-works">
+        <section className="py-20 border-b border-white/12 bg-page relative" id="how-it-works">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-16">
               <span className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-white uppercase tracking-wider mb-3">
                 <Sparkles className="w-3.5 h-3.5" />
                 HOW CYBERPATH WORKS
               </span>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#fafafa] mb-4">
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-fg mb-4">
                 Structured learning, not random tutorials.
               </h2>
-              <p className="text-[#a1a1aa] text-base leading-relaxed">
+              <p className="text-muted text-base leading-relaxed">
                 Most beginners fail because they jump straight into hacking tools without knowing networking or Linux.
                 CyberPath organizes your journey into a proven, logical sequence.
               </p>
@@ -772,45 +772,45 @@ export default function LandingPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
               {/* Feature 1 */}
-              <div className="group rounded-xl border border-white/12 bg-[#101012] p-6 lg:p-8 hover:border-white/28 hover:bg-[#1c1c20] transition-all shadow-sm">
+              <div className="group rounded-xl border border-white/12 bg-surface p-6 lg:p-8 hover:border-white/28 hover:bg-raised transition-all shadow-sm">
                 <div className="w-12 h-12 rounded-lg bg-white/[0.06] border border-white/12 flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform">
                   <Compass className="w-6 h-6" />
                 </div>
-                <div className="text-xs font-mono text-[#a1a1aa] mb-2 font-medium">STEP 01 — DIRECTION</div>
-                <h3 className="text-xl font-bold text-[#fafafa] mb-3 group-hover:text-white transition-colors">
+                <div className="text-xs font-mono text-muted mb-2 font-medium">STEP 01 — DIRECTION</div>
+                <h3 className="text-xl font-bold text-fg mb-3 group-hover:text-white transition-colors">
                   1. Clear learning paths
                 </h3>
-                <p className="text-[#a1a1aa] text-sm leading-relaxed">
+                <p className="text-muted text-sm leading-relaxed">
                   Eliminate confusion. Know exactly what to learn first, what comes next, and how foundational concepts
                   connect to real security careers.
                 </p>
               </div>
 
               {/* Feature 2 */}
-              <div className="group rounded-xl border border-white/12 bg-[#101012] p-6 lg:p-8 hover:border-white/28 hover:bg-[#1c1c20] transition-all shadow-sm">
+              <div className="group rounded-xl border border-white/12 bg-surface p-6 lg:p-8 hover:border-white/28 hover:bg-raised transition-all shadow-sm">
                 <div className="w-12 h-12 rounded-lg bg-white/[0.06] border border-white/12 flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform">
                   <Terminal className="w-6 h-6" />
                 </div>
-                <div className="text-xs font-mono text-[#a1a1aa] mb-2 font-medium">STEP 02 — APPLICATION</div>
-                <h3 className="text-xl font-bold text-[#fafafa] mb-3 group-hover:text-white transition-colors">
+                <div className="text-xs font-mono text-muted mb-2 font-medium">STEP 02 — APPLICATION</div>
+                <h3 className="text-xl font-bold text-fg mb-3 group-hover:text-white transition-colors">
                   2. Practice through real labs
                 </h3>
-                <p className="text-[#a1a1aa] text-sm leading-relaxed">
+                <p className="text-muted text-sm leading-relaxed">
                   Watching videos isn't enough. Every topic pairs conceptual explanations with hands-on practice in
                   legal, dedicated virtual training sandboxes.
                 </p>
               </div>
 
               {/* Feature 3 */}
-              <div className="group rounded-xl border border-white/12 bg-[#101012] p-6 lg:p-8 hover:border-white/28 hover:bg-[#1c1c20] transition-all shadow-sm">
+              <div className="group rounded-xl border border-white/12 bg-surface p-6 lg:p-8 hover:border-white/28 hover:bg-raised transition-all shadow-sm">
                 <div className="w-12 h-12 rounded-lg bg-white/[0.06] border border-white/12 flex items-center justify-center text-white mb-6 group-hover:scale-105 transition-transform">
                   <Trophy className="w-6 h-6" />
                 </div>
-                <div className="text-xs font-mono text-[#a1a1aa] mb-2 font-medium">STEP 03 — MASTERY</div>
-                <h3 className="text-xl font-bold text-[#fafafa] mb-3 group-hover:text-white transition-colors">
+                <div className="text-xs font-mono text-muted mb-2 font-medium">STEP 03 — MASTERY</div>
+                <h3 className="text-xl font-bold text-fg mb-3 group-hover:text-white transition-colors">
                   3. Track meaningful milestones
                 </h3>
-                <p className="text-[#a1a1aa] text-sm leading-relaxed">
+                <p className="text-muted text-sm leading-relaxed">
                   Validate your skills with tangible progress markers and beginner-friendly capture-the-flag (CTF)
                   challenges that reinforce your retention.
                 </p>
@@ -820,30 +820,30 @@ export default function LandingPage() {
         </section>
 
         {/* SECTION: INTERACTIVE RIPPLE GRID COMPONENT SHOWCASE */}
-        <section className="py-16 border-b border-white/12 bg-[#09090b] relative overflow-hidden" id="interactive-grid">
+        <section className="py-16 border-b border-white/12 bg-page relative overflow-hidden" id="interactive-grid">
           {/* Subtle Ambient Glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[300px] bg-white/[0.03] blur-[130px] rounded-full pointer-events-none" />
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="text-center max-w-3xl mx-auto mb-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/12 bg-[#101012] text-white text-xs font-mono font-medium tracking-wide mb-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/12 bg-surface text-white text-xs font-mono font-medium tracking-wide mb-3">
                 <Sparkles className="w-3.5 h-3.5 text-white" />
                 <span>NEW COMPONENT INTEGRATION</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#fafafa]">
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-fg">
                 Interactive Ripple Grid
               </h2>
-              <p className="text-[#a1a1aa] text-sm sm:text-base mt-2">
+              <p className="text-muted text-sm sm:text-base mt-2">
                 Click any cell in the node matrix below to simulate packet propagation waves and animated ripple pulses.
               </p>
             </div>
 
             {/* Matrix Frame Container */}
-            <div className="rounded-2xl border border-white/12 bg-[#101012] p-6 sm:p-8 flex flex-col items-center justify-center shadow-2xl relative">
-              <div className="flex flex-wrap items-center justify-between w-full max-w-2xl mb-6 pb-4 border-b border-white/10 text-xs font-mono text-[#a1a1aa]">
+            <div className="rounded-2xl border border-white/12 bg-surface p-6 sm:p-8 flex flex-col items-center justify-center shadow-2xl relative">
+              <div className="flex flex-wrap items-center justify-between w-full max-w-2xl mb-6 pb-4 border-b border-white/10 text-xs font-mono text-muted">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#4ade80] animate-pulse"></span>
-                  <span className="text-[#fafafa]">Matrix State: Active</span>
+                  <span className="text-fg">Matrix State: Active</span>
                 </div>
                 <div className="flex items-center gap-4">
                   <span className="hidden sm:inline text-[#71717a]">Click cells to trigger ripple</span>
@@ -891,7 +891,7 @@ export default function LandingPage() {
         </section>
 
         {/* SECTION 4: CHOOSE YOUR LEARNING PATH */}
-        <section className="py-20 border-b border-white/12 bg-[#09090b] relative" id="paths">
+        <section className="py-20 border-b border-white/12 bg-page relative" id="paths">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
               <div>
@@ -899,10 +899,10 @@ export default function LandingPage() {
                   <GitBranch className="w-3.5 h-3.5" />
                   SPECIALIZATION TRACKS
                 </span>
-                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#fafafa]">
+                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-fg">
                   Choose your learning path.
                 </h2>
-                <p className="text-[#a1a1aa] text-sm sm:text-base mt-2 max-w-2xl">
+                <p className="text-muted text-sm sm:text-base mt-2 max-w-2xl">
                   Select a domain to inspect its core topics. You can explore and switch between tracks anytime.
                 </p>
               </div>
@@ -912,7 +912,7 @@ export default function LandingPage() {
                 <button
                   type="button"
                   onClick={() => setNotSureExpanded(!notSureExpanded)}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/12 bg-[#101012] hover:bg-white/[0.06] text-xs font-medium text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/12 bg-surface hover:bg-white/[0.06] text-xs font-medium text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                 >
                   <HelpCircle className="w-4 h-4 text-white" />
                   <span>Not sure yet? Click here</span>
@@ -922,30 +922,30 @@ export default function LandingPage() {
 
             {/* Beginner Guidance Callout for "Not Sure Yet?" */}
             {notSureExpanded && (
-              <div className="mb-10 p-5 rounded-xl border border-white/20 bg-[#101012] text-sm leading-relaxed shadow-lg animate-in fade-in duration-200">
+              <div className="mb-10 p-5 rounded-xl border border-white/20 bg-surface text-sm leading-relaxed shadow-lg animate-in fade-in duration-200">
                 <div className="flex items-start gap-3">
                   <div className="p-2 rounded-lg bg-white/10 text-white shrink-0 mt-0.5">
                     <Sparkles className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-[#fafafa] text-base mb-1">
+                    <h3 className="font-bold text-fg text-base mb-1">
                       Advice for Absolute Beginners: Start with Core Foundations
                     </h3>
-                    <p className="text-[#a1a1aa] mb-3">
+                    <p className="text-muted mb-3">
                       If you have never touched a terminal or configured a proxy before, do not worry about locking
                       yourself into Red Team or Blue Team yet. Every top practitioner starts with the same three
                       foundations:
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-medium">
-                      <div className="p-2.5 rounded-md bg-[#1c1c20] border border-white/10 text-[#fafafa]">
+                      <div className="p-2.5 rounded-md bg-raised border border-white/10 text-fg">
                         <span className="text-white font-bold block mb-1">1. Linux CLI</span>
                         Mastering the terminal removes fear of security tools.
                       </div>
-                      <div className="p-2.5 rounded-md bg-[#1c1c20] border border-white/10 text-[#fafafa]">
+                      <div className="p-2.5 rounded-md bg-raised border border-white/10 text-fg">
                         <span className="text-white font-bold block mb-1">2. Networking</span>
                         Understanding IP, ports, & packets explains how attacks travel.
                       </div>
-                      <div className="p-2.5 rounded-md bg-[#1c1c20] border border-white/10 text-[#fafafa]">
+                      <div className="p-2.5 rounded-md bg-raised border border-white/10 text-fg">
                         <span className="text-white font-bold block mb-1">3. Web Basics</span>
                         Learning HTTP explains modern attack surfaces.
                       </div>
@@ -968,7 +968,7 @@ export default function LandingPage() {
                     className={`rounded-2xl p-6 flex flex-col justify-between cursor-pointer transition-all relative card-interactive ${
                       isSelected
                         ? "border border-white/28 bg-white/[0.06] shadow-xl shadow-black/30 ring-1 ring-white/28"
-                        : "bg-[#101012] border border-white/12 hover:border-white/20"
+                        : "bg-surface border border-white/12 hover:border-white/20"
                     }`}
                   >
                     {/* Top Row: Icon & Status Badge */}
@@ -978,7 +978,7 @@ export default function LandingPage() {
                           className={`w-12 h-12 rounded-xl flex items-center justify-center ${
                             isSelected
                               ? "bg-white/10 text-white border border-white/20"
-                              : "bg-[#1c1c20] text-[#a1a1aa]"
+                              : "bg-raised text-muted"
                           }`}
                         >
                           <Icon className="w-6 h-6" />
@@ -987,7 +987,7 @@ export default function LandingPage() {
                           className={`text-xs font-mono px-2.5 py-1 rounded-full border ${
                             isSelected
                               ? "bg-white/10 border-white/20 text-white font-semibold"
-                              : "bg-[#1c1c20] border-transparent text-[#a1a1aa]"
+                              : "bg-raised border-transparent text-muted"
                           }`}
                         >
                           {isSelected ? "ACTIVE SELECTION" : path.badge}
@@ -996,13 +996,13 @@ export default function LandingPage() {
 
                       <div className="mb-2">
                         <span className="text-xs font-mono text-[#71717a] uppercase tracking-wider">{path.subtitle}</span>
-                        <h3 className="text-2xl font-bold text-[#fafafa]">{path.title}</h3>
+                        <h3 className="text-2xl font-bold text-fg">{path.title}</h3>
                       </div>
 
-                      <p className="text-[#a1a1aa] text-sm leading-relaxed mb-6">{path.description}</p>
+                      <p className="text-muted text-sm leading-relaxed mb-6">{path.description}</p>
 
                       {/* Path Core Bullets */}
-                      <div className="space-y-2 mb-6 text-xs text-[#fafafa]">
+                      <div className="space-y-2 mb-6 text-xs text-fg">
                         {path.bullets.map((bullet, idx) => (
                           <div key={idx} className="flex items-center gap-2">
                             <CheckCircle2
@@ -1022,7 +1022,7 @@ export default function LandingPage() {
                         {path.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="text-[11px] px-2 py-0.5 rounded bg-[#1c1c20] text-[#a1a1aa]"
+                            className="text-[11px] px-2 py-0.5 rounded bg-raised text-muted"
                           >
                             {tag}
                           </span>
@@ -1033,8 +1033,8 @@ export default function LandingPage() {
                         to={user ? "/dashboard" : "/signup"}
                         className={`w-full py-2.5 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition-all ${
                           isSelected
-                            ? "bg-white hover:bg-[#e4e4e7] text-[#09090b] shadow-sm active:scale-[0.98]"
-                            : "bg-[#1c1c20] text-[#a1a1aa] hover:text-white"
+                            ? "bg-white hover:bg-accent-hover text-on-accent shadow-sm active:scale-[0.98]"
+                            : "bg-raised text-muted hover:text-white"
                         }`}
                       >
                         <span>{user ? "View Track in Dashboard" : "Start This Path"}</span>
@@ -1047,12 +1047,12 @@ export default function LandingPage() {
             </div>
 
             {/* Dynamic Track Summary Banner */}
-            <div className="p-4 rounded-xl border border-white/12 bg-[#101012] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs">
+            <div className="p-4 rounded-xl border border-white/12 bg-surface flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs">
               <div className="flex items-center gap-3">
                 <div className="w-2.5 h-2.5 rounded-full bg-[#4ade80] animate-pulse shrink-0" />
-                <div className="text-[#a1a1aa]">
+                <div className="text-muted">
                   Currently previewing:{" "}
-                  <strong className="text-[#fafafa] font-semibold">{selectedPath.title}</strong>{" "}
+                  <strong className="text-fg font-semibold">{selectedPath.title}</strong>{" "}
                   <span className="hidden sm:inline font-mono">({selectedPath.level})</span> — Ready to see what to study first?
                 </div>
               </div>
@@ -1068,17 +1068,17 @@ export default function LandingPage() {
         </section>
 
         {/* SECTION 5: BEGINNER ROADMAP PREVIEW */}
-        <section className="py-20 border-b border-white/12 bg-[#09090b] relative" id="roadmap">
+        <section className="py-20 border-b border-white/12 bg-page relative" id="roadmap">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mb-12">
               <span className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-white uppercase tracking-wider mb-2">
                 <Compass className="w-3.5 h-3.5" />
                 STARTER ROADMAP PREVIEW
               </span>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#fafafa] mb-3">
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-fg mb-3">
                 Foundations first. Tools second.
               </h2>
-              <p className="text-[#a1a1aa] text-base leading-relaxed">
+              <p className="text-muted text-base leading-relaxed">
                 This preview outlines the first six essential milestones every ethical hacker and security analyst
                 must master. It is designed to prepare you for deeper specialty curricula without feeling overwhelmed.
               </p>
@@ -1100,7 +1100,7 @@ export default function LandingPage() {
                     className={`relative rounded-2xl p-5 sm:p-6 transition-all cursor-pointer card-interactive ${
                       isActive
                         ? "border border-white/28 bg-white/[0.06] shadow-xl shadow-black/20"
-                        : "bg-[#101012] border border-white/12 hover:border-white/20"
+                        : "bg-surface border border-white/12 hover:border-white/20"
                     }`}
                   >
                     <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
@@ -1110,8 +1110,8 @@ export default function LandingPage() {
                         <div
                           className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${
                             isActive
-                              ? "bg-white text-[#09090b] shadow-sm"
-                              : "bg-[#1c1c20] text-white"
+                              ? "bg-white text-on-accent shadow-sm"
+                              : "bg-raised text-white"
                           }`}
                         >
                           <Icon className="w-5 h-5" />
@@ -1122,27 +1122,27 @@ export default function LandingPage() {
                             <span className="text-xs font-mono font-semibold text-white">
                               STAGE {milestone.step}
                             </span>
-                            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#1c1c20] text-[#a1a1aa]">
+                            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-raised text-muted">
                               {milestone.category}
                             </span>
                           </div>
 
-                          <h3 className="text-xl font-bold text-[#fafafa] mb-2">{milestone.title}</h3>
-                          <p className="text-sm text-[#a1a1aa] leading-relaxed max-w-2xl">{milestone.description}</p>
+                          <h3 className="text-xl font-bold text-fg mb-2">{milestone.title}</h3>
+                          <p className="text-sm text-muted leading-relaxed max-w-2xl">{milestone.description}</p>
                         </div>
                       </div>
 
                       {/* Right side: Skills & Recommended Lab */}
                       <div className="md:w-72 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-white/10 flex flex-col justify-between">
                         <div className="mb-3">
-                          <span className="text-[11px] font-mono text-[#a1a1aa] uppercase block mb-1.5">
+                          <span className="text-[11px] font-mono text-muted uppercase block mb-1.5">
                             Key Competencies:
                           </span>
                           <div className="flex flex-wrap gap-1.5">
                             {milestone.skills.map((skill) => (
                               <span
                                 key={skill}
-                                className="text-[10px] px-2 py-0.5 rounded bg-[#1c1c20] text-[#fafafa]"
+                                className="text-[10px] px-2 py-0.5 rounded bg-raised text-fg"
                               >
                                 {skill}
                               </span>
@@ -1150,8 +1150,8 @@ export default function LandingPage() {
                           </div>
                         </div>
 
-                        <div className="p-2.5 rounded-lg bg-[#1c1c20] text-xs">
-                          <span className="text-[#a1a1aa] block text-[10px] font-mono">PRACTICE ENVIRONMENT:</span>
+                        <div className="p-2.5 rounded-lg bg-raised text-xs">
+                          <span className="text-muted block text-[10px] font-mono">PRACTICE ENVIRONMENT:</span>
                           <span className="text-white font-medium flex items-center gap-1.5 mt-0.5">
                             <Terminal className="w-3.5 h-3.5 text-[#4ade80]" />
                             {milestone.labSuggestion}
@@ -1165,10 +1165,10 @@ export default function LandingPage() {
             </div>
 
             {/* Scope boundary reminder badge */}
-            <div className="mt-8 p-4 rounded-xl border border-white/12 bg-[#101012] text-xs text-[#a1a1aa] flex items-center gap-3">
+            <div className="mt-8 p-4 rounded-xl border border-white/12 bg-surface text-xs text-muted flex items-center gap-3">
               <ShieldAlert className="w-5 h-5 text-[#f87171] shrink-0" />
               <p>
-                <strong className="text-[#fafafa]">Curriculum Note:</strong> This preview showcases the initial starter
+                <strong className="text-fg">Curriculum Note:</strong> This preview showcases the initial starter
                 sequence. Full professional penetration testing or SOC engineering requires advanced modules in binary
                 exploitation, Active Directory attacks, and malware analysis, which are unlocked in future stages.
               </p>
@@ -1177,17 +1177,17 @@ export default function LandingPage() {
         </section>
 
         {/* SECTION 6: THE LEARNING LOOP */}
-        <section className="py-20 border-b border-white/12 bg-[#09090b] relative" id="learning-loop">
+        <section className="py-20 border-b border-white/12 bg-page relative" id="learning-loop">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-16">
               <span className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-[#4ade80] uppercase tracking-wider mb-2">
                 <RefreshCw className="w-3.5 h-3.5" />
                 THE LEARNING LOOP
               </span>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#fafafa] mb-3">
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-fg mb-3">
                 How every topic connects learning with practice.
               </h2>
-              <p className="text-[#a1a1aa] text-base leading-relaxed">
+              <p className="text-muted text-base leading-relaxed">
                 Passive reading creates an illusion of competence. CyberPath uses a 4-step loop to turn theory into
                 instinctive muscle memory.
               </p>
@@ -1201,23 +1201,23 @@ export default function LandingPage() {
                 return (
                   <div
                     key={step.number}
-                    className="rounded-xl border border-white/12 bg-[#101012] p-6 hover:border-white/28 hover:bg-[#1c1c20] transition-all shadow-sm flex flex-col justify-between"
+                    className="rounded-xl border border-white/12 bg-surface p-6 hover:border-white/28 hover:bg-raised transition-all shadow-sm flex flex-col justify-between"
                   >
                     <div>
                       <div className="flex items-center justify-between mb-4">
                         <div className="w-10 h-10 rounded-lg bg-white/[0.06] border border-white/12 flex items-center justify-center text-white">
                           <Icon className="w-5 h-5" />
                         </div>
-                        <span className="font-mono text-xs text-[#a1a1aa] font-bold">STAGE {step.number}</span>
+                        <span className="font-mono text-xs text-muted font-bold">STAGE {step.number}</span>
                       </div>
 
-                      <h3 className="text-lg font-bold text-[#fafafa] mb-2">{step.title}</h3>
-                      <p className="text-[#a1a1aa] text-xs sm:text-sm leading-relaxed">{step.desc}</p>
+                      <h3 className="text-lg font-bold text-fg mb-2">{step.title}</h3>
+                      <p className="text-muted text-xs sm:text-sm leading-relaxed">{step.desc}</p>
                     </div>
 
                     <div className="pt-4 mt-4 border-t border-white/10 flex items-center justify-between text-xs text-white font-medium">
                       <span>Step {step.number} of 04</span>
-                      <ChevronRight className="w-4 h-4 text-[#a1a1aa]" />
+                      <ChevronRight className="w-4 h-4 text-muted" />
                     </div>
                   </div>
                 );
@@ -1227,20 +1227,20 @@ export default function LandingPage() {
         </section>
 
         {/* SECTION: PATH COMPLETION ACHIEVEMENTS */}
-        <section className="py-20 border-b border-white/12 bg-[#09090b] relative overflow-hidden" id="achievements">
+        <section className="py-20 border-b border-white/12 bg-page relative overflow-hidden" id="achievements">
           {/* Subtle Ambient Lighting */}
           <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-[#d29922]/5 blur-[140px] rounded-full pointer-events-none -z-10" />
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <span className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-[#f2cc60] uppercase tracking-wider mb-2">
-                <Award className="w-4 h-4 text-[#f2cc60]" />
+              <span className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-gold-bright uppercase tracking-wider mb-2">
+                <Award className="w-4 h-4 text-gold-bright" />
                 PATH COMPLETION ACHIEVEMENTS
               </span>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#fafafa] mb-3">
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-fg mb-3">
                 Recognizing genuine practical mastery.
               </h2>
-              <p className="text-[#a1a1aa] text-base leading-relaxed">
+              <p className="text-muted text-base leading-relaxed">
                 On CyberPath, badges cannot be earned simply by watching videos. Students unlock official path completion
                 emblems only after completing all required lessons, passing assessments, and successfully executing
                 authorized practical sandbox labs.
@@ -1266,8 +1266,8 @@ export default function LandingPage() {
                     onClick={() => setSelectedBadgeId(badge.id)}
                     className={`rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 cursor-pointer relative group ${
                       isMaster
-                        ? "bg-[#101012] hover:bg-[#161619] border border-[#d29922]/50 hover:border-[#f2cc60] shadow-lg shadow-[#d29922]/10"
-                        : "bg-[#101012] hover:bg-[#161619] border border-white/12 hover:border-white/28"
+                        ? "bg-surface hover:bg-raised border border-[#d29922]/50 hover:border-[#f2cc60] shadow-lg shadow-[#d29922]/10"
+                        : "bg-surface hover:bg-raised border border-white/12 hover:border-white/28"
                     } ${
                       isSelected
                         ? "ring-2 ring-offset-2 ring-offset-[#09090b] " +
@@ -1277,10 +1277,10 @@ export default function LandingPage() {
                   >
                     <div>
                       {/* Top Track & Tier Subtle Label */}
-                      <div className="flex items-center justify-between text-[11px] font-mono text-[#a1a1aa] mb-3">
+                      <div className="flex items-center justify-between text-[11px] font-mono text-muted mb-3">
                         <span
                           className={`font-semibold uppercase tracking-wider text-[10px] ${
-                            isMaster ? "text-[#f2cc60]" : "text-[#a1a1aa]"
+                            isMaster ? "text-gold-bright" : "text-muted"
                           }`}
                         >
                           {badge.track}
@@ -1314,12 +1314,12 @@ export default function LandingPage() {
                           className={`text-lg font-bold tracking-tight ${
                             isMaster
                               ? "text-transparent bg-clip-text bg-gradient-to-r from-[#fef08a] via-[#fbbf24] to-[#f59e0b]"
-                              : "text-[#fafafa] group-hover:text-white"
+                              : "text-fg group-hover:text-white"
                           }`}
                         >
                           {badge.title}
                         </h3>
-                        <p className="text-xs text-[#a1a1aa] text-center line-clamp-1 px-1 mt-1 leading-normal" title={badge.tagline}>
+                        <p className="text-xs text-muted text-center line-clamp-1 px-1 mt-1 leading-normal" title={badge.tagline}>
                           {badge.tagline}
                         </p>
                       </div>
@@ -1327,7 +1327,7 @@ export default function LandingPage() {
 
                     {/* Progress Line & Small Status Text */}
                     <div className="pt-4 space-y-2">
-                      <div className="w-full bg-[#1c1c20] h-1.5 rounded-full overflow-hidden">
+                      <div className="w-full bg-raised h-1.5 rounded-full overflow-hidden">
                         <div
                           className="h-full rounded-full transition-all duration-700"
                           style={{
@@ -1338,7 +1338,7 @@ export default function LandingPage() {
                       </div>
 
                       {/* Small Status Text - NOT a pill */}
-                      <div className="flex items-center justify-between text-[11px] font-mono text-[#a1a1aa] pt-1">
+                      <div className="flex items-center justify-between text-[11px] font-mono text-muted pt-1">
                         <span className="flex items-center gap-1 text-white">
                           <Sparkles className="w-3 h-3" />
                           Credential Preview
@@ -1360,9 +1360,9 @@ export default function LandingPage() {
                         className={`w-full py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors mt-2 ${
                           isSelected
                             ? isMaster
-                              ? "bg-[#d29922] text-[#09090b] font-bold shadow-md shadow-[#d29922]/20"
-                              : "bg-white text-[#09090b] shadow-sm hover:bg-[#e4e4e7]"
-                            : "bg-[#1c1c20] hover:bg-[#27272a] text-[#fafafa] border border-white/12"
+                              ? "bg-[#d29922] text-on-accent font-bold shadow-md shadow-[#d29922]/20"
+                              : "bg-white text-on-accent shadow-sm hover:bg-accent-hover"
+                            : "bg-raised hover:bg-raised text-fg border border-white/12"
                         }`}
                       >
                         <span>{isSelected ? "Inspecting Specs" : "View Credential Specs"}</span>
@@ -1375,7 +1375,7 @@ export default function LandingPage() {
             </div>
 
             {/* Interactive Inspector & Credential Specification Drawer */}
-            <div className="rounded-2xl border border-white/12 bg-[#101012] p-6 lg:p-8 mb-10 shadow-xl relative overflow-hidden">
+            <div className="rounded-2xl border border-white/12 bg-surface p-6 lg:p-8 mb-10 shadow-xl relative overflow-hidden">
               <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-6 border-b border-white/10">
                 <div className="flex items-center gap-4">
                   <div className="shrink-0">
@@ -1405,9 +1405,9 @@ export default function LandingPage() {
                       <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${activeBadge.pillStyle}`}>
                         {activeBadge.badgeTier}
                       </span>
-                      <span className="text-[11px] font-mono text-[#a1a1aa]">OFFICIAL CREDENTIAL SPECS</span>
+                      <span className="text-[11px] font-mono text-muted">OFFICIAL CREDENTIAL SPECS</span>
                     </div>
-                    <h3 className="text-xl sm:text-2xl font-bold text-[#fafafa]">{activeBadge.title}</h3>
+                    <h3 className="text-xl sm:text-2xl font-bold text-fg">{activeBadge.title}</h3>
                   </div>
                 </div>
 
@@ -1433,13 +1433,13 @@ export default function LandingPage() {
                         user?.email ? user.email.split("@")[0] : "Verified Student"
                       );
                     }}
-                    className="py-2 px-3.5 rounded-xl bg-[#1c1c20] hover:bg-[#27272a] text-xs font-semibold text-white border border-white/12 flex items-center gap-1.5 transition-colors shadow-sm active:scale-95"
+                    className="py-2 px-3.5 rounded-xl bg-raised hover:bg-raised text-xs font-semibold text-white border border-white/12 flex items-center gap-1.5 transition-colors shadow-sm active:scale-95"
                   >
                     <Download className="w-3.5 h-3.5 text-white" />
                     <span>Download Sample PNG</span>
                   </button>
 
-                  <div className="text-xs text-[#a1a1aa] flex items-center gap-2 bg-[#09090b] px-3 py-2 rounded-lg border border-white/12">
+                  <div className="text-xs text-muted flex items-center gap-2 bg-page px-3 py-2 rounded-lg border border-white/12">
                     <LockKeyhole className="w-3.5 h-3.5 text-white" />
                     <span>Phase 2 Database RLS Security Enabled · Untamperable</span>
                   </div>
@@ -1448,20 +1448,20 @@ export default function LandingPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
                 <div>
-                  <span className="text-[11px] font-mono text-[#a1a1aa] uppercase block mb-1">Requirements To Earn:</span>
-                  <p className="text-xs text-[#fafafa] leading-relaxed font-medium">
+                  <span className="text-[11px] font-mono text-muted uppercase block mb-1">Requirements To Earn:</span>
+                  <p className="text-xs text-fg leading-relaxed font-medium">
                     {activeBadge.curriculumRequirement}
                   </p>
                 </div>
                 <div>
-                  <span className="text-[11px] font-mono text-[#a1a1aa] uppercase block mb-1">Scope & Verification:</span>
-                  <p className="text-xs text-[#a1a1aa] leading-relaxed">
+                  <span className="text-[11px] font-mono text-muted uppercase block mb-1">Scope & Verification:</span>
+                  <p className="text-xs text-muted leading-relaxed">
                     {activeBadge.verificationDetails}
                   </p>
                 </div>
                 <div>
-                  <span className="text-[11px] font-mono text-[#a1a1aa] uppercase block mb-1">Earning Policy:</span>
-                  <p className="text-xs text-[#a1a1aa] leading-relaxed">
+                  <span className="text-[11px] font-mono text-muted uppercase block mb-1">Earning Policy:</span>
+                  <p className="text-xs text-muted leading-relaxed">
                     Requires server-verified lab completion in Supabase. No client-side self-awarding permitted.
                   </p>
                 </div>
@@ -1469,11 +1469,11 @@ export default function LandingPage() {
             </div>
 
             {/* Architecture & Security Notice */}
-            <div className="rounded-xl border border-white/12 bg-[#101012] p-5 text-xs text-[#a1a1aa] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="rounded-xl border border-white/12 bg-surface p-5 text-xs text-muted flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <div className="flex items-start gap-3">
                 <Database className="w-5 h-5 text-white shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-[#fafafa] block mb-0.5">
+                  <strong className="text-fg block mb-0.5">
                     Phase 2 Supabase Verification Architecture
                   </strong>
                   <p className="leading-relaxed">
@@ -1487,17 +1487,17 @@ export default function LandingPage() {
         </section>
 
         {/* SECTION 7: PRACTICE RESOURCES */}
-        <section className="py-20 border-b border-white/12 bg-[#09090b] relative" id="resources">
+        <section className="py-20 border-b border-white/12 bg-page relative" id="resources">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-16">
               <span className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-white uppercase tracking-wider mb-2">
                 <ExternalLink className="w-3.5 h-3.5" />
                 ESTABLISHED PRACTICE PLATFORMS
               </span>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#fafafa] mb-3">
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-fg mb-3">
                 Where real cybersecurity skills are built.
               </h2>
-              <p className="text-[#a1a1aa] text-base leading-relaxed">
+              <p className="text-muted text-base leading-relaxed">
                 Rather than reinventing virtual lab infrastructure, CyberPath organizes and maps your progress to
                 industry-standard, trusted practice platforms.
               </p>
@@ -1508,33 +1508,33 @@ export default function LandingPage() {
               {EXTERNAL_RESOURCES.map((res) => (
                 <div
                   key={res.name}
-                  className={`rounded-xl border bg-[#101012] p-6 sm:p-7 flex flex-col justify-between transition-all hover:bg-[#161619] ${res.accentColor}`}
+                  className={`rounded-xl border bg-surface p-6 sm:p-7 flex flex-col justify-between transition-all hover:bg-raised ${res.accentColor}`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-[#1c1c20] border border-white/12 font-mono font-bold text-xs flex items-center justify-center text-white">
+                        <div className="w-10 h-10 rounded-lg bg-raised border border-white/12 font-mono font-bold text-xs flex items-center justify-center text-white">
                           {res.initials}
                         </div>
                         <div>
-                          <h3 className="text-xl font-bold text-[#fafafa]">{res.name}</h3>
-                          <span className="text-xs font-mono text-[#a1a1aa]">{res.badge}</span>
+                          <h3 className="text-xl font-bold text-fg">{res.name}</h3>
+                          <span className="text-xs font-mono text-muted">{res.badge}</span>
                         </div>
                       </div>
                       <a
                         href={res.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 rounded-lg bg-[#09090b] border border-white/12 text-[#a1a1aa] hover:text-white hover:border-white/28 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                        className="p-2 rounded-lg bg-page border border-white/12 text-muted hover:text-white hover:border-white/28 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                         aria-label={`Open ${res.name} in a new tab`}
                       >
                         <ArrowUpRight className="w-4 h-4" />
                       </a>
                     </div>
 
-                    <p className="text-sm text-[#a1a1aa] mb-5 leading-relaxed">{res.tagline}</p>
+                    <p className="text-sm text-muted mb-5 leading-relaxed">{res.tagline}</p>
 
-                    <div className="space-y-1.5 mb-6 text-xs text-[#fafafa]">
+                    <div className="space-y-1.5 mb-6 text-xs text-fg">
                       {res.features.map((feature, fIdx) => (
                         <div key={fIdx} className="flex items-center gap-2">
                           <CheckCircle2 className="w-3.5 h-3.5 text-[#4ade80] shrink-0" />
@@ -1548,7 +1548,7 @@ export default function LandingPage() {
                     href={res.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-[#1c1c20] hover:bg-[#27272a] border border-white/12 hover:border-white/28 text-xs font-semibold text-[#fafafa] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                    className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-raised hover:bg-raised border border-white/12 hover:border-white/28 text-xs font-semibold text-fg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                   >
                     <span>Visit {res.name}</span>
                     <ExternalLink className="w-3.5 h-3.5 text-white" />
@@ -1558,7 +1558,7 @@ export default function LandingPage() {
             </div>
 
             {/* Affiliation Disclaimer */}
-            <div className="p-4 rounded-xl border border-white/12 bg-[#101012] text-xs text-[#a1a1aa] text-center max-w-4xl mx-auto">
+            <div className="p-4 rounded-xl border border-white/12 bg-surface text-xs text-muted text-center max-w-4xl mx-auto">
               <strong>Notice:</strong> These are independent third-party educational platforms. CyberPath does not
               claim official partnership, endorsement, or sponsorship by TryHackMe, PortSwigger, pwn.college, or
               OverTheWire. All trademarks belong to their respective owners.
@@ -1573,20 +1573,20 @@ export default function LandingPage() {
               <Zap className="w-3.5 h-3.5" />
               START TODAY
             </span>
-            <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#fafafa] mb-6">
+            <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-fg mb-6">
               You don&apos;t need to know everything. <br />
               <span className="text-white underline decoration-white/30 decoration-2 underline-offset-4">
                 Just start.
               </span>
             </h2>
-            <p className="text-base sm:text-lg text-[#a1a1aa] leading-relaxed max-w-2xl mx-auto mb-10">
+            <p className="text-base sm:text-lg text-muted leading-relaxed max-w-2xl mx-auto mb-10">
               The best security practitioners in the world all began with a simple command in an empty terminal. Pick
               your starting track, follow the sequence, and begin your journey today.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 to={user ? "/dashboard" : "/signup"}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-white hover:bg-[#e4e4e7] text-[#09090b] text-base font-semibold shadow-lg active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-white hover:bg-accent-hover text-on-accent text-base font-semibold shadow-lg active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
               >
                 <span>{user ? "Open Your Student Dashboard" : "Create Your Free Account"}</span>
                 <ArrowRight className="w-5 h-5" />
@@ -1603,21 +1603,21 @@ export default function LandingPage() {
       </main>
 
       {/* SECTION 9: FOOTER */}
-      <footer className="w-full border-t border-white/12 bg-[#09090b] py-12">
+      <footer className="w-full border-t border-white/12 bg-page py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-white/12">
             {/* Brand Logo & Wordmark */}
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-[#1c1c20] border border-white/12 flex items-center justify-center text-white">
+              <div className="w-8 h-8 rounded-lg bg-raised border border-white/12 flex items-center justify-center text-white">
                 <Shield className="w-4 h-4" strokeWidth={2.4} />
               </div>
-              <span className="font-bold tracking-tight text-lg text-[#fafafa]">
+              <span className="font-bold tracking-tight text-lg text-fg">
                 Cyber<span className="text-white">Path</span>
               </span>
             </div>
 
             {/* Tagline */}
-            <div className="text-center md:text-left text-sm text-[#a1a1aa]">
+            <div className="text-center md:text-left text-sm text-muted">
               Learn responsibly. Practice ethically. Keep exploring.
             </div>
 
@@ -1633,7 +1633,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#a1a1aa] gap-4">
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-muted gap-4">
             <p>© {CURRENT_YEAR} CyberPath. Built for ethical education.</p>
             <div className="flex items-center gap-4">
               <a href="#how-it-works" className="hover:text-white transition-colors">

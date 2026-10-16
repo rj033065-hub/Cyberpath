@@ -254,7 +254,7 @@ export default function DecryptText({
                       charColor = resolvedColor || "inherit";
                     }
                   } else {
-                    charColor = "rgba(100, 130, 170, 0.55)";
+                    charColor = "rgba(161, 161, 170, 0.55)";
                     if (useGradient) {
                       extraStyle = {
                         background: "none",
@@ -293,7 +293,7 @@ export default function DecryptText({
             display: "inline-block",
             width: "2px",
             height: "1em",
-            backgroundColor: "#3fb950",
+            backgroundColor: "#4ade80",
             marginLeft: "4px",
             verticalAlign: "text-bottom",
             animation: "blink-caret 1s step-end infinite",

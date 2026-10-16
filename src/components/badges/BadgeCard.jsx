@@ -99,10 +99,10 @@ export default function BadgeCard({
       onClick={onSelect}
       className={`group relative flex flex-col items-center justify-between p-6 rounded-2xl transition-all duration-300 ${
         isEarned
-          ? "bg-[#101012] hover:bg-[#16161a] border border-white/12 hover:border-white/28"
+          ? "bg-surface hover:bg-[#16161a] border border-white/12 hover:border-white/28"
           : state === "in_progress"
-          ? "bg-[#101012] hover:bg-[#16161a] border border-white/12 hover:border-white/28"
-          : "bg-[#09090b] hover:bg-[#101012] border border-white/10 hover:border-white/20"
+          ? "bg-surface hover:bg-[#16161a] border border-white/12 hover:border-white/28"
+          : "bg-page hover:bg-surface border border-white/10 hover:border-white/20"
       } ${isSelected ? "ring-2 ring-offset-2 ring-offset-[#09090b] ring-white/40" : ""} ${className}`}
     >
       {/* Subtle track ambient backdrop light */}
@@ -118,7 +118,7 @@ export default function BadgeCard({
       )}
 
       {/* Top Track & Tier Subtle Label */}
-      <div className="w-full flex items-center justify-between text-[11px] font-mono text-[#a1a1aa] mb-3">
+      <div className="w-full flex items-center justify-between text-[11px] font-mono text-muted mb-3">
         <span
           className="font-semibold uppercase tracking-wider text-[10px]"
           style={{ color: isEarned ? (isMaster ? "#f2cc60" : "#ffffff") : "#a1a1aa" }}
@@ -126,9 +126,9 @@ export default function BadgeCard({
           {badge.track}
         </span>
         {isMaster ? (
-          <span className="text-[#f2cc60] font-bold text-[10px] tracking-wide">APEX CREDENTIAL</span>
+          <span className="text-gold-bright font-bold text-[10px] tracking-wide">APEX CREDENTIAL</span>
         ) : (
-          <span className="text-[10px] text-[#a1a1aa]/80">{palette.tierName}</span>
+          <span className="text-[10px] text-muted/80">{palette.tierName}</span>
         )}
       </div>
 
@@ -152,21 +152,21 @@ export default function BadgeCard({
               ? isMaster
                 ? "text-transparent bg-clip-text bg-gradient-to-r from-[#fef08a] via-[#fbbf24] to-[#f59e0b]"
                 : "text-white"
-              : "text-[#a1a1aa] group-hover:text-white"
+              : "text-muted group-hover:text-white"
           }`}
         >
           {badge.name}
         </h4>
 
         {/* One line of requirement text */}
-        <p className="text-xs text-[#a1a1aa] truncate max-w-full px-1 mt-1 leading-normal" title={requirementText}>
+        <p className="text-xs text-muted truncate max-w-full px-1 mt-1 leading-normal" title={requirementText}>
           {requirementText}
         </p>
       </div>
 
       {/* Progress Line */}
       <div className="w-full mt-4 space-y-1.5">
-        <div className="w-full bg-[#1c1c20] h-1.5 rounded-full overflow-hidden">
+        <div className="w-full bg-raised h-1.5 rounded-full overflow-hidden">
           <div
             className="h-full rounded-full transition-all duration-700 ease-out"
             style={{
@@ -183,7 +183,7 @@ export default function BadgeCard({
         </div>
 
         {/* Small Status Text (NOT A PILL) */}
-        <div className="flex items-center justify-between text-[11px] text-[#a1a1aa] font-mono pt-1">
+        <div className="flex items-center justify-between text-[11px] text-muted font-mono pt-1">
           {isEarned ? (
             <>
               <span className="flex items-center gap-1.5 text-[#4ade80] font-semibold">
@@ -198,13 +198,13 @@ export default function BadgeCard({
                 <Clock className="w-3.5 h-3.5 text-[#fbbf24]" />
                 In progress
               </span>
-              <span className="text-[#fafafa]">
+              <span className="text-fg">
                 {completedSteps}/{totalSteps} completed
               </span>
             </>
           ) : (
             <>
-              <span className="flex items-center gap-1.5 text-[#a1a1aa]">
+              <span className="flex items-center gap-1.5 text-muted">
                 <LockKeyhole className="w-3.5 h-3.5" />
                 Locked
               </span>
@@ -223,7 +223,7 @@ export default function BadgeCard({
             type="button"
             onClick={handleDownload}
             disabled={downloading}
-            className="flex-1 py-1.5 px-2.5 rounded-lg bg-[#1c1c20] hover:bg-[#27272a] text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border border-white/12 shadow-sm active:scale-95"
+            className="flex-1 py-1.5 px-2.5 rounded-lg bg-raised hover:bg-raised text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors border border-white/12 shadow-sm active:scale-95"
             title="Download high-resolution PNG credential"
           >
             <Download className="w-3.5 h-3.5 text-white" />
@@ -233,7 +233,7 @@ export default function BadgeCard({
           <button
             type="button"
             onClick={handleShare}
-            className="py-1.5 px-2.5 rounded-lg bg-[#1c1c20] hover:bg-[#27272a] text-[#a1a1aa] hover:text-white text-xs font-medium flex items-center justify-center gap-1 transition-colors border border-white/12 active:scale-95"
+            className="py-1.5 px-2.5 rounded-lg bg-raised hover:bg-raised text-muted hover:text-white text-xs font-medium flex items-center justify-center gap-1 transition-colors border border-white/12 active:scale-95"
             title="Share credential link"
           >
             {copied ? (
@@ -254,7 +254,7 @@ export default function BadgeCard({
         <div className="w-full pt-3 mt-3 border-t border-white/10 flex items-center justify-between text-xs">
           <Link
             to={pathSlug === "all" ? "/dashboard" : `/learn/${pathSlug}`}
-            className="text-[11px] text-[#a1a1aa] hover:text-white transition-colors flex items-center gap-1 font-mono group-hover:translate-x-0.5"
+            className="text-[11px] text-muted hover:text-white transition-colors flex items-center gap-1 font-mono group-hover:translate-x-0.5"
           >
             <span>View Track Roadmap</span>
             <ChevronRight className="w-3 h-3" />

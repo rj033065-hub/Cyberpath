@@ -35,8 +35,8 @@ export default function KnowledgeCheck({
   const isWrong = submitted && selected !== correctId;
 
   return (
-    <div className="rounded-xl border border-[#21262d] bg-[#0d1117] p-5 mb-6">
-      <p className="text-sm font-semibold text-[#f0f6fc] mb-4">{question}</p>
+    <div className="rounded-xl border border-white/12 bg-page p-5 mb-6">
+      <p className="text-sm font-semibold text-fg mb-4">{question}</p>
 
       <fieldset className="space-y-2" disabled={submitted}>
         <legend className="sr-only">Select the correct answer</legend>
@@ -49,12 +49,12 @@ export default function KnowledgeCheck({
             <label
               key={opt.id}
               className={`flex items-center gap-3 rounded-lg border px-4 py-3 cursor-pointer transition-all text-sm
-                ${submitted ? "cursor-default" : "hover:border-[#30363d] hover:bg-[#161b22]"}
-                ${isCorrectOpt ? "border-[#3fb950]/50 bg-[#3fb950]/8 text-[#3fb950]" : ""}
-                ${isWrongChosen ? "border-[#f85149]/50 bg-[#f85149]/8 text-[#f85149]" : ""}
-                ${!submitted && isChosen ? "border-[#2f81f7]/50 bg-[#2f81f7]/8" : ""}
-                ${!submitted && !isChosen ? "border-[#21262d] text-[#c9d1d9]" : ""}
-                ${submitted && !isCorrectOpt && !isWrongChosen ? "border-[#21262d] text-[#6e7681]" : ""}
+                ${submitted ? "cursor-default" : "hover:border-white/12 hover:bg-surface"}
+                ${isCorrectOpt ? "border-success/40 bg-white/[0.04] text-success" : ""}
+                ${isWrongChosen ? "border-danger/40 bg-white/[0.04] text-danger" : ""}
+                ${!submitted && isChosen ? "border-white/28 bg-white/[0.06]" : ""}
+                ${!submitted && !isChosen ? "border-white/12 text-fg" : ""}
+                ${submitted && !isCorrectOpt && !isWrongChosen ? "border-white/12 text-faint" : ""}
               `}
             >
               <input
@@ -67,13 +67,13 @@ export default function KnowledgeCheck({
               />
               <span
                 className={`w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center
-                  ${isCorrectOpt ? "border-[#3fb950]" : isWrongChosen ? "border-[#f85149]" : isChosen ? "border-[#2f81f7]" : "border-[#30363d]"}`}
+                  ${isCorrectOpt ? "border-success" : isWrongChosen ? "border-danger" : isChosen ? "border-white/28" : "border-white/12"}`}
               >
                 {isChosen && !submitted && (
-                  <span className="w-2 h-2 rounded-full bg-[#2f81f7]" />
+                  <span className="w-2 h-2 rounded-full bg-accent" />
                 )}
-                {isCorrectOpt && <CheckCircle2 className="w-3.5 h-3.5 text-[#3fb950]" />}
-                {isWrongChosen && <XCircle className="w-3.5 h-3.5 text-[#f85149]" />}
+                {isCorrectOpt && <CheckCircle2 className="w-3.5 h-3.5 text-success" />}
+                {isWrongChosen && <XCircle className="w-3.5 h-3.5 text-danger" />}
               </span>
               <span>{opt.text}</span>
             </label>
@@ -86,7 +86,7 @@ export default function KnowledgeCheck({
         <button
           onClick={handleSubmit}
           disabled={!selected}
-          className="mt-4 px-4 py-2 rounded-lg text-sm font-semibold bg-[#2f81f7] text-white hover:bg-[#388bfd] disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+          className="mt-4 px-4 py-2 rounded-lg text-sm font-semibold bg-accent text-on-accent hover:bg-accent-hover disabled:opacity-40 disabled:cursor-not-allowed transition-all"
         >
           Submit Answer
         </button>
@@ -97,15 +97,15 @@ export default function KnowledgeCheck({
         <div
           className={`mt-4 rounded-lg border p-3 text-sm ${
             isCorrect
-              ? "border-[#3fb950]/30 bg-[#3fb950]/8 text-[#3fb950]"
-              : "border-[#f85149]/30 bg-[#f85149]/8 text-[#f85149]"
+              ? "border-white/12 bg-white/[0.04] text-success"
+              : "border-danger/30 bg-white/[0.04] text-danger"
           }`}
         >
           <p className="font-semibold mb-1">{isCorrect ? "✓ Correct!" : "✗ Incorrect"}</p>
           {isWrong && wrongExplanation[selected] && (
-            <p className="text-[#c9d1d9] mb-2">{wrongExplanation[selected]}</p>
+            <p className="text-fg mb-2">{wrongExplanation[selected]}</p>
           )}
-          {explanation && <p className="text-[#c9d1d9]">{explanation}</p>}
+          {explanation && <p className="text-fg">{explanation}</p>}
         </div>
       )}
     </div>

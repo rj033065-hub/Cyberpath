@@ -111,20 +111,20 @@ const STATUS_FILTERS = [
 function StatusBadge({ status }) {
   if (status === "completed") {
     return (
-      <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-[#3fb950] bg-[#3fb950]/10 border border-[#3fb950]/30 px-2 py-0.5 rounded-full">
+      <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-success bg-white/[0.06] border border-white/12 px-2 py-0.5 rounded-full">
         <CheckCircle2 className="w-3 h-3" /> Completed
       </span>
     );
   }
   if (status === "in_progress") {
     return (
-      <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-[#e3b341] bg-[#e3b341]/10 border border-[#e3b341]/30 px-2 py-0.5 rounded-full">
+      <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-warning bg-white/[0.06] border border-white/12 px-2 py-0.5 rounded-full">
         <PlayCircle className="w-3 h-3" /> In Progress
       </span>
     );
   }
   return (
-    <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-[#8b949e] bg-[#21262d] border border-[#30363d] px-2 py-0.5 rounded-full">
+    <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-muted bg-raised border border-white/12 px-2 py-0.5 rounded-full">
       <Circle className="w-3 h-3" /> Not Started
     </span>
   );
@@ -173,25 +173,25 @@ export default function LabCatalog() {
   });
 
   return (
-    <div className="min-h-screen bg-[#0d1117] text-[#f0f6fc]">
+    <div className="min-h-screen bg-page text-fg">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-[#21262d] bg-[#0d1117]/90 backdrop-blur-md px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-50 border-b border-white/12 bg-page/90 backdrop-blur-md px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <Link
             to="/dashboard"
-            className="flex items-center gap-1.5 text-[#8b949e] hover:text-[#f0f6fc] text-sm transition-colors"
+            className="flex items-center gap-1.5 text-muted hover:text-fg text-sm transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span className="hidden sm:inline">Dashboard</span>
           </Link>
-          <span className="text-[#30363d] hidden sm:inline">/</span>
+          <span className="text-faint hidden sm:inline">/</span>
           <div className="flex items-center gap-2">
-            <FlaskConical className="w-4 h-4 text-[#2f81f7]" />
-            <span className="text-sm font-semibold text-[#f0f6fc]">CyberPath Labs</span>
+            <FlaskConical className="w-4 h-4 text-accent" />
+            <span className="text-sm font-semibold text-fg">CyberPath Labs</span>
           </div>
         </div>
         {!isConfigured && (
-          <span className="text-[10px] bg-[#e3b341]/10 border border-[#e3b341]/30 text-[#e3b341] px-2 py-0.5 rounded font-semibold">
+          <span className="text-[10px] bg-white/[0.06] border border-white/12 text-muted px-2 py-0.5 rounded font-semibold">
             Demo Mode — progress saved locally
           </span>
         )}
@@ -202,20 +202,20 @@ export default function LabCatalog() {
         <div className="mb-8">
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
-              <h1 className="text-2xl font-bold text-[#f0f6fc] tracking-tight mb-1">
+              <h1 className="text-2xl font-bold text-fg tracking-tight mb-1">
                 Interactive Security Labs
               </h1>
-              <p className="text-sm text-[#8b949e]">
+              <p className="text-sm text-muted">
                 Practice beginner web security concepts in safe, simulated environments. No real systems involved.
               </p>
             </div>
             {/* Progress summary */}
             {!loadingProgress && (
-              <div className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[#21262d] bg-[#0d1117]">
-                <CheckCircle2 className="w-4 h-4 text-[#3fb950]" />
-                <span className="text-sm text-[#c9d1d9]">
-                  <span className="font-semibold text-[#f0f6fc]">{completedCount}</span>
-                  <span className="text-[#8b949e]"> / {LABS.length} completed</span>
+              <div className="flex items-center gap-2 px-3 py-2 rounded-lg border border-white/12 bg-page">
+                <CheckCircle2 className="w-4 h-4 text-success" />
+                <span className="text-sm text-fg">
+                  <span className="font-semibold text-fg">{completedCount}</span>
+                  <span className="text-muted"> / {LABS.length} completed</span>
                 </span>
               </div>
             )}
@@ -226,22 +226,22 @@ export default function LabCatalog() {
         <div className="mb-6 flex flex-col sm:flex-row gap-3">
           {/* Search */}
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6e7681] pointer-events-none" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-faint pointer-events-none" />
             <input
               type="search"
               placeholder="Search labs…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 rounded-lg border border-[#21262d] bg-[#010409] text-sm text-[#f0f6fc] placeholder:text-[#6e7681] focus-visible:border-[#2f81f7] focus-visible:outline-none transition-colors"
+              className="w-full pl-9 pr-4 py-2 rounded-lg border border-white/12 bg-page text-sm text-fg placeholder:text-faint focus-visible:border-white/40 focus-visible:outline-none transition-colors"
             />
           </div>
           {/* Topic filter */}
           <div className="relative">
-            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6e7681] pointer-events-none" />
+            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-faint pointer-events-none" />
             <select
               value={topicFilter}
               onChange={(e) => setTopicFilter(e.target.value)}
-              className="pl-9 pr-8 py-2 rounded-lg border border-[#21262d] bg-[#010409] text-sm text-[#f0f6fc] focus-visible:border-[#2f81f7] focus-visible:outline-none transition-colors appearance-none cursor-pointer"
+              className="pl-9 pr-8 py-2 rounded-lg border border-white/12 bg-page text-sm text-fg focus-visible:border-white/40 focus-visible:outline-none transition-colors appearance-none cursor-pointer"
               aria-label="Filter by topic"
             >
               {TOPIC_FILTERS.map((f) => (
@@ -255,7 +255,7 @@ export default function LabCatalog() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 rounded-lg border border-[#21262d] bg-[#010409] text-sm text-[#f0f6fc] focus-visible:border-[#2f81f7] focus-visible:outline-none transition-colors appearance-none cursor-pointer"
+            className="px-3 py-2 rounded-lg border border-white/12 bg-page text-sm text-fg focus-visible:border-white/40 focus-visible:outline-none transition-colors appearance-none cursor-pointer"
             aria-label="Filter by completion status"
           >
             {STATUS_FILTERS.map((f) => (
@@ -268,12 +268,12 @@ export default function LabCatalog() {
 
         {/* Lab cards grid */}
         {filtered.length === 0 ? (
-          <div className="text-center py-16 text-[#8b949e]">
+          <div className="text-center py-16 text-muted">
             <FlaskConical className="w-10 h-10 mx-auto mb-3 opacity-30" />
             <p className="text-sm">No labs match your filters.</p>
             <button
               onClick={() => { setSearch(""); setTopicFilter("all"); setStatusFilter("all"); }}
-              className="mt-3 text-xs text-[#2f81f7] hover:underline"
+              className="mt-3 text-xs text-accent hover:underline"
             >
               Clear filters
             </button>
@@ -288,30 +288,30 @@ export default function LabCatalog() {
               return (
                 <article
                   key={lab.slug}
-                  className="rounded-xl border border-[#21262d] bg-[#010409] hover:border-[#30363d] card-interactive flex flex-col"
+                  className="rounded-xl border border-white/12 bg-page hover:border-white/12 card-interactive flex flex-col"
                 >
                   <div className="p-5 flex-1">
                     <div className="flex items-start justify-between gap-3 mb-3">
-                      <div className="w-9 h-9 rounded-lg bg-[#2f81f7]/10 border border-[#2f81f7]/30 flex items-center justify-center shrink-0">
-                        <Icon className="w-4 h-4 text-[#58a6ff]" />
+                      <div className="w-9 h-9 rounded-lg bg-white/[0.06] border border-white/12 flex items-center justify-center shrink-0">
+                        <Icon className="w-4 h-4 text-accent" />
                       </div>
                       {!loadingProgress && <StatusBadge status={status} />}
                     </div>
 
-                    <h2 className="text-sm font-semibold text-[#f0f6fc] mb-1.5">{lab.title}</h2>
-                    <p className="text-xs text-[#8b949e] leading-relaxed mb-4">
+                    <h2 className="text-sm font-semibold text-fg mb-1.5">{lab.title}</h2>
+                    <p className="text-xs text-muted leading-relaxed mb-4">
                       {lab.description}
                     </p>
 
                     {/* Meta row */}
                     <div className="flex flex-wrap gap-2 mb-4">
-                      <span className="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider rounded bg-[#2f81f7]/10 border border-[#2f81f7]/25 text-[#58a6ff]">
+                      <span className="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider rounded bg-white/[0.06] border border-white/12 text-accent">
                         {lab.category}
                       </span>
-                      <span className="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider rounded bg-[#21262d] border border-[#30363d] text-[#8b949e]">
+                      <span className="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider rounded bg-raised border border-white/12 text-muted">
                         {lab.difficulty}
                       </span>
-                      <span className="flex items-center gap-1 text-[10px] text-[#6e7681]">
+                      <span className="flex items-center gap-1 text-[10px] text-faint">
                         <Clock className="w-3 h-3" />
                         {lab.estimatedTime}
                       </span>
@@ -322,7 +322,7 @@ export default function LabCatalog() {
                       {lab.skills.map((s, i) => (
                         <span
                           key={i}
-                          className="px-2 py-0.5 text-[10px] rounded bg-[#161b22] border border-[#21262d] text-[#8b949e]"
+                          className="px-2 py-0.5 text-[10px] rounded bg-surface border border-white/12 text-muted"
                         >
                           {s}
                         </span>
@@ -334,7 +334,7 @@ export default function LabCatalog() {
                   <div className="px-5 pb-5">
                     <Link
                       to={lab.href}
-                      className="w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-lg bg-[#2f81f7] hover:bg-[#388bfd] text-white text-sm font-semibold transition-colors"
+                      className="w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-lg bg-accent hover:bg-accent-hover text-on-accent text-sm font-semibold transition-colors"
                       aria-label={
                         status === "completed"
                           ? `Review ${lab.title}`
@@ -360,8 +360,8 @@ export default function LabCatalog() {
         )}
 
         {/* Disclaimer */}
-        <div className="mt-10 rounded-lg border border-[#21262d] bg-[#010409] p-4 text-xs text-[#6e7681]">
-          <strong className="text-[#8b949e]">Security Notice:</strong> All labs run entirely
+        <div className="mt-10 rounded-lg border border-white/12 bg-page p-4 text-xs text-faint">
+          <strong className="text-muted">Security Notice:</strong> All labs run entirely
           in-browser using fictional data and mock scenarios. No real databases, credentials, or
           external systems are involved. Student input is never executed as code.
         </div>

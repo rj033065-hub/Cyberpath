@@ -114,7 +114,7 @@ export default function IDORLab() {
           estimatedTime="15–20 minutes"
         />
         <div className="flex justify-center">
-          <button onClick={startLab} className="px-6 py-3 rounded-lg bg-[#2f81f7] text-white font-semibold hover:bg-[#388bfd] transition-colors">
+          <button onClick={startLab} className="px-6 py-3 rounded-lg bg-accent text-on-accent font-semibold hover:bg-accent-hover transition-colors">
             Begin Lab
           </button>
         </div>
@@ -164,21 +164,21 @@ export default function IDORLab() {
             </p>
 
             {/* Fictional system context */}
-            <div className="mt-4 rounded-lg bg-[#010409] border border-[#21262d] p-4 text-xs font-mono leading-relaxed">
-              <p className="text-[#6e7681] mb-1">// Fictional TrainingApp — vulnerable endpoint</p>
-              <p className="text-[#a5d6ff]">{"GET /api/records/:id"}</p>
-              <p className="text-[#6e7681] mt-2 mb-1">// Server code (vulnerable):</p>
-              <p className="text-[#f0f6fc]">{"const record = db.query(\"SELECT * FROM records WHERE id = $1\", [id]);"}</p>
-              <p className="text-[#f0f6fc]">{"return res.json(record); // ← no ownership check!"}</p>
-              <p className="text-[#6e7681] mt-3 mb-1">// Server code (secure):</p>
-              <p className="text-[#3fb950]">{"const record = db.query(\"SELECT * FROM records WHERE id = $1 AND owner_id = $2\", [id, req.user.id]);"}</p>
-              <p className="text-[#3fb950]">{"if (!record) return res.status(403).json({ error: 'Access denied' });"}</p>
+            <div className="mt-4 rounded-lg bg-page border border-white/12 p-4 text-xs font-mono leading-relaxed">
+              <p className="text-faint mb-1">// Fictional TrainingApp — vulnerable endpoint</p>
+              <p className="text-fg">{"GET /api/records/:id"}</p>
+              <p className="text-faint mt-2 mb-1">// Server code (vulnerable):</p>
+              <p className="text-fg">{"const record = db.query(\"SELECT * FROM records WHERE id = $1\", [id]);"}</p>
+              <p className="text-fg">{"return res.json(record); // ← no ownership check!"}</p>
+              <p className="text-faint mt-3 mb-1">// Server code (secure):</p>
+              <p className="text-success">{"const record = db.query(\"SELECT * FROM records WHERE id = $1 AND owner_id = $2\", [id, req.user.id]);"}</p>
+              <p className="text-success">{"if (!record) return res.status(403).json({ error: 'Access denied' });"}</p>
             </div>
 
-            <div className="mt-3 rounded-lg border border-[#21262d] p-3 bg-[#0d1117]">
-              <p className="text-xs text-[#8b949e]">
-                <strong className="text-[#f0f6fc]">Fictional scenario:</strong> You are logged in as{" "}
-                <strong className="text-[#58a6ff]">Jordan Kim (user ID 1001)</strong>.
+            <div className="mt-3 rounded-lg border border-white/12 p-3 bg-page">
+              <p className="text-xs text-muted">
+                <strong className="text-fg">Fictional scenario:</strong> You are logged in as{" "}
+                <strong className="text-accent">Jordan Kim (user ID 1001)</strong>.
                 The app has records with IDs 1001–1004. Jordan owns records 1001 and 1004.
                 Records 1002 and 1003 belong to other fictional users.
               </p>
@@ -186,7 +186,7 @@ export default function IDORLab() {
           </LabInstructions>
           {currentStep === 1 && (
             <div className="flex justify-end mt-2 mb-8">
-              <button onClick={() => setCurrentStep(2)} className="px-4 py-2 rounded-lg bg-[#2f81f7] text-white text-sm font-semibold hover:bg-[#388bfd] transition-colors">
+              <button onClick={() => setCurrentStep(2)} className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-semibold hover:bg-accent-hover transition-colors">
                 Continue →
               </button>
             </div>
@@ -209,12 +209,12 @@ export default function IDORLab() {
             {/* Vulnerable panel */}
             <SimulatedTarget label="Vulnerable — No Ownership Check">
               <div className="space-y-3">
-                <div className="flex items-center gap-2 text-xs text-[#8b949e]">
+                <div className="flex items-center gap-2 text-xs text-muted">
                   <User className="w-3.5 h-3.5" />
-                  Logged in as: <strong className="text-[#f0f6fc]">{FICTIONAL_CURRENT_USER.name}</strong>
+                  Logged in as: <strong className="text-fg">{FICTIONAL_CURRENT_USER.name}</strong>
                 </div>
                 <div>
-                  <label htmlFor="vuln-record-id" className="block text-xs text-[#8b949e] mb-1">
+                  <label htmlFor="vuln-record-id" className="block text-xs text-muted mb-1">
                     Record ID
                   </label>
                   <div className="flex gap-2">
@@ -222,7 +222,7 @@ export default function IDORLab() {
                       id="vuln-record-id"
                       value={selectedId || ""}
                       onChange={(e) => setSelectedId(e.target.value)}
-                      className="flex-1 px-3 py-2 rounded-lg border border-[#30363d] bg-[#0d1117] text-sm text-[#f0f6fc] focus-visible:border-[#f85149]/40 focus-visible:outline-none transition-colors"
+                      className="flex-1 px-3 py-2 rounded-lg border border-white/12 bg-page text-sm text-fg focus-visible:border-danger/40 focus-visible:outline-none transition-colors"
                     >
                       <option value="">Select ID…</option>
                       {FICTIONAL_RECORDS.map((r) => (
@@ -232,21 +232,21 @@ export default function IDORLab() {
                     <button
                       onClick={handleVulnFetch}
                       disabled={!selectedId}
-                      className="px-3 py-2 rounded-lg bg-[#f85149]/15 border border-[#f85149]/40 text-[#f85149] text-sm font-semibold hover:bg-[#f85149]/25 disabled:opacity-40 transition-colors"
+                      className="px-3 py-2 rounded-lg bg-white/[0.06] border border-danger/40 text-danger text-sm font-semibold hover:bg-white/[0.08] disabled:opacity-40 transition-colors"
                     >
                       Fetch
                     </button>
                   </div>
                 </div>
                 {vulnRecord && (
-                  <div className={`rounded-lg border p-3 ${vulnRecord.owner_id !== FICTIONAL_CURRENT_USER.id ? "border-[#f85149]/40 bg-[#f85149]/8" : "border-[#21262d] bg-[#0d1117]"}`}>
+                  <div className={`rounded-lg border p-3 ${vulnRecord.owner_id !== FICTIONAL_CURRENT_USER.id ? "border-danger/40 bg-white/[0.04]" : "border-white/12 bg-page"}`}>
                     <div className="flex items-center gap-1.5 mb-1">
-                      {vulnRecord.owner_id !== FICTIONAL_CURRENT_USER.id && <AlertTriangle className="w-3.5 h-3.5 text-[#f85149]" />}
-                      <p className="text-xs font-semibold text-[#f0f6fc]">{vulnRecord.title}</p>
+                      {vulnRecord.owner_id !== FICTIONAL_CURRENT_USER.id && <AlertTriangle className="w-3.5 h-3.5 text-danger" />}
+                      <p className="text-xs font-semibold text-fg">{vulnRecord.title}</p>
                     </div>
-                    <p className="text-xs text-[#8b949e]">{vulnRecord.content}</p>
+                    <p className="text-xs text-muted">{vulnRecord.content}</p>
                     {vulnRecord.owner_id !== FICTIONAL_CURRENT_USER.id && (
-                      <p className="text-[10px] text-[#f85149] mt-1">⚠ This record belongs to another user — IDOR!</p>
+                      <p className="text-[10px] text-danger mt-1">⚠ This record belongs to another user — IDOR!</p>
                     )}
                   </div>
                 )}
@@ -256,12 +256,12 @@ export default function IDORLab() {
             {/* Safe panel */}
             <SimulatedTarget label="Secure — Ownership Check Enforced">
               <div className="space-y-3">
-                <div className="flex items-center gap-2 text-xs text-[#8b949e]">
+                <div className="flex items-center gap-2 text-xs text-muted">
                   <User className="w-3.5 h-3.5" />
-                  Logged in as: <strong className="text-[#f0f6fc]">{FICTIONAL_CURRENT_USER.name}</strong>
+                  Logged in as: <strong className="text-fg">{FICTIONAL_CURRENT_USER.name}</strong>
                 </div>
                 <div>
-                  <label htmlFor="safe-record-id" className="block text-xs text-[#8b949e] mb-1">
+                  <label htmlFor="safe-record-id" className="block text-xs text-muted mb-1">
                     Record ID
                   </label>
                   <div className="flex gap-2">
@@ -269,7 +269,7 @@ export default function IDORLab() {
                       id="safe-record-id"
                       value={safeSelectedId || ""}
                       onChange={(e) => setSafeSelectedId(e.target.value)}
-                      className="flex-1 px-3 py-2 rounded-lg border border-[#30363d] bg-[#0d1117] text-sm text-[#f0f6fc] focus-visible:border-[#3fb950]/40 focus-visible:outline-none transition-colors"
+                      className="flex-1 px-3 py-2 rounded-lg border border-white/12 bg-page text-sm text-fg focus-visible:border-white/12 focus-visible:outline-none transition-colors"
                     >
                       <option value="">Select ID…</option>
                       {FICTIONAL_RECORDS.map((r) => (
@@ -279,26 +279,26 @@ export default function IDORLab() {
                     <button
                       onClick={handleSafeFetch}
                       disabled={!safeSelectedId}
-                      className="px-3 py-2 rounded-lg bg-[#3fb950]/15 border border-[#3fb950]/40 text-[#3fb950] text-sm font-semibold hover:bg-[#3fb950]/25 disabled:opacity-40 transition-colors"
+                      className="px-3 py-2 rounded-lg bg-white/[0.06] border border-white/12 text-success text-sm font-semibold hover:bg-white/25 disabled:opacity-40 transition-colors"
                     >
                       Fetch
                     </button>
                   </div>
                 </div>
                 {safeRecord && (
-                  <div className="rounded-lg border border-[#3fb950]/30 bg-[#3fb950]/8 p-3">
+                  <div className="rounded-lg border border-white/12 bg-white/[0.04] p-3">
                     <div className="flex items-center gap-1.5 mb-1">
-                      <FileText className="w-3.5 h-3.5 text-[#3fb950]" />
-                      <p className="text-xs font-semibold text-[#f0f6fc]">{safeRecord.title}</p>
+                      <FileText className="w-3.5 h-3.5 text-success" />
+                      <p className="text-xs font-semibold text-fg">{safeRecord.title}</p>
                     </div>
-                    <p className="text-xs text-[#8b949e]">{safeRecord.content}</p>
-                    <p className="text-[10px] text-[#3fb950] mt-1">✓ Authorized access</p>
+                    <p className="text-xs text-muted">{safeRecord.content}</p>
+                    <p className="text-[10px] text-success mt-1">✓ Authorized access</p>
                   </div>
                 )}
                 {safeDenied && (
-                  <div className="rounded-lg border border-[#30363d] bg-[#0d1117] p-3 flex items-center gap-2">
-                    <Lock className="w-4 h-4 text-[#8b949e] shrink-0" />
-                    <p className="text-xs text-[#8b949e]">403 — Access denied. You are not authorized for this record.</p>
+                  <div className="rounded-lg border border-white/12 bg-page p-3 flex items-center gap-2">
+                    <Lock className="w-4 h-4 text-muted shrink-0" />
+                    <p className="text-xs text-muted">403 — Access denied. You are not authorized for this record.</p>
                   </div>
                 )}
               </div>
@@ -315,14 +315,14 @@ export default function IDORLab() {
                 message="You accessed a record belonging to another fictional user via the vulnerable panel. The same request in the secure panel is denied — because ownership is checked server-side."
               />
               <div className="flex justify-end mb-8">
-                <button onClick={() => setCurrentStep(3)} className="px-4 py-2 rounded-lg bg-[#2f81f7] text-white text-sm font-semibold hover:bg-[#388bfd] transition-colors">
+                <button onClick={() => setCurrentStep(3)} className="px-4 py-2 rounded-lg bg-accent text-on-accent text-sm font-semibold hover:bg-accent-hover transition-colors">
                   Continue to Knowledge Check →
                 </button>
               </div>
             </>
           )}
           {!vulnAccessed && currentStep === 2 && (
-            <p className="text-xs text-[#8b949e] italic mb-8">
+            <p className="text-xs text-muted italic mb-8">
               Fetch a record you don't own (ID 1002 or 1003) from the vulnerable panel to continue.
             </p>
           )}
@@ -370,7 +370,7 @@ export default function IDORLab() {
 
           {user?.id && !completed && (
             <div className="flex justify-end mt-6">
-              <button onClick={handleComplete} className="px-6 py-2.5 rounded-lg bg-[#3fb950] text-[#010409] text-sm font-bold hover:bg-[#46c85a] transition-colors">
+              <button onClick={handleComplete} className="px-6 py-2.5 rounded-lg bg-accent text-on-accent text-sm font-bold hover:bg-accent-hover transition-colors">
                 Complete Lab ✓
               </button>
             </div>

@@ -245,7 +245,7 @@ export function downloadBadgePng(badge, earnedDate, studentName = "CyberPath Stu
   const bgGrad = ctx.createRadialGradient(400, 320, 40, 400, 400, 480);
   bgGrad.addColorStop(0, palette.plateBg);
   bgGrad.addColorStop(0.7, "#0f172a");
-  bgGrad.addColorStop(1, "#090d16");
+  bgGrad.addColorStop(1, "#09090b");
   ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, width, height);
 
@@ -347,7 +347,7 @@ export function downloadBadgePng(badge, earnedDate, studentName = "CyberPath Stu
   const platePath = createShieldPath(0.96);
   const plateGrad = ctx.createRadialGradient(cx, cy - 20, 10, cx, cy, 110);
   plateGrad.addColorStop(0, isMaster ? "#2a1c06" : palette.plateBg);
-  plateGrad.addColorStop(1, "#0d1117");
+  plateGrad.addColorStop(1, "#09090b");
   ctx.fillStyle = plateGrad;
   ctx.fill(platePath);
 
@@ -376,7 +376,7 @@ export function downloadBadgePng(badge, earnedDate, studentName = "CyberPath Stu
 
   // Description / requirement
   ctx.font = "14px sans-serif";
-  ctx.fillStyle = "#8b98a8";
+  ctx.fillStyle = "#a1a1aa";
   ctx.fillText(badge.description, 400, 555);
 
   // Divider
@@ -390,13 +390,13 @@ export function downloadBadgePng(badge, earnedDate, studentName = "CyberPath Stu
   // Student and Date details
   ctx.textAlign = "left";
   ctx.font = "14px sans-serif";
-  ctx.fillStyle = "#8b98a8";
+  ctx.fillStyle = "#a1a1aa";
   ctx.fillText("AWARDED TO:", 150, 640);
   ctx.fillText("DATE VERIFIED:", 150, 675);
   ctx.fillText("INTEGRITY STATUS:", 150, 710);
 
   ctx.textAlign = "right";
-  ctx.fillStyle = "#f0f6fc";
+  ctx.fillStyle = "#fafafa";
   ctx.font = "bold 15px sans-serif";
   ctx.fillText(studentName, 650, 640);
 
@@ -405,7 +405,7 @@ export function downloadBadgePng(badge, earnedDate, studentName = "CyberPath Stu
   const dateStr = earnedDate ? new Date(earnedDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : new Date().toLocaleDateString();
   ctx.fillText(dateStr, 650, 675);
 
-  ctx.fillStyle = "#3fb950";
+  ctx.fillStyle = "#4ade80";
   ctx.font = "bold 13px 'Courier New', monospace";
   ctx.fillText("CRYPTOGRAPHICALLY VERIFIED ✓", 650, 710);
 

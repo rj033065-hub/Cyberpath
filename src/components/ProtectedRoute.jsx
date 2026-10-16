@@ -14,12 +14,12 @@ export default function ProtectedRoute({ children }) {
 
   if (loading || (!user && hasUrlAuthTokens)) {
     return (
-      <div className="min-h-screen bg-[#0d1117] text-[#f0f6fc] flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-page text-fg flex flex-col items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-[#101012] border border-white/20 flex items-center justify-center text-white shadow-lg shadow-white/5 animate-pulse">
+          <div className="w-12 h-12 rounded-xl bg-surface border border-white/20 flex items-center justify-center text-white shadow-lg shadow-white/5 animate-pulse">
             <Shield className="w-6 h-6 animate-spin text-white" />
           </div>
-          <div className="text-sm font-mono text-[#a1a1aa]">
+          <div className="text-sm font-mono text-muted">
             Verifying security session...
           </div>
         </div>

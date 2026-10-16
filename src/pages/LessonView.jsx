@@ -85,22 +85,22 @@ const RELATED_CYBERPATH_LABS = {
 function Callout({ type = "tip", title, children }) {
   const styles = {
     rule: {
-      bar: "bg-[#2f81f7]",
-      icon: <Info className="w-4 h-4 text-[#58a6ff] shrink-0 mt-0.5" />,
+      bar: "bg-accent",
+      icon: <Info className="w-4 h-4 text-accent shrink-0 mt-0.5" />,
       label: title || "Rule",
-      bg: "bg-[#2f81f7]/5",
+      bg: "bg-white/[0.04]",
     },
     warning: {
-      bar: "bg-[#f85149]",
-      icon: <AlertCircle className="w-4 h-4 text-[#f85149] shrink-0 mt-0.5" />,
+      bar: "bg-danger",
+      icon: <AlertCircle className="w-4 h-4 text-danger shrink-0 mt-0.5" />,
       label: title || "Warning",
-      bg: "bg-[#f85149]/5",
+      bg: "bg-white/[0.04]",
     },
     tip: {
-      bar: "bg-[#3fb950]",
-      icon: <Lightbulb className="w-4 h-4 text-[#3fb950] shrink-0 mt-0.5" />,
+      bar: "bg-white",
+      icon: <Lightbulb className="w-4 h-4 text-success shrink-0 mt-0.5" />,
       label: title || "Tip",
-      bg: "bg-[#3fb950]/5",
+      bg: "bg-white/[0.04]",
     },
   };
   const s = styles[type] || styles.tip;
@@ -110,10 +110,10 @@ function Callout({ type = "tip", title, children }) {
       <div className="flex items-start gap-3 px-4 py-3.5 flex-1">
         {s.icon}
         <div className="flex-1 min-w-0">
-          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#8b98a8] block mb-1">
+          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-muted block mb-1">
             {s.label}
           </span>
-          <div className="text-sm leading-relaxed text-[#c9d1d9]">{children}</div>
+          <div className="text-sm leading-relaxed text-fg">{children}</div>
         </div>
       </div>
     </div>
@@ -130,25 +130,25 @@ function CodeBlock({ filename, language = "bash", children }) {
     });
   };
   return (
-    <div className="rounded-xl overflow-hidden border border-[#21262d] my-6">
-      <div className="flex items-center justify-between px-4 py-2 bg-[#161b22] border-b border-[#21262d]">
+    <div className="rounded-xl overflow-hidden border border-white/12 my-6">
+      <div className="flex items-center justify-between px-4 py-2 bg-surface border-b border-white/12">
         <div className="flex items-center gap-2">
-          <Terminal className="w-3.5 h-3.5 text-[#58a6ff]" />
-          <span className="text-[11px] font-mono text-[#8b98a8]">{filename || language}</span>
+          <Terminal className="w-3.5 h-3.5 text-accent" />
+          <span className="text-[11px] font-mono text-muted">{filename || language}</span>
         </div>
         <button
           type="button"
           onClick={handleCopy}
-          className="flex items-center gap-1 text-[11px] font-mono text-[#8b98a8] hover:text-[#f0f6fc] transition-colors"
+          className="flex items-center gap-1 text-[11px] font-mono text-muted hover:text-fg transition-colors"
         >
           {copied ? (
-            <><CheckCheck className="w-3.5 h-3.5 text-[#3fb950]" /><span className="text-[#3fb950]">Copied</span></>
+            <><CheckCheck className="w-3.5 h-3.5 text-success" /><span className="text-success">Copied</span></>
           ) : (
             <><Copy className="w-3.5 h-3.5" /><span>Copy</span></>
           )}
         </button>
       </div>
-      <pre className="px-4 py-4 bg-[#090d16] overflow-x-auto text-[13px] leading-[1.65] font-mono text-[#58a6ff] whitespace-pre">
+      <pre className="px-4 py-4 bg-page overflow-x-auto text-[13px] leading-[1.65] font-mono text-accent whitespace-pre">
         {children}
       </pre>
     </div>
@@ -158,17 +158,17 @@ function CodeBlock({ filename, language = "bash", children }) {
 function KeyTakeaways({ items }) {
   if (!items || items.length === 0) return null;
   return (
-    <div className="my-8 rounded-xl border border-[#3fb950]/20 bg-[#3fb950]/5 p-5">
+    <div className="my-8 rounded-xl border border-success/20 bg-white/[0.04] p-5">
       <div className="flex items-center gap-2 mb-3">
-        <ListChecks className="w-4 h-4 text-[#3fb950]" />
-        <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#3fb950]">
+        <ListChecks className="w-4 h-4 text-success" />
+        <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-success">
           Key Takeaways
         </span>
       </div>
       <ul className="space-y-2">
         {items.map((item, idx) => (
-          <li key={idx} className="flex items-start gap-2.5 text-sm text-[#c9d1d9]">
-            <Check className="w-4 h-4 text-[#3fb950] shrink-0 mt-0.5" />
+          <li key={idx} className="flex items-start gap-2.5 text-sm text-fg">
+            <Check className="w-4 h-4 text-success shrink-0 mt-0.5" />
             <span>{item}</span>
           </li>
         ))}
@@ -182,26 +182,26 @@ function CheckYourself({ question, options, correctId, explanation }) {
   const revealed = selected !== null;
   const isCorrect = selected === correctId;
   return (
-    <div className="my-8 rounded-xl border border-[#21262d] bg-[#111821] overflow-hidden">
-      <div className="flex items-center gap-2 px-5 py-3 border-b border-[#21262d] bg-[#0d1117]">
-        <HelpCircle className="w-4 h-4 text-[#58a6ff]" />
-        <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#58a6ff]">
+    <div className="my-8 rounded-xl border border-white/12 bg-surface overflow-hidden">
+      <div className="flex items-center gap-2 px-5 py-3 border-b border-white/12 bg-page">
+        <HelpCircle className="w-4 h-4 text-accent" />
+        <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-accent">
           Check Yourself
         </span>
       </div>
       <div className="px-5 py-4 space-y-3">
-        <p className="text-sm font-semibold text-[#f0f6fc] leading-snug">{question}</p>
+        <p className="text-sm font-semibold text-fg leading-snug">{question}</p>
         <div className="space-y-2">
           {options.map((opt) => {
             let cls = "w-full text-left px-3.5 py-2.5 rounded-lg border text-sm transition-all ";
             if (!revealed) {
-              cls += "border-[#21262d] bg-[#0d1117] text-[#c9d1d9] hover:border-[#2f81f7]/50 hover:bg-[#16202e] cursor-pointer";
+              cls += "border-white/12 bg-page text-fg hover:border-white/28 hover:bg-raised cursor-pointer";
             } else if (opt.id === correctId) {
-              cls += "border-[#3fb950]/60 bg-[#3fb950]/10 text-[#3fb950] font-medium cursor-default";
+              cls += "border-success/40 bg-white/[0.06] text-success font-medium cursor-default";
             } else if (opt.id === selected) {
-              cls += "border-[#f85149]/60 bg-[#f85149]/10 text-[#f85149] cursor-default";
+              cls += "border-danger/40 bg-white/[0.04] text-danger cursor-default";
             } else {
-              cls += "border-[#21262d] bg-[#0d1117] text-[#8b98a8] cursor-default opacity-60";
+              cls += "border-white/12 bg-page text-muted cursor-default opacity-60";
             }
             return (
               <button key={opt.id} type="button" disabled={revealed} onClick={() => setSelected(opt.id)} className={cls}>
@@ -216,7 +216,7 @@ function CheckYourself({ question, options, correctId, explanation }) {
           })}
         </div>
         {revealed && (
-          <div className={`mt-1 text-xs rounded-lg px-3.5 py-3 flex items-start gap-2 ${isCorrect ? "bg-[#3fb950]/10 border border-[#3fb950]/30 text-[#3fb950]" : "bg-[#f85149]/10 border border-[#f85149]/30 text-[#f85149]"}`}>
+          <div className={`mt-1 text-xs rounded-lg px-3.5 py-3 flex items-start gap-2 ${isCorrect ? "bg-white/[0.06] border border-white/12 text-success" : "bg-white/[0.04] border border-danger/30 text-danger"}`}>
             {isCorrect ? <Check className="w-3.5 h-3.5 shrink-0 mt-0.5" /> : <AlertCircle className="w-3.5 h-3.5 shrink-0 mt-0.5" />}
             <span>{explanation}</span>
           </div>
@@ -234,10 +234,10 @@ function inlineFormat(text) {
   const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g);
   return parts.map((part, i) => {
     if (part.startsWith("**") && part.endsWith("**")) {
-      return <strong key={i} className="text-[#f0f6fc] font-semibold">{part.slice(2, -2)}</strong>;
+      return <strong key={i} className="text-fg font-semibold">{part.slice(2, -2)}</strong>;
     }
     if (part.startsWith("`") && part.endsWith("`")) {
-      return <code key={i} className="px-1.5 py-0.5 rounded bg-[#161b22] text-[#79c0ff] font-mono text-[14px] border border-[#21262d]">{part.slice(1, -1)}</code>;
+      return <code key={i} className="px-1.5 py-0.5 rounded bg-surface text-accent font-mono text-[14px] border border-white/12">{part.slice(1, -1)}</code>;
     }
     return part;
   });
@@ -282,7 +282,7 @@ function renderMarkdown(markdown, sectionRefs, outline) {
       const ci = sectionIdx++;
       elements.push(
         <h3 key={key++} ref={(el) => { sectionRefs.current[ci] = el; }} data-section-idx={ci}
-          id={outline[ci]?.id} className="text-xl font-bold text-[#f0f6fc] mt-10 mb-3 scroll-mt-28">
+          id={outline[ci]?.id} className="text-xl font-bold text-fg mt-10 mb-3 scroll-mt-28">
           {inlineFormat(line.slice(4))}
         </h3>
       );
@@ -290,7 +290,7 @@ function renderMarkdown(markdown, sectionRefs, outline) {
     }
 
     if (line.startsWith("#### ")) {
-      elements.push(<h4 key={key++} className="text-base font-semibold text-[#58a6ff] mt-6 mb-2">{inlineFormat(line.slice(5))}</h4>);
+      elements.push(<h4 key={key++} className="text-base font-semibold text-accent mt-6 mb-2">{inlineFormat(line.slice(5))}</h4>);
       i++; continue;
     }
 
@@ -300,8 +300,8 @@ function renderMarkdown(markdown, sectionRefs, outline) {
       elements.push(
         <ul key={key++} className="space-y-1.5 my-4 ml-1">
           {items.map((item, idx) => (
-            <li key={idx} className="flex items-start gap-2.5 text-[17px] leading-[1.7] text-[#c9d1d9]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#58a6ff]/70 shrink-0 mt-[10px]" />
+            <li key={idx} className="flex items-start gap-2.5 text-[17px] leading-[1.7] text-fg">
+              <span className="w-1.5 h-1.5 rounded-full bg-white/70 shrink-0 mt-[10px]" />
               <span>{inlineFormat(item)}</span>
             </li>
           ))}
@@ -316,8 +316,8 @@ function renderMarkdown(markdown, sectionRefs, outline) {
       elements.push(
         <ol key={key++} className="space-y-1.5 my-4 ml-1 list-none">
           {items.map((item, idx) => (
-            <li key={idx} className="flex items-start gap-2.5 text-[17px] leading-[1.7] text-[#c9d1d9]">
-              <span className="font-mono text-[12px] text-[#58a6ff] shrink-0 mt-[6px] w-5 text-right">{idx + 1}.</span>
+            <li key={idx} className="flex items-start gap-2.5 text-[17px] leading-[1.7] text-fg">
+              <span className="font-mono text-[12px] text-accent shrink-0 mt-[6px] w-5 text-right">{idx + 1}.</span>
               <span>{inlineFormat(item)}</span>
             </li>
           ))}
@@ -328,7 +328,7 @@ function renderMarkdown(markdown, sectionRefs, outline) {
 
     if (line.trim() === "") { i++; continue; }
 
-    elements.push(<p key={key++} className="text-[17px] leading-[1.75] text-[#c9d1d9] my-4">{inlineFormat(line)}</p>);
+    elements.push(<p key={key++} className="text-[17px] leading-[1.75] text-fg my-4">{inlineFormat(line)}</p>);
     i++;
   }
   return elements;
@@ -379,12 +379,12 @@ export default function LessonView() {
 
   if (!path || !lessonData) {
     return (
-      <div className="min-h-screen bg-[#0d1117] text-[#f0f6fc] flex flex-col items-center justify-center p-4">
-        <div className="max-w-md w-full p-6 rounded-2xl border border-[#21262d] bg-[#111821] text-center space-y-4">
-          <AlertTriangle className="w-10 h-10 text-[#f2cc60] mx-auto" />
+      <div className="min-h-screen bg-page text-fg flex flex-col items-center justify-center p-4">
+        <div className="max-w-md w-full p-6 rounded-2xl border border-white/12 bg-surface text-center space-y-4">
+          <AlertTriangle className="w-10 h-10 text-warning mx-auto" />
           <h2 className="text-lg font-bold">Lesson Not Found</h2>
-          <p className="text-xs text-[#8b98a8]">The requested lesson could not be found in the CyberPath curriculum.</p>
-          <Link to="/dashboard" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#2f81f7] text-white text-xs font-semibold">
+          <p className="text-xs text-muted">The requested lesson could not be found in the CyberPath curriculum.</p>
+          <Link to="/dashboard" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent text-on-accent text-xs font-semibold">
             <ArrowLeft className="w-4 h-4" /><span>Return to Dashboard</span>
           </Link>
         </div>
@@ -425,42 +425,42 @@ export default function LessonView() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0d1117] text-[#f0f6fc] flex flex-col selection:bg-[#2f81f7]/30 selection:text-white">
+    <div className="min-h-screen bg-page text-fg flex flex-col selection:bg-white/20 selection:text-white">
 
       {/* ── Sticky Top Bar ── */}
-      <header className="sticky top-0 z-40 w-full border-b border-[#21262d] bg-[#0d1117]/96 backdrop-blur-md px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-40 w-full border-b border-white/12 bg-page/96 backdrop-blur-md px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3 min-w-0">
           <Link to={`/learn/${path.slug}`}
-            className="p-1.5 rounded-lg text-[#8b98a8] hover:text-[#f0f6fc] hover:bg-[#16202e] transition-colors flex items-center gap-1.5 text-xs shrink-0">
+            className="p-1.5 rounded-lg text-muted hover:text-fg hover:bg-raised transition-colors flex items-center gap-1.5 text-xs shrink-0">
             <ArrowLeft className="w-4 h-4" /><span className="hidden sm:inline">Roadmap</span>
           </Link>
-          <div className="h-4 w-px bg-[#21262d] hidden sm:block shrink-0" />
+          <div className="h-4 w-px bg-raised hidden sm:block shrink-0" />
           <div className="flex items-center gap-2 min-w-0">
-            <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full border border-[#21262d] bg-[#111821] text-[#58a6ff] shrink-0">
+            <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full border border-white/12 bg-surface text-accent shrink-0">
               {path.title}
             </span>
-            <span className="text-xs text-[#8b98a8] truncate hidden md:block">/ {lesson.title}</span>
+            <span className="text-xs text-muted truncate hidden md:block">/ {lesson.title}</span>
           </div>
         </div>
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           {xpEarnedNotice > 0 && (
-            <span className="px-2.5 py-1 rounded-lg bg-[#f2cc60]/15 border border-[#d29922]/40 text-[#f2cc60] text-xs font-mono font-bold">
+            <span className="px-2.5 py-1 rounded-lg bg-white/[0.06] border border-white/12 text-fg text-xs font-mono font-bold">
               +{xpEarnedNotice} XP!
             </span>
           )}
-          <span className="text-[11px] text-[#8b98a8] hidden lg:block">Lesson {currentIndex}/{totalInPath}</span>
+          <span className="text-[11px] text-muted hidden lg:block">Lesson {currentIndex}/{totalInPath}</span>
           <Link to="/labs"
-            className="text-xs text-[#58a6ff] hover:text-white px-2.5 py-1.5 rounded-lg border border-[#2f81f7]/30 bg-[#111821] hover:bg-[#16202e] transition-colors hidden md:inline">
+            className="text-xs text-accent hover:text-white px-2.5 py-1.5 rounded-lg border border-white/12 bg-surface hover:bg-raised transition-colors hidden md:inline">
             Labs
           </Link>
           <Link to="/dashboard"
-            className="text-xs text-[#8b98a8] hover:text-[#f0f6fc] px-2.5 py-1.5 rounded-lg border border-[#21262d] bg-[#111821] hover:bg-[#16202e] transition-colors hidden md:inline">
+            className="text-xs text-muted hover:text-fg px-2.5 py-1.5 rounded-lg border border-white/12 bg-surface hover:bg-raised transition-colors hidden md:inline">
             Dashboard
           </Link>
           <button type="button" onClick={handleMarkComplete} disabled={marking || isCompleted}
             className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${isCompleted
-              ? "bg-[#3fb950]/15 text-[#3fb950] border border-[#3fb950]/40 cursor-default"
-              : "bg-[#2f81f7] hover:bg-[#2069cc] text-white shadow-sm shadow-[#2f81f7]/25"}`}>
+              ? "bg-white/[0.06] text-success border border-white/12 cursor-default"
+              : "bg-accent hover:bg-accent-hover text-on-accent shadow-sm"}`}>
             {isCompleted ? <><Check className="w-3.5 h-3.5" /><span>Completed</span></> : <><CheckCircle2 className="w-3.5 h-3.5" /><span>{marking ? "Saving…" : "Mark Complete"}</span></>}
           </button>
         </div>
@@ -473,41 +473,41 @@ export default function LessonView() {
         <aside className="hidden lg:flex flex-col w-[260px] shrink-0">
           <div className="sticky top-14 h-[calc(100vh-3.5rem)] flex flex-col py-8 px-5 overflow-y-auto">
             <div className="mb-6">
-              <div className="flex items-center justify-between text-[11px] text-[#8b98a8] mb-2">
+              <div className="flex items-center justify-between text-[11px] text-muted mb-2">
                 <span className="font-mono">Lesson {currentIndex} of {totalInPath}</span>
-                <span className="font-mono text-[#58a6ff]">{progressPercent}%</span>
+                <span className="font-mono text-accent">{progressPercent}%</span>
               </div>
-              <div className="h-1 rounded-full bg-[#21262d] overflow-hidden">
-                <div className="h-full rounded-full bg-gradient-to-r from-[#2f81f7] to-[#58a6ff] transition-all duration-500" style={{ width: `${progressPercent}%` }} />
+              <div className="h-1 rounded-full bg-raised overflow-hidden">
+                <div className="h-full rounded-full bg-accent transition-all duration-500" style={{ width: `${progressPercent}%` }} />
               </div>
             </div>
             <div className="flex items-center gap-2 mb-3">
-              <BookOpen className="w-3.5 h-3.5 text-[#8b98a8]" />
-              <span className="text-[11px] font-mono uppercase tracking-wider text-[#8b98a8]">In this lesson</span>
+              <BookOpen className="w-3.5 h-3.5 text-muted" />
+              <span className="text-[11px] font-mono uppercase tracking-wider text-muted">In this lesson</span>
             </div>
             {outline.length > 0 ? (
               <nav className="space-y-0.5 flex-1">
                 {outline.map((item, idx) => (
                   <button key={item.id} type="button" onClick={() => scrollToSection(idx)}
                     className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-all leading-snug ${activeSection === idx
-                      ? "bg-[#2f81f7]/10 text-[#58a6ff] font-medium border-l-2 border-[#2f81f7] pl-[10px]"
-                      : "text-[#8b98a8] hover:text-[#c9d1d9] hover:bg-[#111821]"}`}>
+                      ? "bg-white/[0.06] text-accent font-medium border-l-2 border-white/28 pl-[10px]"
+                      : "text-muted hover:text-fg hover:bg-raised"}`}>
                     {item.label}
                   </button>
                 ))}
               </nav>
-            ) : <p className="text-[11px] text-[#8b98a8]">No sections.</p>}
-            <div className="mt-8 pt-5 border-t border-[#21262d] space-y-2">
+            ) : <p className="text-[11px] text-muted">No sections.</p>}
+            <div className="mt-8 pt-5 border-t border-white/12 space-y-2">
               {prevLesson && (
                 <Link to={`/learn/${pathSlug}/${prevLesson.slug}`}
-                  className="flex items-center gap-2 text-xs text-[#8b98a8] hover:text-[#c9d1d9] transition-colors">
+                  className="flex items-center gap-2 text-xs text-muted hover:text-fg transition-colors">
                   <ChevronLeft className="w-3.5 h-3.5 shrink-0" />
                   <span className="truncate">{prevLesson.title}</span>
                 </Link>
               )}
               {nextLesson && (
                 <Link to={`/learn/${pathSlug}/${nextLesson.slug}`}
-                  className="flex items-center gap-2 text-xs text-[#58a6ff] hover:text-[#79c0ff] transition-colors">
+                  className="flex items-center gap-2 text-xs text-accent hover:text-accent transition-colors">
                   <span className="truncate">{nextLesson.title}</span>
                   <ChevronRight className="w-3.5 h-3.5 shrink-0" />
                 </Link>
@@ -517,9 +517,9 @@ export default function LessonView() {
         </aside>
 
         {/* ── Mobile outline dropdown ── */}
-        <div className="lg:hidden sticky top-14 z-30 w-full border-b border-[#21262d] bg-[#0d1117]/96 backdrop-blur-md px-4 py-2">
+        <div className="lg:hidden sticky top-14 z-30 w-full border-b border-white/12 bg-page/96 backdrop-blur-md px-4 py-2">
           <button type="button" onClick={() => setOutlineOpen((v) => !v)}
-            className="w-full flex items-center justify-between text-xs text-[#8b98a8] hover:text-[#f0f6fc] py-1.5">
+            className="w-full flex items-center justify-between text-xs text-muted hover:text-fg py-1.5">
             <div className="flex items-center gap-2">
               <BookOpen className="w-3.5 h-3.5" />
               <span>{outline[activeSection]?.label || "Lesson Outline"} — {currentIndex}/{totalInPath}</span>
@@ -530,14 +530,14 @@ export default function LessonView() {
             <div className="pb-3 pt-1 space-y-1">
               {outline.map((item, idx) => (
                 <button key={item.id} type="button" onClick={() => scrollToSection(idx)}
-                  className={`w-full text-left px-3 py-2 rounded-lg text-xs ${activeSection === idx ? "bg-[#2f81f7]/10 text-[#58a6ff] font-medium" : "text-[#8b98a8] hover:text-[#c9d1d9]"}`}>
+                  className={`w-full text-left px-3 py-2 rounded-lg text-xs ${activeSection === idx ? "bg-white/[0.06] text-accent font-medium" : "text-muted hover:text-fg"}`}>
                   {item.label}
                 </button>
               ))}
             </div>
           )}
-          <div className="h-0.5 w-full bg-[#21262d] rounded-full overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-[#2f81f7] to-[#58a6ff] transition-all" style={{ width: `${progressPercent}%` }} />
+          <div className="h-0.5 w-full bg-raised rounded-full overflow-hidden">
+            <div className="h-full bg-accent transition-all" style={{ width: `${progressPercent}%` }} />
           </div>
         </div>
 
@@ -548,31 +548,31 @@ export default function LessonView() {
             {/* Hero Block */}
             <div className="mb-10">
               <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mb-3">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-[#58a6ff]">{lesson.moduleTitle}</span>
-                <span className="flex items-center gap-1 text-[11px] text-[#8b98a8]">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-accent">{lesson.moduleTitle}</span>
+                <span className="flex items-center gap-1 text-[11px] text-muted">
                   <Clock className="w-3 h-3" />~{lesson.estimatedMinutes} min
                 </span>
                 {isCompleted && (
-                  <span className="flex items-center gap-1 text-[11px] text-[#3fb950] font-mono">
+                  <span className="flex items-center gap-1 text-[11px] text-success font-mono">
                     <Check className="w-3 h-3" /> Completed
                   </span>
                 )}
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#f0f6fc] leading-[1.15] mb-3">
+              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-fg leading-[1.15] mb-3">
                 {lesson.title}
               </h1>
-              <p className="text-[15px] text-[#8b98a8] leading-relaxed mb-5">{lesson.summary}</p>
+              <p className="text-[15px] text-muted leading-relaxed mb-5">{lesson.summary}</p>
 
               {lesson.objectives && lesson.objectives.length > 0 && (
-                <div className="bg-[#111821] rounded-xl p-4">
+                <div className="bg-surface rounded-xl p-4">
                   <div className="flex items-center gap-2 mb-3">
-                    <BookOpen className="w-3.5 h-3.5 text-[#58a6ff]" />
-                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#58a6ff]">Learning Objectives</span>
+                    <BookOpen className="w-3.5 h-3.5 text-accent" />
+                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-accent">Learning Objectives</span>
                   </div>
                   <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
                     {lesson.objectives.map((obj, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-xs text-[#c9d1d9]">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#58a6ff]/70 shrink-0 mt-1.5" />
+                      <li key={idx} className="flex items-start gap-2 text-xs text-fg">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white/70 shrink-0 mt-1.5" />
                         <span>{obj}</span>
                       </li>
                     ))}
@@ -582,15 +582,15 @@ export default function LessonView() {
 
               {lesson.prerequisites && lesson.prerequisites.length > 0 && (
                 <div className="flex flex-wrap items-center gap-2 mt-4">
-                  <span className="text-[11px] font-mono text-[#8b98a8]">Prerequisites:</span>
+                  <span className="text-[11px] font-mono text-muted">Prerequisites:</span>
                   {lesson.prerequisites.map((p, idx) => (
-                    <span key={idx} className="px-2 py-0.5 rounded text-[11px] font-mono bg-[#0d1117] border border-[#21262d] text-[#c9d1d9]">{p}</span>
+                    <span key={idx} className="px-2 py-0.5 rounded text-[11px] font-mono bg-page border border-white/12 text-fg">{p}</span>
                   ))}
                 </div>
               )}
             </div>
 
-            <div className="border-t border-[#21262d] mb-10" />
+            <div className="border-t border-white/12 mb-10" />
 
             {/* Article body */}
             <article>
@@ -608,7 +608,7 @@ export default function LessonView() {
                 <ul className="space-y-1.5 mt-1">
                   {lesson.commonPitfalls.map((cp, idx) => (
                     <li key={idx} className="flex items-start gap-2">
-                      <span className="text-[#f85149] font-bold shrink-0">!</span>
+                      <span className="text-danger font-bold shrink-0">!</span>
                       <span>{cp}</span>
                     </li>
                   ))}
@@ -619,32 +619,32 @@ export default function LessonView() {
             {/* Labs & Resources */}
             <div className="mt-10 mb-8">
               <div className="flex items-center gap-2 mb-4">
-                <Laptop className="w-4 h-4 text-[#58a6ff]" />
-                <h3 className="text-sm font-bold text-[#f0f6fc]">Hands-On Labs &amp; Documentation</h3>
-                <span className="ml-auto text-[10px] font-mono text-[#8b98a8] uppercase">Legal Only</span>
+                <Laptop className="w-4 h-4 text-accent" />
+                <h3 className="text-sm font-bold text-fg">Hands-On Labs &amp; Documentation</h3>
+                <span className="ml-auto text-[10px] font-mono text-muted uppercase">Legal Only</span>
               </div>
               {/* Connected CyberPath Interactive Lab */}
               {RELATED_CYBERPATH_LABS[lesson.slug] && (
-                <div className="mb-4 p-4 rounded-xl border border-[#2f81f7]/40 bg-[#2f81f7]/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="mb-4 p-4 rounded-xl border border-white/28 bg-white/[0.06] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-[#2f81f7]/20 text-[#58a6ff] border border-[#2f81f7]/40 uppercase">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-white/[0.06] text-accent border border-white/28 uppercase">
                         {RELATED_CYBERPATH_LABS[lesson.slug].badge}
                       </span>
-                      <span className="text-[11px] font-mono text-[#8b98a8]">
+                      <span className="text-[11px] font-mono text-muted">
                         {RELATED_CYBERPATH_LABS[lesson.slug].estTime} · {RELATED_CYBERPATH_LABS[lesson.slug].difficulty}
                       </span>
                     </div>
-                    <h4 className="text-sm font-bold text-[#f0f6fc]">
+                    <h4 className="text-sm font-bold text-fg">
                       {RELATED_CYBERPATH_LABS[lesson.slug].title}
                     </h4>
-                    <p className="text-xs text-[#8b98a8] max-w-xl">
+                    <p className="text-xs text-muted max-w-xl">
                       {RELATED_CYBERPATH_LABS[lesson.slug].description}
                     </p>
                   </div>
                   <Link
                     to={RELATED_CYBERPATH_LABS[lesson.slug].route}
-                    className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#2f81f7] hover:bg-[#2069cc] text-white text-xs font-semibold shadow-md shadow-[#2f81f7]/25 transition-all"
+                    className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-accent hover:bg-accent-hover text-on-accent text-xs font-semibold shadow-sm transition-all"
                   >
                     <Terminal className="w-4 h-4" />
                     <span>Launch Lab</span>
@@ -660,12 +660,12 @@ export default function LessonView() {
                   { title: "Official Security Tool Documentation", url: "https://owasp.org/", platform: "Documentation", type: "documentation" },
                 ]).map((res, idx) => (
                   <a key={idx} href={res.url} target="_blank" rel="noreferrer"
-                    className="p-3.5 rounded-xl border border-[#21262d] bg-[#0d1117] hover:border-[#2f81f7]/50 hover:bg-[#111821] transition-all group flex items-center justify-between">
+                    className="p-3.5 rounded-xl border border-white/12 bg-page hover:border-white/28 hover:bg-raised transition-all group flex items-center justify-between">
                     <div className="space-y-0.5 min-w-0">
-                      <span className="text-[10px] font-mono text-[#58a6ff] uppercase block">{res.platform} · {res.type}</span>
-                      <div className="text-xs font-semibold text-[#f0f6fc] group-hover:text-[#58a6ff] transition-colors truncate">{res.title}</div>
+                      <span className="text-[10px] font-mono text-accent uppercase block">{res.platform} · {res.type}</span>
+                      <div className="text-xs font-semibold text-fg group-hover:text-accent transition-colors truncate">{res.title}</div>
                     </div>
-                    <ExternalLink className="w-4 h-4 text-[#8b98a8] group-hover:text-[#58a6ff] shrink-0 ml-3" />
+                    <ExternalLink className="w-4 h-4 text-muted group-hover:text-accent shrink-0 ml-3" />
                   </a>
                 ))}
               </div>
@@ -690,47 +690,47 @@ export default function LessonView() {
             )}
 
             {/* Bottom: Mark Complete + Next Lesson */}
-            <div className="mt-12 pt-8 border-t border-[#21262d] space-y-5">
+            <div className="mt-12 pt-8 border-t border-white/12 space-y-5">
               {!isCompleted ? (
                 <button type="button" onClick={handleMarkComplete} disabled={marking}
-                  className="w-full py-3.5 rounded-xl bg-[#2f81f7] hover:bg-[#2069cc] text-white text-sm font-semibold shadow-md shadow-[#2f81f7]/20 transition-all flex items-center justify-center gap-2">
+                  className="w-full py-3.5 rounded-xl bg-accent hover:bg-accent-hover text-on-accent text-sm font-semibold shadow-sm transition-all flex items-center justify-center gap-2">
                   <CheckCircle2 className="w-4 h-4" />
                   {marking ? "Saving…" : "Mark Lesson as Complete"}
                 </button>
               ) : (
-                <div className="w-full py-3.5 rounded-xl bg-[#3fb950]/10 border border-[#3fb950]/30 text-[#3fb950] text-sm font-semibold flex items-center justify-center gap-2">
+                <div className="w-full py-3.5 rounded-xl bg-white/[0.06] border border-white/12 text-success text-sm font-semibold flex items-center justify-center gap-2">
                   <Check className="w-4 h-4" /> Lesson Completed
                 </div>
               )}
 
               {nextLesson ? (
                 <Link to={`/learn/${pathSlug}/${nextLesson.slug}`}
-                  className="block w-full rounded-xl border border-[#21262d] bg-[#111821] hover:border-[#2f81f7]/40 hover:bg-[#16202e] transition-all p-5 group">
+                  className="block w-full rounded-xl border border-white/12 bg-surface hover:border-white/28 hover:bg-raised transition-all p-5 group">
                   <div className="flex items-center justify-between">
                     <div className="min-w-0">
-                      <span className="text-[10px] font-mono uppercase text-[#8b98a8] block mb-1">Next Lesson</span>
-                      <span className="text-sm font-bold text-[#f0f6fc] group-hover:text-[#58a6ff] transition-colors block truncate">{nextLesson.title}</span>
+                      <span className="text-[10px] font-mono uppercase text-muted block mb-1">Next Lesson</span>
+                      <span className="text-sm font-bold text-fg group-hover:text-accent transition-colors block truncate">{nextLesson.title}</span>
                       {nextLesson.estimatedMinutes && (
-                        <span className="text-[11px] text-[#8b98a8] flex items-center gap-1 mt-1">
+                        <span className="text-[11px] text-muted flex items-center gap-1 mt-1">
                           <Clock className="w-3 h-3" />~{nextLesson.estimatedMinutes} min
                         </span>
                       )}
                     </div>
-                    <ArrowRight className="w-5 h-5 text-[#8b98a8] group-hover:text-[#58a6ff] shrink-0 ml-4 transition-colors" />
+                    <ArrowRight className="w-5 h-5 text-muted group-hover:text-accent shrink-0 ml-4 transition-colors" />
                   </div>
                 </Link>
               ) : (
                 <Link to={`/learn/${pathSlug}`}
-                  className="block w-full rounded-xl border border-[#3fb950]/30 bg-[#3fb950]/10 hover:bg-[#3fb950]/15 transition-all p-5 text-center">
-                  <Award className="w-6 h-6 text-[#3fb950] mx-auto mb-2" />
-                  <span className="text-sm font-bold text-[#3fb950] block">Track Complete! View Your Badge</span>
-                  <span className="text-[11px] text-[#8b98a8] mt-1 block">Return to {path.title} roadmap</span>
+                  className="block w-full rounded-xl border border-white/12 bg-white/[0.06] hover:bg-white/[0.06] transition-all p-5 text-center">
+                  <Award className="w-6 h-6 text-success mx-auto mb-2" />
+                  <span className="text-sm font-bold text-success block">Track Complete! View Your Badge</span>
+                  <span className="text-[11px] text-muted mt-1 block">Return to {path.title} roadmap</span>
                 </Link>
               )}
 
               {prevLesson && (
                 <Link to={`/learn/${pathSlug}/${prevLesson.slug}`}
-                  className="flex items-center gap-2 text-xs text-[#8b98a8] hover:text-[#c9d1d9] transition-colors">
+                  className="flex items-center gap-2 text-xs text-muted hover:text-fg transition-colors">
                   <ChevronLeft className="w-3.5 h-3.5" />
                   <span>Previous: {prevLesson.title}</span>
                 </Link>

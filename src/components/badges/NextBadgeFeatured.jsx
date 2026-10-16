@@ -16,21 +16,21 @@ export default function NextBadgeFeatured({
   if (!nextBadgeData) {
     // All badges earned state
     return (
-      <div className={`p-6 sm:p-8 rounded-2xl border border-[#d29922]/60 bg-gradient-to-r from-[#1c160a] via-[#111821] to-[#0d1117] relative overflow-hidden ${className}`}>
+      <div className={`p-6 sm:p-8 rounded-2xl border border-[#d29922]/60 bg-gradient-to-r from-[#1c160a] via-[#101012] to-[#09090b] relative overflow-hidden ${className}`}>
         <div className="absolute top-0 right-0 w-80 h-80 bg-[#f59e0b]/10 blur-[100px] pointer-events-none rounded-full" />
         <div className="flex flex-col sm:flex-row items-center gap-6 relative z-10 text-center sm:text-left">
-          <div className="w-16 h-16 rounded-2xl bg-[#d29922]/20 border border-[#f2cc60]/50 flex items-center justify-center text-[#f2cc60] shrink-0">
+          <div className="w-16 h-16 rounded-2xl bg-[#d29922]/20 border border-[#f2cc60]/50 flex items-center justify-center text-gold-bright shrink-0">
             <CheckCircle2 className="w-8 h-8" />
           </div>
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-[#f2cc60]/40 bg-[#d29922]/20 text-[#f2cc60] text-[10px] font-mono uppercase tracking-wider">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-[#f2cc60]/40 bg-[#d29922]/20 text-gold-bright text-[10px] font-mono uppercase tracking-wider">
               <Sparkles className="w-3 h-3" />
               <span>All Achievements Unlocked</span>
             </div>
-            <h3 className="text-lg sm:text-xl font-extrabold text-[#f0f6fc]">
+            <h3 className="text-lg sm:text-xl font-extrabold text-fg">
               Full Credential Mastery Conquered
             </h3>
-            <p className="text-xs text-[#8b98a8] leading-relaxed max-w-xl">
+            <p className="text-xs text-muted leading-relaxed max-w-xl">
               You have completed every foundational and path milestone across Red Team, Blue Team, and Web Security. All 8 verified badges are cryptographically signed.
             </p>
           </div>
@@ -45,7 +45,7 @@ export default function NextBadgeFeatured({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-2xl border border-white/12 bg-[#101012] p-6 sm:p-7 shadow-xl ${className}`}
+      className={`relative overflow-hidden rounded-2xl border border-white/12 bg-surface p-6 sm:p-7 shadow-xl ${className}`}
     >
       {/* Background Ambient Aura */}
       <div
@@ -77,16 +77,16 @@ export default function NextBadgeFeatured({
                 <Target className="w-3 h-3 text-white" />
                 Next Badge to Unlock
               </span>
-              <span className="text-[11px] font-mono text-[#a1a1aa]">
+              <span className="text-[11px] font-mono text-muted">
                 {badge.track} · {palette.tierName}
               </span>
             </div>
 
-            <h3 className="text-xl sm:text-2xl font-extrabold text-[#fafafa] tracking-tight">
+            <h3 className="text-xl sm:text-2xl font-extrabold text-fg tracking-tight">
               {badge.name}
             </h3>
 
-            <p className="text-xs text-[#a1a1aa] leading-relaxed">
+            <p className="text-xs text-muted leading-relaxed">
               {requirementText}
             </p>
 
@@ -98,7 +98,7 @@ export default function NextBadgeFeatured({
               >
                 {remainingSteps} {remainingSteps === 1 ? "step" : "steps"} remaining
               </span>
-              <span className="text-[#a1a1aa] text-[11px]">
+              <span className="text-muted text-[11px]">
                 ({completedSteps} of {totalSteps} milestones finished)
               </span>
             </div>
@@ -109,7 +109,7 @@ export default function NextBadgeFeatured({
         <div className="w-full lg:w-72 flex flex-col gap-3 shrink-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-white/10">
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-xs font-mono">
-              <span className="text-[#a1a1aa]">Unlock Progress</span>
+              <span className="text-muted">Unlock Progress</span>
               <span
                 className="font-bold"
                 style={{ color: isMaster ? "#f2cc60" : "#ffffff" }}
@@ -117,7 +117,7 @@ export default function NextBadgeFeatured({
                 {percent}%
               </span>
             </div>
-            <div className="w-full bg-[#1c1c20] h-2 rounded-full overflow-hidden border border-white/10">
+            <div className="w-full bg-raised h-2 rounded-full overflow-hidden border border-white/10">
               <div
                 className="h-full rounded-full transition-all duration-700 ease-out"
                 style={{
@@ -132,8 +132,8 @@ export default function NextBadgeFeatured({
             to={pathSlug === "all" ? `/learn/${currentPath}` : `/learn/${pathSlug}`}
             className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-md active:scale-95 ${
               isMaster
-                ? "bg-[#d29922] hover:bg-[#b5831b] text-white"
-                : "bg-white hover:bg-[#e4e4e7] text-[#09090b]"
+                ? "bg-[#d29922] hover:bg-[#b5831b] text-on-accent"
+                : "bg-white hover:bg-accent-hover text-on-accent"
             }`}
           >
             <span>Continue Towards Badge</span>
