@@ -3,11 +3,11 @@
  * Provides consistent header (breadcrumb, exit button), progress bar, responsive layout,
  * and integrated CyberPath AI Lab Mentor with floating bottom-right launcher.
  */
-import { useState, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Shield, FlaskConical, Sparkles } from "lucide-react";
 import LabProgressIndicator from "./LabProgressIndicator";
-import AILabMentor from "./AILabMentor";
+import { useAIAssistant } from "../../context/AIAssistantContext";
 
 function resolveLabId(mentorContext, title) {
   if (mentorContext?.labId) return mentorContext.labId;
@@ -30,12 +30,26 @@ export default function LabLayout({
   mentorSlot,
   children,
 }) {
-  const [mentorDrawerOpen, setMentorDrawerOpen] = useState(false);
+  const { isOpen, toggleAssistant, setLabContext, clearLabContext } = useAIAssistant();
 
   const labId = useMemo(
     () => resolveLabId(mentorContext, title),
     [mentorContext, title]
   );
+
+  // Register lab context with the global assistant while mounted
+  useEffect(() => {
+    setLabContext({
+      labId,
+      currentStep: mentorContext?.currentStep || currentStep || 1,
+      totalSteps: mentorContext?.totalSteps || totalSteps || 4,
+      labTitle: title,
+    });
+
+    return () => {
+      clearLabContext();
+    };
+  }, [labId, mentorContext, currentStep, totalSteps, title, setLabContext, clearLabContext]);
 
   return (
     <div className="min-h-screen bg-page text-fg flex flex-col relative overflow-x-hidden">
@@ -72,15 +86,15 @@ export default function LabLayout({
           {/* AI Lab Mentor Reusable Entry Point Trigger */}
           <button
             type="button"
-            onClick={() => setMentorDrawerOpen((prev) => !prev)}
+            onClick={toggleAssistant}
             className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border transition-all cursor-pointer ${
-              mentorDrawerOpen
+              isOpen
                 ? "bg-accent text-on-accent border-accent shadow-sm"
                 : "bg-surface hover:bg-raised text-muted hover:text-fg border-white/12 hover:border-white/28"
             }`}
             title="AI Lab Mentor — Ask for hints, concepts, or defense explanations"
             aria-label="Toggle AI Lab Mentor panel"
-            aria-expanded={mentorDrawerOpen}
+            aria-expanded={isOpen}
           >
             <Sparkles className="w-3.5 h-3.5 text-accent" />
             <span className="hidden sm:inline">AI Mentor</span>
@@ -108,19 +122,8 @@ export default function LabLayout({
         {children}
       </main>
 
-      {/* ── Integrated Production AI Lab Mentor Floating Component ── */}
-      {mentorSlot ? (
-        mentorSlot
-      ) : (
-        <AILabMentor
-          labId={labId}
-          currentStep={mentorContext?.currentStep || currentStep || 1}
-          totalSteps={mentorContext?.totalSteps || totalSteps || 4}
-          labTitle={title}
-          isOpen={mentorDrawerOpen}
-          onOpenChange={setMentorDrawerOpen}
-        />
-      )}
+      {/* Optional custom mentor slot if explicitly provided */}
+      {mentorSlot}
     </div>
   );
 }

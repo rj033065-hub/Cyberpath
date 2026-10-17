@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { AIAssistantProvider } from "./context/AIAssistantContext";
+import AILabMentor from "./components/labs/AILabMentor";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LandingPage from "./pages/LandingPage";
 import DemoOne from "./components/ui/demo";
@@ -24,13 +26,16 @@ import "./App.css";
 
 // Background system is now handled by BackgroundLayer component.
 
-
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        {/* Site-wide animated background */}
-        <BackgroundLayer />
+        <AIAssistantProvider>
+          {/* Site-wide animated background */}
+          <BackgroundLayer />
+
+          {/* Site-wide Global AI Assistant & AI Lab Mentor Floating Component */}
+          <AILabMentor />
 
         <Routes>
           {/* Public Landing Page */}
@@ -138,6 +143,7 @@ function App() {
           {/* Catch-all redirect to Home */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        </AIAssistantProvider>
       </AuthProvider>
     </BrowserRouter>
   );
