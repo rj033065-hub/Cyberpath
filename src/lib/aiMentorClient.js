@@ -27,6 +27,19 @@ function getSupabaseUrl() {
 }
 
 /**
+ * Resolves the Supabase Anon / Publishable Key across environments.
+ */
+function getSupabaseAnonKey() {
+  return (
+    (typeof import.meta !== "undefined" &&
+      (import.meta?.env?.VITE_SUPABASE_PUBLISHABLE_KEY || import.meta?.env?.VITE_SUPABASE_ANON_KEY)) ||
+    (typeof process !== "undefined" &&
+      (process?.env?.VITE_SUPABASE_PUBLISHABLE_KEY || process?.env?.VITE_SUPABASE_ANON_KEY)) ||
+    ""
+  );
+}
+
+/**
  * Sends a request to the AI Mentor Edge Function.
  *
  * @param {Object} params
@@ -42,9 +55,10 @@ export async function callAiMentor({ labId, pageContext, mode, message, history 
 
   // 1. Check for active Supabase session
   const { data: { session } } = await supabase.auth.getSession().catch(() => ({ data: { session: null } }));
+  const isGuest = !session?.access_token;
 
   // If attempting to access an interactive practice lab without signing in
-  if (!session?.access_token && labId) {
+  if (isGuest && labId) {
     const authErr = new Error("Interactive lab mentoring requires signing in to CyberPath.");
     authErr.status = 401;
     authErr.isAuthError = true;
@@ -56,10 +70,12 @@ export async function callAiMentor({ labId, pageContext, mode, message, history 
     ...(pageContext ? { pageContext } : {}),
     mode: effectiveMode,
     message: String(message || "").trim(),
-    history: Array.isArray(history) ? history.slice(-10) : [],
+    history: Array.isArray(history) ? history.slice(isGuest ? -4 : -10) : [],
+    ...(isGuest ? { guest: true } : {}),
   };
 
   const baseUrl = getSupabaseUrl();
+  const anonKey = getSupabaseAnonKey();
 
   // Direct fetch to edge function endpoint for exact HTTP status codes and headers
   if (baseUrl) {
@@ -67,9 +83,16 @@ export async function callAiMentor({ labId, pageContext, mode, message, history 
 
     const requestHeaders = {
       "Content-Type": "application/json",
+      ...(anonKey ? { apikey: anonKey } : {}),
     };
+
     if (session?.access_token) {
       requestHeaders["Authorization"] = `Bearer ${session.access_token}`;
+    } else {
+      requestHeaders["X-CyberPath-Guest"] = "true";
+      if (anonKey) {
+        requestHeaders["Authorization"] = `Bearer ${anonKey}`;
+      }
     }
 
     try {

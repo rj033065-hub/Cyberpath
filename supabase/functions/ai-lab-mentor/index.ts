@@ -226,11 +226,11 @@ ${mode === "hint"
 - Guidance: ${ctx.guidance}
 
 ${isGuest ? `=== GUEST VISITOR MODE & LIMITATIONS ===
-- The user is currently an unauthenticated guest visitor browsing CyberPath.
+- The user is currently an unauthenticated guest visitor browsing CyberPath; progress and XP are not tracked in guest mode.
 - Welcoming & educational: Warmly answer everyday greetings and general cybersecurity learning questions.
-- Non-personal: You do NOT have access to their private account data, saved progress, XP, streaks, or badges.
+- Non-personal: You do NOT have access to their private account data, saved progress, XP, streaks, or badges; progress and XP are not tracked in guest mode.
 - If they ask about their personal XP, badges, streaks, or saved progress, politely inform them:
-  "Since you are currently in Guest mode, your progress is not being tracked. Sign in or create a free CyberPath account to track your progress, earn XP, maintain streaks, and collect badges!"
+  "Since you are currently in Guest mode, your progress and XP are not tracked. Sign in or create a free CyberPath account to track your progress, earn XP, maintain streaks, and collect badges!"
 - Do NOT invent fictitious user scores or achievements.
 ` : `=== AUTHENTICATED STUDENT CONTEXT ===
 - Verified student session active. Provide contextual cybersecurity guidance tailored to the learner.
@@ -513,15 +513,33 @@ export async function handleRequest(req: Request): Promise<Response> {
   }
 
   // 3. Inspect Authentication: Differentiate Authenticated Users from Guests
+  // Supports both explicit guest paths (/guest, ?mode=guest, x-cyberpath-guest) and shared endpoint policies
+  const requestUrl = new URL(req.url, "http://localhost");
+  const isExplicitGuest =
+    requestUrl.pathname.endsWith("/guest") ||
+    requestUrl.searchParams.get("mode") === "guest" ||
+    req.headers.get("x-cyberpath-guest") === "true";
+
   const authHeader = req.headers.get("Authorization") || req.headers.get("authorization");
   let isGuest = true;
   let userId = "guest_visitor";
 
-  if (authHeader && authHeader.startsWith("Bearer ")) {
+  const supabasePublishableKey =
+    getEnv("VITE_SUPABASE_PUBLISHABLE_KEY") ||
+    getEnv("SUPABASE_PUBLISHABLE_KEY") ||
+    "sb_publishable_XV1mgnJ_iuFgR2MzS7zhFw_1lLOKf2y";
+
+  const isPublicKey = (t: string) =>
+    !t ||
+    t === supabaseAnonKey ||
+    t === supabasePublishableKey ||
+    t.startsWith("sb_publishable_");
+
+  if (!isExplicitGuest && authHeader && authHeader.startsWith("Bearer ")) {
     const token = authHeader.replace(/^Bearer\s+/i, "").trim();
 
-    // Verify token only if non-empty and not the anonymous public key
-    if (token && token !== supabaseAnonKey) {
+    // Verify token only if non-empty and not the anonymous/publishable key
+    if (token && !isPublicKey(token)) {
       const authClient = createClient(supabaseUrl, supabaseAnonKey || supabaseServiceKey!);
       const { data: userData, error: userError } = await authClient.auth.getUser(token);
 
