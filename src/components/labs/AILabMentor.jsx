@@ -34,6 +34,7 @@ import {
   HelpCircle,
 } from "lucide-react";
 import { useAIAssistant } from "../../context/AIAssistantContext";
+import { useAuth } from "../../context/AuthContext";
 import { resolveLabConfig } from "../../lib/aiLabConfig";
 
 // Mode icon mapping
@@ -204,6 +205,7 @@ export default function AILabMentor() {
     clearChat,
   } = useAIAssistant();
 
+  const { user } = useAuth();
   const [inputMessage, setInputMessage] = useState("");
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -536,6 +538,25 @@ export default function AILabMentor() {
 
             <div ref={messagesEndRef} />
           </div>
+
+          {/* Subtle Guest Guidance Banner */}
+          {!user && (
+            <aside
+              aria-label="Guest session notice"
+              className="px-3 py-1.5 bg-accent/5 border-t border-white/8 flex items-center justify-between text-[11px] text-muted shrink-0"
+            >
+              <div className="flex items-center gap-1.5 truncate">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse shrink-0" />
+                <span className="truncate">Sign in for personalized guidance and progress tracking</span>
+              </div>
+              <a
+                href="/login"
+                className="text-accent hover:underline font-semibold ml-2 shrink-0 cursor-pointer"
+              >
+                Sign in
+              </a>
+            </aside>
+          )}
 
           {/* Input & Controls Footer */}
           <footer className="p-3 border-t border-white/10 bg-white/[0.02] shrink-0">

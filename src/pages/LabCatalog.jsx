@@ -23,6 +23,7 @@ import {
   ChevronRight,
   Filter,
   ArrowLeft,
+  Flag,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { getLabProgress } from "../lib/labService";
@@ -92,6 +93,22 @@ const LABS = [
     relatedPath: "web-security",
     relatedLesson: "/learn/web-security/cookies-sessions-and-authentication",
   },
+  {
+    slug: "secret-message",
+    href: "/secret-message.html",
+    isExternal: true,
+    title: "Secret Message (CTF Challenge)",
+    description:
+      "An anonymous hacker left a secret message on this page. Inspect the source code, find the hidden Base64 artifact, and submit the flag.",
+    category: "Recon & Cryptography",
+    topic: "ctf-challenge",
+    topicLabel: "CTF Challenge",
+    difficulty: "Beginner",
+    estimatedTime: "5–10 min",
+    icon: Flag,
+    skills: ["Source Code Inspection", "Base64 Decoding", "Web Reconnaissance"],
+    relatedPath: "web-security",
+  },
 ];
 
 const TOPIC_FILTERS = [
@@ -99,6 +116,7 @@ const TOPIC_FILTERS = [
   { id: "web-security", label: "Web Security" },
   { id: "access-control", label: "Access Control" },
   { id: "authentication", label: "Authentication" },
+  { id: "ctf-challenge", label: "CTF Challenges" },
 ];
 
 const STATUS_FILTERS = [
@@ -346,26 +364,37 @@ export default function LabCatalog() {
 
                   {/* CTA */}
                   <div className="px-5 pb-5">
-                    <Link
-                      to={lab.href}
-                      className="w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-lg bg-accent hover:bg-accent-hover text-on-accent text-sm font-semibold transition-colors"
-                      aria-label={
-                        status === "completed"
-                          ? `Review ${lab.title}`
-                          : status === "in_progress"
-                          ? `Continue ${lab.title}`
-                          : `Start ${lab.title}`
-                      }
-                    >
-                      <span>
-                        {status === "completed"
-                          ? "Review Lab"
-                          : status === "in_progress"
-                          ? "Continue Lab"
-                          : "Start Lab"}
-                      </span>
-                      <ChevronRight className="w-4 h-4" />
-                    </Link>
+                    {lab.isExternal ? (
+                      <a
+                        href={lab.href}
+                        className="w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-accent to-purple-500 hover:brightness-110 text-on-accent text-sm font-semibold transition-all shadow-sm cursor-pointer"
+                        aria-label={`Start ${lab.title}`}
+                      >
+                        <span>Start Challenge</span>
+                        <ChevronRight className="w-4 h-4" />
+                      </a>
+                    ) : (
+                      <Link
+                        to={lab.href}
+                        className="w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-lg bg-accent hover:bg-accent-hover text-on-accent text-sm font-semibold transition-colors"
+                        aria-label={
+                          status === "completed"
+                            ? `Review ${lab.title}`
+                            : status === "in_progress"
+                            ? `Continue ${lab.title}`
+                            : `Start ${lab.title}`
+                        }
+                      >
+                        <span>
+                          {status === "completed"
+                            ? "Review Lab"
+                            : status === "in_progress"
+                            ? "Continue Lab"
+                            : "Start Lab"}
+                        </span>
+                        <ChevronRight className="w-4 h-4" />
+                      </Link>
+                    )}
                   </div>
                 </article>
               );

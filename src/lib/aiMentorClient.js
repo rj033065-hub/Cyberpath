@@ -40,11 +40,12 @@ function getSupabaseUrl() {
 export async function callAiMentor({ labId, pageContext, mode, message, history = [] }) {
   const effectiveMode = mode || "chat";
 
-  // 1. Verify active Supabase session
-  const { data: { session }, error: sessErr } = await supabase.auth.getSession();
+  // 1. Check for active Supabase session
+  const { data: { session } } = await supabase.auth.getSession().catch(() => ({ data: { session: null } }));
 
-  if (sessErr || !session || !session.access_token) {
-    const authErr = new Error("Authentication required. Please sign in to your CyberPath account to ask the AI Assistant.");
+  // If attempting to access an interactive practice lab without signing in
+  if (!session?.access_token && labId) {
+    const authErr = new Error("Interactive lab mentoring requires signing in to CyberPath.");
     authErr.status = 401;
     authErr.isAuthError = true;
     throw authErr;
@@ -64,13 +65,17 @@ export async function callAiMentor({ labId, pageContext, mode, message, history 
   if (baseUrl) {
     const endpoint = `${baseUrl}/functions/v1/ai-lab-mentor`;
 
+    const requestHeaders = {
+      "Content-Type": "application/json",
+    };
+    if (session?.access_token) {
+      requestHeaders["Authorization"] = `Bearer ${session.access_token}`;
+    }
+
     try {
       const response = await fetch(endpoint, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session.access_token}`,
-        },
+        headers: requestHeaders,
         body: JSON.stringify(payload),
       });
 

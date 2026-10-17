@@ -176,9 +176,10 @@ export interface MentorRequestBody {
 export function buildSystemPrompt(
   labId?: string,
   pageContext?: string,
-  mode: TutoringMode = "explain"
+  mode: TutoringMode = "explain",
+  isGuest: boolean = false
 ): string {
-  // If labId is provided and recognized, use the verified lab tutor prompt
+  // If labId is provided and recognized, use the verified lab tutor prompt (authenticated)
   if (labId && ALLOWED_LABS[labId]) {
     const lab = ALLOWED_LABS[labId];
     return `You are the CyberPath AI Lab Mentor, an encouraging, patient, and highly knowledgeable cybersecurity educator.
@@ -224,6 +225,17 @@ ${mode === "hint"
 - Scope & Topic: ${ctx.scope}
 - Guidance: ${ctx.guidance}
 
+${isGuest ? `=== GUEST VISITOR MODE & LIMITATIONS ===
+- The user is currently an unauthenticated guest visitor browsing CyberPath.
+- Welcoming & educational: Warmly answer everyday greetings and general cybersecurity learning questions.
+- Non-personal: You do NOT have access to their private account data, saved progress, XP, streaks, or badges.
+- If they ask about their personal XP, badges, streaks, or saved progress, politely inform them:
+  "Since you are currently in Guest mode, your progress is not being tracked. Sign in or create a free CyberPath account to track your progress, earn XP, maintain streaks, and collect badges!"
+- Do NOT invent fictitious user scores or achievements.
+` : `=== AUTHENTICATED STUDENT CONTEXT ===
+- Verified student session active. Provide contextual cybersecurity guidance tailored to the learner.
+`}
+
 === CORE BEHAVIOR & INTERACTION GUIDELINES ===
 1. Natural Conversation & Greetings:
    - If the user sends a friendly greeting (such as "Hi", "Hello", "How are you?"), respond naturally, warmly, and concisely (e.g. "Hello! 👋 Welcome to CyberPath. What would you like to learn today?").
@@ -266,12 +278,23 @@ async function fetchWithTimeout(url: string, options: RequestInit, timeoutMs = 1
 /**
  * Validates request payload structure and sizes.
  */
-export function validateRequestBody(body: any): { valid: boolean; error?: string; data?: MentorRequestBody } {
+export function validateRequestBody(
+  body: any,
+  isGuest: boolean = false
+): { valid: boolean; error?: string; data?: MentorRequestBody } {
   if (!body || typeof body !== "object") {
     return { valid: false, error: "Invalid JSON body" };
   }
 
   const { labId, pageContext, mode, message, history } = body;
+
+  // Guest restriction: Guests cannot request lab-specific tutoring without logging in
+  if (isGuest && labId) {
+    return {
+      valid: false,
+      error: "Interactive lab mentoring and hints require signing in to CyberPath.",
+    };
+  }
 
   // Validate labId if provided
   if (labId !== undefined && labId !== null && labId !== "") {
@@ -299,18 +322,31 @@ export function validateRequestBody(body: any): { valid: boolean; error?: string
     return { valid: false, error: "Message must be a non-empty string." };
   }
 
-  if (message.length > 2000) {
-    return { valid: false, error: "Message exceeds maximum allowed length of 2,000 characters." };
+  // Length limit: 1,000 for guests, 2,000 for authenticated students
+  const maxMessageLength = isGuest ? 1000 : 2000;
+  if (message.length > maxMessageLength) {
+    return {
+      valid: false,
+      error: isGuest
+        ? "Guest messages must be 1,000 characters or fewer. Please sign in for longer messages."
+        : "Message exceeds maximum allowed length of 2,000 characters.",
+    };
   }
 
-  // Validate history
+  // History limit: 4 for guests, 10 for authenticated students
+  const maxHistoryLength = isGuest ? 4 : 10;
   const sanitizedHistory: MentorHistoryMessage[] = [];
   if (history !== undefined) {
     if (!Array.isArray(history)) {
       return { valid: false, error: "History must be an array of messages." };
     }
-    if (history.length > 10) {
-      return { valid: false, error: "Conversation history exceeds the limit of 10 recent messages." };
+    if (history.length > maxHistoryLength) {
+      return {
+        valid: false,
+        error: isGuest
+          ? "Guest conversation history is limited to 4 messages. Please sign in for extended history."
+          : "Conversation history exceeds the limit of 10 recent messages.",
+      };
     }
     for (let i = 0; i < history.length; i++) {
       const item = history[i];
@@ -339,8 +375,54 @@ export function validateRequestBody(body: any): { valid: boolean; error?: string
   };
 }
 
+// In-memory sliding window rate limiter for unauthenticated guest requests
+export const guestRateLimitMap = new Map<string, number[]>();
+
+export function enforceGuestRateLimit(
+  clientIp: string,
+  maxPerMinute = 3,
+  maxPerDay = 20
+): { allowed: boolean; error?: string; retryAfter?: number } {
+  const now = Date.now();
+  const oneMinuteAgo = now - 60 * 1000;
+  const oneDayAgo = now - 24 * 60 * 60 * 1000;
+
+  let timestamps = guestRateLimitMap.get(clientIp) || [];
+  timestamps = timestamps.filter((t) => t > oneDayAgo);
+
+  const minuteCount = timestamps.filter((t) => t > oneMinuteAgo).length;
+  if (minuteCount >= maxPerMinute) {
+    return {
+      allowed: false,
+      error: "Guest rate limit reached (3 requests/min). Please wait a moment or sign in for higher limits.",
+      retryAfter: 60,
+    };
+  }
+
+  if (timestamps.length >= maxPerDay) {
+    return {
+      allowed: false,
+      error: "Daily guest message limit reached (20 requests/day). Please sign in to continue chatting with the assistant.",
+      retryAfter: 86400,
+    };
+  }
+
+  timestamps.push(now);
+  guestRateLimitMap.set(clientIp, timestamps);
+
+  if (guestRateLimitMap.size > 5000) {
+    for (const [key, list] of guestRateLimitMap.entries()) {
+      if (list.every((t) => t <= oneDayAgo)) {
+        guestRateLimitMap.delete(key);
+      }
+    }
+  }
+
+  return { allowed: true };
+}
+
 /**
- * Rate-limiting check via Supabase RPC or sliding-window table fallback.
+ * Rate-limiting check via Supabase RPC or sliding-window table fallback (Authenticated).
  */
 async function enforceRateLimit(
   supabase: any,
@@ -418,16 +500,7 @@ export async function handleRequest(req: Request): Promise<Response> {
     });
   }
 
-  // 2. Authenticate User Token
-  const authHeader = req.headers.get("Authorization") || req.headers.get("authorization");
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return new Response(
-      JSON.stringify({ error: "Authentication required. Please sign in to access the AI Lab Mentor." }),
-      { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
-  }
-
-  // 3. Validate Supabase Environment
+  // 2. Validate Supabase Server Configuration
   const supabaseUrl = getEnv("SUPABASE_URL") || getEnv("VITE_SUPABASE_URL");
   const supabaseAnonKey = getEnv("SUPABASE_ANON_KEY") || getEnv("VITE_SUPABASE_ANON_KEY") || getEnv("VITE_SUPABASE_PUBLISHABLE_KEY");
   const supabaseServiceKey = getEnv("SUPABASE_SERVICE_ROLE_KEY");
@@ -439,20 +512,41 @@ export async function handleRequest(req: Request): Promise<Response> {
     );
   }
 
-  const token = authHeader.replace(/^Bearer\s+/i, "").trim();
-  const authClient = createClient(supabaseUrl, supabaseAnonKey || supabaseServiceKey!);
-  const { data: userData, error: userError } = await authClient.auth.getUser(token);
+  // 3. Inspect Authentication: Differentiate Authenticated Users from Guests
+  const authHeader = req.headers.get("Authorization") || req.headers.get("authorization");
+  let isGuest = true;
+  let userId = "guest_visitor";
 
-  if (userError || !userData?.user) {
-    return new Response(
-      JSON.stringify({ error: "Invalid or expired session. Please sign in again." }),
-      { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    const token = authHeader.replace(/^Bearer\s+/i, "").trim();
+
+    // Verify token only if non-empty and not the anonymous public key
+    if (token && token !== supabaseAnonKey) {
+      const authClient = createClient(supabaseUrl, supabaseAnonKey || supabaseServiceKey!);
+      const { data: userData, error: userError } = await authClient.auth.getUser(token);
+
+      if (!userError && userData?.user) {
+        isGuest = false;
+        userId = userData.user.id;
+      } else {
+        // Authenticated token was provided but failed verification (expired or forged)
+        return new Response(
+          JSON.stringify({ error: "Invalid or expired session. Please sign in again." }),
+          { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+    }
   }
 
-  const userId = userData.user.id;
+  // Client IP for abuse prevention in Guest Mode
+  const clientIp = (
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("cf-connecting-ip") ||
+    req.headers.get("x-real-ip") ||
+    "guest_client"
+  );
 
-  // 4. Validate Request Body
+  // 4. Validate Request Body with appropriate Guest or Authenticated Policy
   let rawBody: any;
   try {
     rawBody = await req.json();
@@ -463,7 +557,7 @@ export async function handleRequest(req: Request): Promise<Response> {
     );
   }
 
-  const validation = validateRequestBody(rawBody);
+  const validation = validateRequestBody(rawBody, isGuest);
   if (!validation.valid || !validation.data) {
     return new Response(
       JSON.stringify({ error: validation.error }),
@@ -473,28 +567,48 @@ export async function handleRequest(req: Request): Promise<Response> {
 
   const { labId, pageContext, mode, message, history = [] } = validation.data;
 
-  // 5. Enforce Atomic Rate Limiting
-  const rateLimitClient = supabaseServiceKey
-    ? createClient(supabaseUrl, supabaseServiceKey)
-    : authClient;
+  // 5. Enforce Rate Limiting (Strict in-memory per-IP for guests; Atomic DB RPC for signed-in users)
+  if (isGuest) {
+    const guestCheck = enforceGuestRateLimit(clientIp, 3, 20);
+    if (!guestCheck.allowed) {
+      return new Response(
+        JSON.stringify({
+          error: guestCheck.error,
+          retry_after: guestCheck.retryAfter,
+        }),
+        {
+          status: 429,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+            "Retry-After": String(guestCheck.retryAfter || 60),
+          },
+        }
+      );
+    }
+  } else {
+    const rateLimitClient = supabaseServiceKey
+      ? createClient(supabaseUrl, supabaseServiceKey)
+      : createClient(supabaseUrl, supabaseAnonKey!);
 
-  const targetIdentifier = labId || pageContext || "global";
-  const rateCheck = await enforceRateLimit(rateLimitClient, userId, targetIdentifier, mode);
-  if (!rateCheck.allowed) {
-    return new Response(
-      JSON.stringify({
-        error: rateCheck.error,
-        retry_after: rateCheck.retryAfter,
-      }),
-      {
-        status: 429,
-        headers: {
-          ...corsHeaders,
-          "Content-Type": "application/json",
-          "Retry-After": String(rateCheck.retryAfter || 60),
-        },
-      }
-    );
+    const targetIdentifier = labId || pageContext || "global";
+    const rateCheck = await enforceRateLimit(rateLimitClient, userId, targetIdentifier, mode);
+    if (!rateCheck.allowed) {
+      return new Response(
+        JSON.stringify({
+          error: rateCheck.error,
+          retry_after: rateCheck.retryAfter,
+        }),
+        {
+          status: 429,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+            "Retry-After": String(rateCheck.retryAfter || 60),
+          },
+        }
+      );
+    }
   }
 
   // 6. Validate OpenRouter Secrets Server-Side
@@ -511,7 +625,7 @@ export async function handleRequest(req: Request): Promise<Response> {
   }
 
   // 7. Assemble OpenRouter Chat Payload with Trusted Learning Context
-  const systemPrompt = buildSystemPrompt(labId, pageContext, mode);
+  const systemPrompt = buildSystemPrompt(labId, pageContext, mode, isGuest);
   const openRouterMessages = [
     { role: "system", content: systemPrompt },
     ...history.map((h) => ({ role: h.role, content: h.content })),
@@ -521,7 +635,7 @@ export async function handleRequest(req: Request): Promise<Response> {
   const openRouterPayload = {
     model: configuredModel,
     messages: openRouterMessages,
-    max_tokens: 600,
+    max_tokens: isGuest ? 350 : 600,
     temperature: 0.6,
   };
 
