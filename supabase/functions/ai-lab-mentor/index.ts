@@ -2,7 +2,7 @@
 // Production Supabase Edge Function for CyberPath AI Lab Mentor
 // Runs on Deno / Supabase Edge Runtime.
 
-import { createClient } from "npm:@supabase/supabase-js@2";
+import { createClient } from "@supabase/supabase-js";
 
 // Ambient declarations for cross-runtime globals (Deno Edge Runtime & Node.js test runners)
 declare const Deno: any;

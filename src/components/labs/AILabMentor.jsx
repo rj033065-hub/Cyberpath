@@ -310,9 +310,11 @@ export default function AILabMentor({
       setMessages((prev) => [...prev, assistantMsg]);
     } catch (err) {
       const isRateLimit = err?.status === 429 || err?.isRateLimit;
+      const isAuthError = err?.status === 401 || err?.isAuthError;
       setErrorState({
         message: err.message || "Failed to reach AI Lab Mentor.",
         isRateLimit,
+        isAuthError,
         retryablePayload: { text, mode },
       });
     } finally {
@@ -550,13 +552,22 @@ export default function AILabMentor({
                     <p className="mt-0.5 leading-relaxed">{errorState.message}</p>
                   </div>
                 </div>
-                {errorState.retryablePayload && (
+                {errorState.isAuthError ? (
+                  <div className="flex justify-end pt-1">
+                    <a
+                      href="/login"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent text-on-accent text-xs font-semibold hover:brightness-110 transition-all cursor-pointer shadow-sm"
+                    >
+                      <span>Sign In to CyberPath</span>
+                    </a>
+                  </div>
+                ) : errorState.retryablePayload && (
                   <div className="flex justify-end pt-1">
                     <button
                       type="button"
                       onClick={handleRetry}
                       disabled={isLoading}
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-fg text-xs font-medium transition-colors"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-white/10 hover:bg-white/20 text-fg text-xs font-medium transition-colors cursor-pointer"
                     >
                       <RefreshCw className="w-3 h-3" />
                       <span>Retry</span>
