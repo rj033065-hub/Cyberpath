@@ -2,7 +2,11 @@
 // Production Supabase Edge Function for CyberPath AI Lab Mentor
 // Runs on Deno / Supabase Edge Runtime.
 
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "npm:@supabase/supabase-js@2";
+
+// Ambient declarations for cross-runtime globals (Deno Edge Runtime & Node.js test runners)
+declare const Deno: any;
+declare const process: any;
 
 // Helper for cross-runtime environment variable access (Deno & Node testing)
 function getEnv(key: string): string | undefined {
@@ -141,15 +145,14 @@ ${lab.objectives.map((o) => `  * ${o}`).join("\n")}
 - Simulated Lab Context: ${lab.simulatedContext}
 
 === TUTORING MODE: ${mode.toUpperCase()} ===
-${
-  mode === "hint"
-    ? "- Provide a gentle, incremental nudge that helps the learner think through the problem on their own.\n- DO NOT give the complete solution or full payload immediately. Encourage deductive reasoning."
-    : mode === "explain"
-    ? "- Explain the core cybersecurity concept in clear, beginner-friendly terms with an intuitive analogy.\n- Demystify technical jargon without being condescending."
-    : mode === "debug"
-    ? "- Review the learner's thinking or hypothesis.\n- Point out which assumption might be flawed and guide them toward testing a revised approach in the simulated interface."
-    : "- Focus on the defensive security posture: explain how secure code eliminates this flaw in production.\n- Emphasize secure engineering practices and defense-in-depth."
-}
+${mode === "hint"
+      ? "- Provide a gentle, incremental nudge that helps the learner think through the problem on their own.\n- DO NOT give the complete solution or full payload immediately. Encourage deductive reasoning."
+      : mode === "explain"
+        ? "- Explain the core cybersecurity concept in clear, beginner-friendly terms with an intuitive analogy.\n- Demystify technical jargon without being condescending."
+        : mode === "debug"
+          ? "- Review the learner's thinking or hypothesis.\n- Point out which assumption might be flawed and guide them toward testing a revised approach in the simulated interface."
+          : "- Focus on the defensive security posture: explain how secure code eliminates this flaw in production.\n- Emphasize secure engineering practices and defense-in-depth."
+    }
 
 === CRITICAL SECURITY & OPERATIONAL RULES ===
 1. Educational simulation only: All targets are static, simulated classroom exercises. Never provide instructions for attacking real-world websites or live networks.
