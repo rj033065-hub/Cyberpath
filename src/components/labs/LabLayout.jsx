@@ -1,12 +1,23 @@
 /**
  * LabLayout — Shared page wrapper for all CyberPath lab pages.
  * Provides consistent header (breadcrumb, exit button), progress bar, responsive layout,
- * and a reusable AI Lab Mentor integration point.
+ * and integrated CyberPath AI Lab Mentor with floating bottom-right launcher.
  */
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Shield, FlaskConical, Sparkles, X, BrainCircuit, ExternalLink } from "lucide-react";
+import { ArrowLeft, Shield, FlaskConical, Sparkles } from "lucide-react";
 import LabProgressIndicator from "./LabProgressIndicator";
+import AILabMentor from "./AILabMentor";
+
+function resolveLabId(mentorContext, title) {
+  if (mentorContext?.labId) return mentorContext.labId;
+  const t = (title || "").toLowerCase();
+  if (t.includes("sql")) return "sqli-basics";
+  if (t.includes("xss")) return "xss-playground";
+  if (t.includes("idor")) return "idor-investigation";
+  if (t.includes("auth")) return "auth-checkpoint";
+  return "sqli-basics";
+}
 
 export default function LabLayout({
   title,
@@ -21,10 +32,15 @@ export default function LabLayout({
 }) {
   const [mentorDrawerOpen, setMentorDrawerOpen] = useState(false);
 
+  const labId = useMemo(
+    () => resolveLabId(mentorContext, title),
+    [mentorContext, title]
+  );
+
   return (
     <div className="min-h-screen bg-page text-fg flex flex-col relative overflow-x-hidden">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-white/12 bg-page/90 backdrop-blur-md px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-40 border-b border-white/12 bg-page/90 backdrop-blur-md px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3 min-w-0">
           <Link
             to="/labs"
@@ -57,12 +73,12 @@ export default function LabLayout({
           <button
             type="button"
             onClick={() => setMentorDrawerOpen((prev) => !prev)}
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border transition-all ${
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border transition-all cursor-pointer ${
               mentorDrawerOpen
                 ? "bg-accent text-on-accent border-accent shadow-sm"
                 : "bg-surface hover:bg-raised text-muted hover:text-fg border-white/12 hover:border-white/28"
             }`}
-            title="AI Lab Mentor — Contextual guidance integration slot"
+            title="AI Lab Mentor — Ask for hints, concepts, or defense explanations"
             aria-label="Toggle AI Lab Mentor panel"
             aria-expanded={mentorDrawerOpen}
           >
@@ -92,98 +108,19 @@ export default function LabLayout({
         {children}
       </main>
 
-      {/* ── Reusable AI Lab Mentor Integration Drawer / Panel Slot ── */}
-      {mentorDrawerOpen && (
-        <aside
-          role="complementary"
-          aria-label="AI Lab Mentor Panel"
-          className="fixed top-14 right-0 bottom-0 w-full sm:w-96 border-l border-white/12 bg-surface/98 backdrop-blur-xl z-50 p-6 flex flex-col shadow-2xl transition-all animate-page-enter"
-        >
-          <div className="flex items-center justify-between pb-4 border-b border-white/12">
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-white/[0.06] border border-white/12 flex items-center justify-center">
-                <BrainCircuit className="w-4 h-4 text-accent" />
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold text-fg">AI Lab Mentor</h3>
-                <span className="text-[10px] font-mono text-muted uppercase">Framework Integration Slot</span>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={() => setMentorDrawerOpen(false)}
-              className="p-1 rounded-lg text-muted hover:text-fg hover:bg-raised transition-colors"
-              aria-label="Close AI Mentor panel"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-
-          <div className="flex-1 overflow-y-auto py-5 space-y-4">
-            {mentorSlot ? (
-              // Dedicated injected mentor component if provided by future integration
-              mentorSlot
-            ) : (
-              // Standardized, non-simulated architecture slot with live lab context binding
-              <div className="space-y-4">
-                <div className="p-3.5 rounded-xl bg-page border border-white/12 space-y-2 text-xs">
-                  <div className="flex items-center justify-between text-[11px] font-mono text-muted pb-1 border-b border-white/5">
-                    <span>BOUND LAB CONTEXT</span>
-                    <span className="text-success font-semibold">Active Ready</span>
-                  </div>
-                  <div>
-                    <span className="text-muted block font-sans">Lab ID:</span>
-                    <code className="text-accent font-mono">{mentorContext?.labId || title || "lab-session"}</code>
-                  </div>
-                  {mentorContext?.topic && (
-                    <div>
-                      <span className="text-muted block font-sans">Topic:</span>
-                      <code className="text-fg font-mono">{mentorContext.topic}</code>
-                    </div>
-                  )}
-                  <div>
-                    <span className="text-muted block font-sans">Challenge Stage:</span>
-                    <span className="text-fg font-medium">
-                      Step {mentorContext?.currentStep || currentStep || 1} of {mentorContext?.totalSteps || totalSteps || 4}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="p-4 rounded-xl bg-white/[0.04] border border-white/12 space-y-2 text-xs text-muted leading-relaxed">
-                  <strong className="text-fg block">Architecture Status:</strong>
-                  <p>
-                    This panel serves as the universal integration point for the upcoming AI Lab Mentor.
-                    In compliance with security standards, all client-side context (lab ID, topic, current step,
-                    and learning objectives) is prepared for secure server-side proxy dispatch without exposing
-                    frontend API credentials or executing arbitrary code.
-                  </p>
-                </div>
-
-                {mentorContext?.learningObjectives && mentorContext.learningObjectives.length > 0 && (
-                  <div className="space-y-1.5">
-                    <span className="text-[11px] font-mono text-muted uppercase tracking-wider block">
-                      Target Objectives:
-                    </span>
-                    <ul className="space-y-1 text-xs text-muted">
-                      {mentorContext.learningObjectives.map((obj, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 shrink-0" />
-                          <span>{obj}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-
-          <div className="pt-4 border-t border-white/12 text-center text-[11px] text-muted">
-            CyberPath Mentor Architecture · Zero Client-Side Keys
-          </div>
-        </aside>
+      {/* ── Integrated Production AI Lab Mentor Floating Component ── */}
+      {mentorSlot ? (
+        mentorSlot
+      ) : (
+        <AILabMentor
+          labId={labId}
+          currentStep={mentorContext?.currentStep || currentStep || 1}
+          totalSteps={mentorContext?.totalSteps || totalSteps || 4}
+          labTitle={title}
+          isOpen={mentorDrawerOpen}
+          onOpenChange={setMentorDrawerOpen}
+        />
       )}
     </div>
   );
 }
-

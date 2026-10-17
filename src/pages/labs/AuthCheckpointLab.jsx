@@ -166,6 +166,18 @@ export default function AuthCheckpointLab() {
       estimatedTime="25–30 min"
       totalSteps={TOTAL_STEPS}
       currentStep={currentStep}
+      mentorContext={{
+        labId: "auth-checkpoint",
+        topic: "Broken Authentication & Session Management",
+        currentStep,
+        totalSteps: TOTAL_STEPS,
+        learningObjectives: [
+          "Identify weak password policies and the requirement for slow salted hashing (bcrypt, Argon2id)",
+          "Understand server-side rate limiting and account lockout to mitigate brute-force attacks",
+          "Enforce strict session lifecycles including idle timeouts, absolute expiry, and server-side invalidation on logout",
+          "Prevent client-side authorization bypasses (e.g. trusting isAdmin flags stored in localStorage)",
+        ],
+      }}
     >
       {/* ── Step 1: Overview ── */}
       {currentStep >= 1 && (

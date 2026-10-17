@@ -146,6 +146,18 @@ export default function IDORLab() {
       estimatedTime="15–20 min"
       totalSteps={TOTAL_STEPS}
       currentStep={currentStep}
+      mentorContext={{
+        labId: "idor-investigation",
+        topic: "Access Control & Insecure Direct Object References",
+        currentStep,
+        totalSteps: TOTAL_STEPS,
+        learningObjectives: [
+          "Understand object-level authorization and why possession of an ID does not imply permission",
+          "Investigate simulated documents where persona Jordan Kim attempts to access other records",
+          "Enforce server-side ownership checks (record.owner_id === auth.uid())",
+          "Apply deny-by-default access control principles",
+        ],
+      }}
     >
       {/* ── Step 1: Concept ── */}
       {currentStep >= 1 && (
