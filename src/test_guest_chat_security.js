@@ -13,6 +13,26 @@
  * 9. Safe Error Responses: Provider unavailability and rate limits return clear, safe messages
  */
 
+import fs from "fs";
+import path from "path";
+
+// Auto-load .env in Node testing environment if not already loaded
+if (typeof process !== "undefined" && !process.env.VITE_SUPABASE_URL) {
+  try {
+    const envPath = path.resolve(process.cwd(), ".env");
+    if (fs.existsSync(envPath)) {
+      const content = fs.readFileSync(envPath, "utf-8");
+      for (const line of content.split("\n")) {
+        const trimmed = line.trim();
+        if (trimmed && !trimmed.startsWith("#") && trimmed.includes("=")) {
+          const [key, ...rest] = trimmed.split("=");
+          process.env[key.trim()] = rest.join("=").trim();
+        }
+      }
+    }
+  } catch (_e) {}
+}
+
 import {
   ALLOWED_LABS,
   ALLOWED_PAGE_CONTEXTS,
@@ -54,6 +74,23 @@ console.log("\n=======================================================");
 console.log("CYBERPATH ASSISTANT: SECURE GUEST CHAT VERIFICATION");
 console.log("=======================================================\n");
 
+// 0. Browser CORS preflight for the frontend guest marker
+console.log("0. Browser CORS Preflight:");
+await testAsync("OPTIONS allows X-CyberPath-Guest used by the frontend", async () => {
+  const req = new Request("http://localhost/functions/v1/ai-lab-mentor", {
+    method: "OPTIONS",
+    headers: {
+      Origin: "https://cyberpath.org",
+      "Access-Control-Request-Method": "POST",
+      "Access-Control-Request-Headers": "authorization, apikey, content-type, x-cyberpath-guest",
+    },
+  });
+  const res = await handleRequest(req);
+  const allowedHeaders = res.headers.get("Access-Control-Allow-Headers") || "";
+  if (!allowedHeaders.toLowerCase().includes("x-cyberpath-guest")) {
+    throw new Error(`CORS response did not allow x-cyberpath-guest: ${allowedHeaders}`);
+  }
+});
 // 1. Guest Mode: Allowed general questions and greetings
 console.log("1. Guest General Messages & Greetings:");
 const allowedGuestInputs = [
@@ -251,8 +288,4 @@ console.log("\n=======================================================");
 console.log(`SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 console.log("=======================================================\n");
 
-if (failed > 0) {
-  process.exit(1);
-} else {
-  process.exit(0);
-}
+process.exitCode = failed > 0 ? 1 : 0;

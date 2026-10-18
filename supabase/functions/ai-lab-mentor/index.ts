@@ -22,7 +22,7 @@ function getEnv(key: string): string | undefined {
 // CORS Headers for secure browser invocation
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-cyberpath-guest",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
@@ -501,8 +501,15 @@ export async function handleRequest(req: Request): Promise<Response> {
   }
 
   // 2. Validate Supabase Server Configuration
-  const supabaseUrl = getEnv("SUPABASE_URL") || getEnv("VITE_SUPABASE_URL");
-  const supabaseAnonKey = getEnv("SUPABASE_ANON_KEY") || getEnv("VITE_SUPABASE_ANON_KEY") || getEnv("VITE_SUPABASE_PUBLISHABLE_KEY");
+  const supabaseUrl =
+    getEnv("SUPABASE_URL") ||
+    getEnv("VITE_SUPABASE_URL") ||
+    "https://wpuavcfraqvjelxgtbnb.supabase.co";
+  const supabaseAnonKey =
+    getEnv("SUPABASE_ANON_KEY") ||
+    getEnv("VITE_SUPABASE_ANON_KEY") ||
+    getEnv("VITE_SUPABASE_PUBLISHABLE_KEY") ||
+    "sb_publishable_XV1mgnJ_iuFgR2MzS7zhFw_1lLOKf2y";
   const supabaseServiceKey = getEnv("SUPABASE_SERVICE_ROLE_KEY");
 
   if (!supabaseUrl || (!supabaseAnonKey && !supabaseServiceKey)) {

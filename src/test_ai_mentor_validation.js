@@ -36,6 +36,23 @@ import {
 import fs from "fs";
 import path from "path";
 
+// Auto-load .env in Node testing environment if not already loaded
+if (typeof process !== "undefined" && !process.env.VITE_SUPABASE_URL) {
+  try {
+    const envPath = path.resolve(process.cwd(), ".env");
+    if (fs.existsSync(envPath)) {
+      const content = fs.readFileSync(envPath, "utf-8");
+      for (const line of content.split("\n")) {
+        const trimmed = line.trim();
+        if (trimmed && !trimmed.startsWith("#") && trimmed.includes("=")) {
+          const [key, ...rest] = trimmed.split("=");
+          process.env[key.trim()] = rest.join("=").trim();
+        }
+      }
+    }
+  } catch (_e) {}
+}
+
 console.log("===============================================================");
 console.log("CYBERPATH GLOBAL AI ASSISTANT — GUEST & AUTH VERIFICATION SUITE");
 console.log("===============================================================\n");
@@ -440,8 +457,7 @@ console.log("===============================================================\n")
 
 if (passedTests === totalTests) {
   console.log("🎉 All Secure Guest & Authenticated AI Assistant checks passed successfully!");
-  process.exit(0);
 } else {
   console.error("❌ Some checks failed.");
-  process.exit(1);
 }
+process.exitCode = (passedTests === totalTests) ? 0 : 1;
