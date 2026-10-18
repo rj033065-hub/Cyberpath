@@ -79,7 +79,9 @@ export async function callAiMentor({ labId, pageContext, mode, message, history 
 
   // Direct fetch to edge function endpoint for exact HTTP status codes and headers
   if (baseUrl) {
-    const endpoint = `${baseUrl}/functions/v1/ai-lab-mentor`;
+    const endpoint = isGuest
+      ? `${baseUrl}/functions/v1/ai-lab-mentor?mode=guest`
+      : `${baseUrl}/functions/v1/ai-lab-mentor`;
 
     const requestHeaders = {
       "Content-Type": "application/json",
@@ -88,11 +90,6 @@ export async function callAiMentor({ labId, pageContext, mode, message, history 
 
     if (session?.access_token) {
       requestHeaders["Authorization"] = `Bearer ${session.access_token}`;
-    } else {
-      requestHeaders["X-CyberPath-Guest"] = "true";
-      if (anonKey) {
-        requestHeaders["Authorization"] = `Bearer ${anonKey}`;
-      }
     }
 
     try {

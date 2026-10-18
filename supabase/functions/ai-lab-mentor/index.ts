@@ -519,13 +519,25 @@ export async function handleRequest(req: Request): Promise<Response> {
     );
   }
 
-  // 3. Inspect Authentication: Differentiate Authenticated Users from Guests
-  // Supports both explicit guest paths (/guest, ?mode=guest, x-cyberpath-guest) and shared endpoint policies
+  // 3. Parse Request Body
+  let rawBody: any;
+  try {
+    rawBody = await req.json();
+  } catch (_e) {
+    return new Response(
+      JSON.stringify({ error: "Invalid JSON in request body." }),
+      { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+  }
+
+  // 4. Inspect Authentication: Differentiate Authenticated Users from Guests
+  // Supports explicit guest paths (/guest, ?mode=guest, x-cyberpath-guest, body guest: true) and shared endpoint policies
   const requestUrl = new URL(req.url, "http://localhost");
   const isExplicitGuest =
     requestUrl.pathname.endsWith("/guest") ||
     requestUrl.searchParams.get("mode") === "guest" ||
-    req.headers.get("x-cyberpath-guest") === "true";
+    req.headers.get("x-cyberpath-guest") === "true" ||
+    Boolean(rawBody && typeof rawBody === "object" && rawBody.guest === true);
 
   const authHeader = req.headers.get("Authorization") || req.headers.get("authorization");
   let isGuest = true;
@@ -571,17 +583,7 @@ export async function handleRequest(req: Request): Promise<Response> {
     "guest_client"
   );
 
-  // 4. Validate Request Body with appropriate Guest or Authenticated Policy
-  let rawBody: any;
-  try {
-    rawBody = await req.json();
-  } catch (_e) {
-    return new Response(
-      JSON.stringify({ error: "Invalid JSON in request body." }),
-      { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
-  }
-
+  // 5. Validate Request Body with appropriate Guest or Authenticated Policy
   const validation = validateRequestBody(rawBody, isGuest);
   if (!validation.valid || !validation.data) {
     return new Response(
