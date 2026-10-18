@@ -37,6 +37,7 @@ import {
 } from "lucide-react";
 import BadgeEmblem from "../components/badges/BadgeEmblem";
 import { downloadBadgePng } from "../components/badges/badgeProgressHelper";
+import CyberPathLogo from "../components/common/CyberPathLogo";
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -347,19 +348,17 @@ export default function LandingPage() {
           {/* Brand Logo & Wordmark */}
           <a
             href="#home"
-            className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded-md px-1 py-0.5"
+            className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40 rounded-md px-1 py-0.5"
             aria-label="CyberPath Home"
           >
-            <div className="w-8 h-8 rounded-lg bg-raised border border-white/20 flex items-center justify-center text-white group-hover:border-white/40 transition-colors shadow-sm">
-              <Shield className="w-4 h-4 text-white" strokeWidth={2.4} />
-            </div>
+            <CyberPathLogo size="sm" glow className="group-hover:scale-105 transition-transform" />
             <div className="flex flex-col">
               <span className="font-bold tracking-tight text-base text-fg flex items-center">
-                Cyber<span className="text-white">Path</span>
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#4ade80] ml-1"></span>
+                Cyber<span className="text-blue-400">Path</span>
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#4ade80] ml-1.5 animate-pulse"></span>
               </span>
-              <span className="text-[10px] text-[#71717a] font-mono tracking-wider -mt-1 hidden sm:block">
-                LEARN. PRACTICE. HACK.
+              <span className="text-[10px] text-zinc-400 font-mono tracking-wider -mt-0.5 hidden sm:block">
+                LEARN • PRACTICE • BUILD
               </span>
             </div>
           </a>
@@ -1608,12 +1607,15 @@ export default function LandingPage() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-white/12">
             {/* Brand Logo & Wordmark */}
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-raised border border-white/12 flex items-center justify-center text-white">
-                <Shield className="w-4 h-4" strokeWidth={2.4} />
+              <CyberPathLogo size="md" glow />
+              <div className="flex flex-col">
+                <span className="font-bold tracking-tight text-lg text-fg">
+                  Cyber<span className="text-blue-400">Path</span>
+                </span>
+                <span className="text-[10px] text-zinc-500 font-mono tracking-wider">
+                  LEARN • PRACTICE • BUILD
+                </span>
               </div>
-              <span className="font-bold tracking-tight text-lg text-fg">
-                Cyber<span className="text-white">Path</span>
-              </span>
             </div>
 
             {/* Tagline */}

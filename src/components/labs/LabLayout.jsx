@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Shield, FlaskConical, Sparkles } from "lucide-react";
 import LabProgressIndicator from "./LabProgressIndicator";
 import { useAIAssistant } from "../../context/AIAssistantContext";
+import CyberPathLogo from "../common/CyberPathLogo";
 
 function resolveLabId(mentorContext, title) {
   if (mentorContext?.labId) return mentorContext.labId;
@@ -102,9 +103,9 @@ export default function LabLayout({
 
           <Link
             to="/dashboard"
-            className="flex items-center gap-1.5 text-muted hover:text-fg text-xs border border-white/12 hover:border-white/28 px-2.5 py-1 rounded-md transition-all"
+            className="flex items-center gap-1.5 text-muted hover:text-fg text-xs border border-white/12 hover:border-white/28 px-2.5 py-1 rounded-md transition-all group"
           >
-            <Shield className="w-3.5 h-3.5" />
+            <CyberPathLogo size="xs" glow className="group-hover:scale-105 transition-transform" />
             <span className="hidden sm:inline">Dashboard</span>
           </Link>
         </div>

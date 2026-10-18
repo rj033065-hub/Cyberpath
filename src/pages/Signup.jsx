@@ -5,6 +5,7 @@ import { Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import AuthLayout from "../components/auth/AuthLayout";
 import PasswordInput from "../components/auth/PasswordInput";
+import CyberPathLogo from "../components/common/CyberPathLogo";
 
 export function Signup() {
   const navigate = useNavigate();
@@ -200,6 +201,13 @@ export function Signup() {
         animate="visible"
         className="w-full flex flex-col items-center"
       >
+        {/* Brand Logo */}
+        <motion.div variants={itemVariants} className="mb-4">
+          <Link to="/" title="CyberPath Home">
+            <CyberPathLogo size="lg" glow className="hover:scale-105 transition-transform" />
+          </Link>
+        </motion.div>
+
         {/* 1. Heading */}
         <motion.h1
           variants={itemVariants}

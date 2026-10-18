@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Shield, ArrowRight, Mail, AlertCircle, CheckCircle2, Loader2, KeyRound } from "lucide-react";
+import CyberPathLogo from "../components/common/CyberPathLogo";
 
 export default function ForgotPassword() {
   const { resetPasswordForEmail } = useAuth();
@@ -48,11 +49,9 @@ export default function ForgotPassword() {
       {/* Header bar */}
       <header className="w-full border-b border-white/12 bg-page/80 backdrop-blur-md px-6 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-raised border border-white/28 flex items-center justify-center text-fg group-hover:border-white/40 transition-colors shadow-sm">
-            <Shield className="w-4 h-4 text-accent" strokeWidth={2.4} />
-          </div>
+          <CyberPathLogo size="sm" glow className="group-hover:scale-105 transition-transform" />
           <span className="font-bold tracking-tight text-base text-fg">
-            Cyber<span className="text-accent">Path</span>
+            Cyber<span className="text-blue-400">Path</span>
           </span>
         </Link>
         <Link

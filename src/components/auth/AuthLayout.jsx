@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { ChevronDown, Check, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import AuthIllustration from "./AuthIllustration";
 import TypingQuote from "./TypingQuote";
+import CyberPathLogo from "../common/CyberPathLogo";
 
 export function AuthLayout({
   children,
@@ -32,8 +34,16 @@ export function AuthLayout({
 
   return (
     <div className="min-h-screen w-full bg-[#050505] text-white flex flex-col justify-between overflow-x-hidden relative selection:bg-white/20">
-      {/* Top-Left Pill Button: Workspace / Theme Switcher */}
-      <div className="absolute top-5 left-5 sm:top-6 sm:left-6 z-50" ref={dropdownRef}>
+      {/* Top-Left: CyberPath Logo & Workspace Switcher */}
+      <div className="absolute top-5 left-5 sm:top-6 sm:left-6 z-50 flex items-center gap-3">
+        <Link to="/" className="flex items-center gap-2 group" title="Return to CyberPath Home">
+          <CyberPathLogo size="xs" glow className="group-hover:scale-105 transition-transform" />
+          <span className="font-bold tracking-tight text-sm text-white flex items-center hidden sm:flex">
+            Cyber<span className="text-blue-400">Path</span>
+          </span>
+        </Link>
+        <div className="h-4 w-px bg-white/20 hidden sm:block" />
+        <div className="relative" ref={dropdownRef}>
         <button
           type="button"
           onClick={() => setWorkspaceMenuOpen((prev) => !prev)}
@@ -86,6 +96,7 @@ export function AuthLayout({
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
       </div>
 
       {/* Main 50/50 Split Grid */}

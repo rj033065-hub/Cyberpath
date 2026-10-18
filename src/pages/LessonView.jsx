@@ -38,6 +38,7 @@ import {
 } from "../lib/learningService";
 import AssessmentCard from "../components/learning/AssessmentCard";
 import BadgeUnlockedModal from "../components/learning/BadgeUnlockedModal";
+import CyberPathLogo from "../components/common/CyberPathLogo";
 
 const RELATED_CYBERPATH_LABS = {
   "introduction-to-sql-injection": {
@@ -436,6 +437,7 @@ export default function LessonView() {
           </Link>
           <div className="h-4 w-px bg-raised hidden sm:block shrink-0" />
           <div className="flex items-center gap-2 min-w-0">
+            <CyberPathLogo size="xs" glow />
             <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full border border-white/12 bg-surface text-accent shrink-0">
               {path.title}
             </span>

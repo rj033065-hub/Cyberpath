@@ -36,6 +36,7 @@ import {
 import { useAIAssistant } from "../../context/AIAssistantContext";
 import { useAuth } from "../../context/AuthContext";
 import { resolveLabConfig } from "../../lib/aiLabConfig";
+import CyberPathLogo from "../common/CyberPathLogo";
 
 // Mode icon mapping
 const MODE_ICONS = {
@@ -292,11 +293,11 @@ export default function AILabMentor() {
           <button
             type="button"
             onClick={openAssistant}
-            className="group relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-accent to-emerald-400 text-on-accent shadow-lg shadow-accent/25 hover:shadow-accent/40 hover:scale-105 active:scale-95 transition-all duration-200 border border-white/20 font-medium text-xs sm:text-sm cursor-pointer"
+            className="group relative flex items-center gap-2.5 px-3.5 py-2.5 rounded-full bg-gradient-to-r from-accent to-emerald-400 text-on-accent shadow-lg shadow-accent/25 hover:shadow-accent/40 hover:scale-105 active:scale-95 transition-all duration-200 border border-white/20 font-medium text-xs sm:text-sm cursor-pointer"
             aria-label="Open CyberPath AI Assistant"
             title="Ask CyberPath AI Assistant for concepts, hints, or guidance"
           >
-            <Sparkles className="w-4 h-4 animate-pulse shrink-0" />
+            <CyberPathLogo size="xs" glow className="shrink-0" />
             <span className="font-semibold tracking-wide">
               {activeLabContext ? "AI Mentor" : "AI Assistant"}
             </span>
@@ -315,7 +316,7 @@ export default function AILabMentor() {
         >
           <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-surface/95 backdrop-blur-md border border-white/12 shadow-2xl">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-accent" />
+              <CyberPathLogo size="xs" glow className="shrink-0" />
               <span className="text-xs font-semibold text-fg">{displayTitle}</span>
               <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-accent/20 text-accent uppercase">
                 {displayBadge}
@@ -355,9 +356,7 @@ export default function AILabMentor() {
           {/* Header */}
           <header className="px-4 py-3 border-b border-white/10 bg-white/[0.02] flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-7 h-7 rounded-lg bg-accent/15 border border-accent/30 flex items-center justify-center shrink-0">
-                <Sparkles className="w-4 h-4 text-accent" />
-              </div>
+              <CyberPathLogo size="xs" glow className="shrink-0" />
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
                   <h2 className="text-xs font-semibold text-fg truncate">

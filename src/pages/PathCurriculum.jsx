@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { getPathBySlug } from "../data/curriculumData";
 import { getCompletedLessonSlugs, getStudentDashboardMetrics } from "../lib/learningService";
+import CyberPathLogo from "../components/common/CyberPathLogo";
 
 const TRACK_ICONS = {
   "red-team": Flame,
@@ -80,9 +81,12 @@ export default function PathCurriculum() {
             <span>Dashboard</span>
           </Link>
           <div className="h-4 w-px bg-raised" />
-          <span className="font-bold tracking-tight text-sm text-fg">
-            {path.title} Curriculum
-          </span>
+          <div className="flex items-center gap-2">
+            <CyberPathLogo size="xs" glow />
+            <span className="font-bold tracking-tight text-sm text-fg">
+              {path.title} Curriculum
+            </span>
+          </div>
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">

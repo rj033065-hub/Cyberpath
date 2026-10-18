@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { getLabProgress } from "../lib/labService";
+import CyberPathLogo from "../components/common/CyberPathLogo";
 
 const LABS = [
   {
@@ -216,7 +217,7 @@ export default function LabCatalog() {
           </Link>
           <span className="text-faint hidden sm:inline">/</span>
           <div className="flex items-center gap-2">
-            <FlaskConical className="w-4 h-4 text-accent" />
+            <CyberPathLogo size="xs" glow />
             <span className="text-sm font-semibold text-fg">CyberPath Labs</span>
           </div>
         </div>

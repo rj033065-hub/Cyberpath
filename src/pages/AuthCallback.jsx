@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Shield, Loader2, AlertCircle } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import CyberPathLogo from "../components/common/CyberPathLogo";
 
 export default function AuthCallback() {
   const navigate = useNavigate();
@@ -74,11 +75,9 @@ export default function AuthCallback() {
         ) : (
           <>
             <div className="relative mb-5">
-              <div className="w-14 h-14 rounded-2xl bg-raised border border-white/20 flex items-center justify-center text-white shadow-lg shadow-white/5">
-                <Shield className="w-7 h-7 text-white" />
-              </div>
+              <CyberPathLogo size="lg" glow />
               <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-surface border border-white/20 flex items-center justify-center">
-                <Loader2 className="w-3.5 h-3.5 text-white animate-spin" />
+                <Loader2 className="w-3.5 h-3.5 text-blue-400 animate-spin" />
               </div>
             </div>
             <h2 className="text-lg font-bold text-white mb-1.5">

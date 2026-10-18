@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { BADGES_DEFINITION } from "../data/curriculumData";
 import { getStudentDashboardMetrics } from "../lib/learningService";
+import CyberPathLogo from "../components/common/CyberPathLogo";
 import BadgeCard from "../components/badges/BadgeCard";
 import NextBadgeFeatured from "../components/badges/NextBadgeFeatured";
 import {
@@ -282,11 +283,9 @@ export default function Dashboard() {
       {/* Top Navbar */}
       <header className="sticky top-0 z-50 w-full border-b border-white/12 bg-page/90 backdrop-blur-md px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-raised border border-white/28 flex items-center justify-center text-fg group-hover:border-white/40 transition-colors shadow-sm">
-            <Shield className="w-4 h-4 text-accent" strokeWidth={2.4} />
-          </div>
+          <CyberPathLogo size="sm" glow className="group-hover:scale-105 transition-transform" />
           <span className="font-bold tracking-tight text-base text-fg">
-            Cyber<span className="text-accent">Path</span>
+            Cyber<span className="text-blue-400">Path</span>
             <span className="text-xs font-mono text-muted ml-2 font-normal hidden sm:inline">
               / Student Dashboard
             </span>
