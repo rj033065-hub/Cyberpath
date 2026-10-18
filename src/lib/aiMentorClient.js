@@ -1,13 +1,13 @@
 // src/lib/aiMentorClient.js
 /**
- * Frontend client for CyberPath AI Lab Mentor Edge Function.
+ * Frontend client for CyberPath AI Assistant (Vercel Serverless API + Google Gemini).
  *
  * Security & Architecture Rules:
- * 1. This client calls ONLY the secure Supabase Edge Function `ai-lab-mentor`.
- * 2. It NEVER calls OpenRouter directly.
- * 3. It attaches the active Supabase JWT session token.
- * 4. It does not handle or store any API keys in client-side code.
- * 5. It does NOT use fake/mock responses to hide backend or auth errors.
+ * 1. This client calls the serverless endpoint `/api/chat` powered by Google Gemini.
+ * 2. It attaches the active Supabase JWT session token when logged in.
+ * 3. It NEVER accesses or stores Gemini API keys in client-side code.
+ * 4. It does NOT use fake/mock responses to hide backend or auth errors.
+ * 5. Legacy Supabase Edge Function remains as a secondary fallback if needed.
  */
 
 import { supabase } from "./supabase";
@@ -40,7 +40,7 @@ function getSupabaseAnonKey() {
 }
 
 /**
- * Sends a request to the AI Mentor Edge Function.
+ * Sends a request to the CyberPath AI Assistant (/api/chat).
  *
  * @param {Object} params
  * @param {string} [params.labId]         - Optional stable lab identifier (e.g. "sqli-basics").
@@ -74,104 +74,98 @@ export async function callAiMentor({ labId, pageContext, mode, message, history 
     ...(isGuest ? { guest: true } : {}),
   };
 
-  const baseUrl = getSupabaseUrl();
-  const anonKey = getSupabaseAnonKey();
+  // Primary: Vercel Serverless API (/api/chat)
+  // Uses relative path in browser environment (supported natively on Vercel and local Vite dev proxy)
+  const isBrowser = typeof window !== "undefined";
+  const apiUrl = isBrowser ? "/api/chat" : (process.env.APP_URL || "http://localhost:3000") + "/api/chat";
 
-  // Direct fetch to edge function endpoint for exact HTTP status codes and headers
-  if (baseUrl) {
-    const endpoint = isGuest
-      ? `${baseUrl}/functions/v1/ai-lab-mentor?mode=guest`
-      : `${baseUrl}/functions/v1/ai-lab-mentor`;
+  const requestHeaders = {
+    "Content-Type": "application/json",
+  };
 
-    const requestHeaders = {
-      "Content-Type": "application/json",
-      ...(anonKey ? { apikey: anonKey } : {}),
-    };
-
-    if (session?.access_token) {
-      requestHeaders["Authorization"] = `Bearer ${session.access_token}`;
-    }
-
-    try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: requestHeaders,
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        let errJson = null;
-        try {
-          errJson = await response.json();
-        } catch (_e) {
-          // ignore parsing error
-        }
-
-        const errorMessage =
-          errJson?.error ||
-          (response.status === 429
-            ? "You've sent too many questions in a short period. Please wait a minute before trying again."
-            : response.status === 401
-            ? "Your session has expired or is invalid. Please sign in again."
-            : response.status === 503
-            ? "AI Mentor service is currently unconfigured. Missing server-side credentials."
-            : response.status === 404
-            ? "AI Lab Mentor Edge Function is not deployed yet. Please deploy the function to your Supabase project."
-            : `AI mentor request failed (status ${response.status})`);
-
-        const err = new Error(errorMessage);
-        err.status = response.status;
-        err.retryAfter = errJson?.retry_after;
-        err.isRateLimit = response.status === 429;
-        err.isAuthError = response.status === 401;
-        throw err;
-      }
-
-      const result = await response.json();
-      if (!result?.content) {
-        throw new Error("Received an unexpected empty response from the AI Lab Mentor.");
-      }
-      return result;
-    } catch (networkErr) {
-      if (networkErr.status) throw networkErr; // Rethrow parsed HTTP errors
-      // Fallback to supabase.functions.invoke below
-    }
+  if (session?.access_token) {
+    requestHeaders["Authorization"] = `Bearer ${session.access_token}`;
   }
 
-  // Fallback invocation via Supabase client functions wrapper
   try {
-    const { data, error } = await supabase.functions.invoke("ai-lab-mentor", {
-      body: payload,
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: requestHeaders,
+      body: JSON.stringify(payload),
     });
 
-    if (error) {
-      const status = error?.status || error?.context?.status || 500;
-      let msg = error.message || "Failed to reach AI Lab Mentor";
-
-      if (error?.context && typeof error.context.json === "function") {
-        try {
-          const detail = await error.context.json();
-          if (detail?.error) msg = detail.error;
-        } catch (_e) {
-          // ignore
-        }
+    if (!response.ok) {
+      let errJson = null;
+      try {
+        errJson = await response.json();
+      } catch (_e) {
+        // ignore parsing error
       }
 
-      const e = new Error(msg);
-      e.status = status;
-      e.isRateLimit = status === 429;
-      e.isAuthError = status === 401;
-      throw e;
+      const errorMessage =
+        errJson?.error ||
+        (response.status === 429
+          ? "You've sent too many questions in a short period. Please wait a minute before trying again."
+          : response.status === 401
+          ? "Your session has expired or is invalid. Please sign in again."
+          : response.status === 503
+          ? "AI Assistant service is currently unconfigured. Missing server-side credentials."
+          : response.status === 504
+          ? "AI Assistant timed out waiting for a response. Please try again."
+          : `AI Assistant request failed (status ${response.status})`);
+
+      const err = new Error(errorMessage);
+      err.status = response.status;
+      err.retryAfter = errJson?.retry_after;
+      err.isRateLimit = response.status === 429;
+      err.isAuthError = response.status === 401;
+      throw err;
     }
 
-    if (!data?.content) {
-      throw new Error("Received an empty response from AI Lab Mentor.");
+    const result = await response.json();
+    if (!result?.content) {
+      throw new Error("Received an unexpected empty response from the AI Assistant.");
     }
-    return data;
-  } catch (err) {
-    if (err.status) throw err;
+    return result;
+  } catch (primaryErr) {
+    // If it's a validated HTTP error (such as 401, 400, 429, 503), rethrow directly without masking
+    if (primaryErr.status) throw primaryErr;
+
+    // Secondary Legacy Fallback: Supabase Edge Function (if /api/chat is unreachable)
+    const baseUrl = getSupabaseUrl();
+    const anonKey = getSupabaseAnonKey();
+
+    if (baseUrl) {
+      try {
+        const edgeEndpoint = isGuest
+          ? `${baseUrl}/functions/v1/ai-lab-mentor?mode=guest`
+          : `${baseUrl}/functions/v1/ai-lab-mentor`;
+
+        const edgeHeaders = {
+          "Content-Type": "application/json",
+          ...(anonKey ? { apikey: anonKey } : {}),
+        };
+        if (session?.access_token) {
+          edgeHeaders["Authorization"] = `Bearer ${session.access_token}`;
+        }
+
+        const edgeResp = await fetch(edgeEndpoint, {
+          method: "POST",
+          headers: edgeHeaders,
+          body: JSON.stringify(payload),
+        });
+
+        if (edgeResp.ok) {
+          const edgeData = await edgeResp.json();
+          if (edgeData?.content) return edgeData;
+        }
+      } catch (_edgeErr) {
+        // Fall through to final error
+      }
+    }
+
     const connectErr = new Error(
-      "Unable to connect to AI Lab Mentor Edge Function. Please verify your connection or ensure the function is deployed."
+      "Unable to connect to CyberPath AI Assistant. Please verify your connection or ensure the endpoint is running."
     );
     connectErr.status = 503;
     throw connectErr;
