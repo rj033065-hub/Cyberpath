@@ -145,6 +145,19 @@ export const PAGE_CONTEXT_CONFIG = {
       { mode: "chat", label: "Career Advice", prompt: "What entry-level roles can I pursue in cybersecurity and how do I prepare?" },
     ],
   },
+  networking: {
+    id: "networking",
+    title: "Networking for Cybersecurity",
+    shortName: "Networking",
+    badge: "Interactive Module",
+    description: "Foundational and practical networking concepts: OSI & TCP/IP models, packet encapsulation, CIDR subnetting, ARP, DNS, firewalls, and troubleshooting.",
+    quickActions: [
+      { mode: "explain", label: "Packet vs Frame", prompt: "What is the difference between a Layer 3 packet and a Layer 2 frame?" },
+      { mode: "explain", label: "TCP Handshake", prompt: "Explain the SYN, SYN-ACK, and ACK 3-way handshake in simple terms." },
+      { mode: "explain", label: "Subnetting /24 vs /26", prompt: "How do I calculate usable host addresses in a /26 subnet compared to /24?" },
+      { mode: "explain", label: "DNS Resolution", prompt: "Walk me through how a DNS query travels from client to root, TLD, and authoritative nameservers." },
+    ],
+  },
 };
 
 /**
@@ -160,6 +173,9 @@ export function resolvePageContext(pathname = "") {
   if (path === "/dashboard") return PAGE_CONTEXT_CONFIG.dashboard;
   if (path === "/explore") return PAGE_CONTEXT_CONFIG.resources;
   if (path === "/profile") return PAGE_CONTEXT_CONFIG.profile;
+  if (path.startsWith("/networking") || path.startsWith("/learn/networking")) {
+    return PAGE_CONTEXT_CONFIG.networking;
+  }
   if (path.startsWith("/learn")) {
     const parts = path.split("/").filter(Boolean);
     if (parts.length >= 3) {

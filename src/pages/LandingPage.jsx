@@ -390,6 +390,12 @@ export default function LandingPage() {
               Achievements
             </a>
             <Link
+              to="/networking"
+              className="px-3 py-1.5 rounded-md text-cyan-400 hover:text-cyan-300 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 font-medium"
+            >
+              Networking
+            </Link>
+            <Link
               to="/explore"
               className="px-3 py-1.5 rounded-md hover:text-white hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
             >
@@ -491,6 +497,14 @@ export default function LandingPage() {
                 <span>Achievements & Badges</span>
                 <ChevronRight className="w-4 h-4 text-muted" />
               </a>
+              <Link
+                to="/networking"
+                onClick={handleNavClick}
+                className="px-3 py-2.5 rounded-md text-cyan-400 hover:bg-white/[0.06] text-sm font-medium flex items-center justify-between"
+              >
+                <span>Networking Module</span>
+                <ChevronRight className="w-4 h-4 text-muted" />
+              </Link>
               <a
                 href="#resources"
                 onClick={handleNavClick}

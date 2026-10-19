@@ -21,6 +21,10 @@ import SQLiLab from "./pages/labs/SQLiLab";
 import XSSLab from "./pages/labs/XSSLab";
 import IDORLab from "./pages/labs/IDORLab";
 import AuthCheckpointLab from "./pages/labs/AuthCheckpointLab";
+import NetworkingLanding from "./pages/networking/NetworkingLanding";
+import NetworkingLessonView from "./pages/networking/NetworkingLessonView";
+import NetworkingSimulationsView from "./pages/networking/NetworkingSimulationsView";
+import NetworkingGamesView from "./pages/networking/NetworkingGamesView";
 
 import "./App.css";
 
@@ -139,6 +143,16 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* Dedicated Networking Module Routes */}
+          <Route path="/networking" element={<NetworkingLanding />} />
+          <Route path="/networking/lesson/:lessonSlug" element={<NetworkingLessonView />} />
+          <Route path="/networking/simulations" element={<NetworkingSimulationsView />} />
+          <Route path="/networking/games" element={<NetworkingGamesView />} />
+
+          {/* Canonical aliases for curriculum paths */}
+          <Route path="/learn/networking" element={<NetworkingLanding />} />
+          <Route path="/learn/networking/:lessonSlug" element={<NetworkingLessonView />} />
 
           {/* Catch-all redirect to Home */}
           <Route path="*" element={<Navigate to="/" replace />} />

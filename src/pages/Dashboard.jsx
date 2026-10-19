@@ -315,6 +315,14 @@ export default function Dashboard() {
           </Link>
 
           <Link
+            to="/networking"
+            className="text-xs text-cyan-400 hover:text-cyan-300 px-2.5 py-1.5 rounded-md hover:bg-raised transition-colors flex items-center gap-1 font-medium"
+          >
+            <Network className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Networking</span>
+          </Link>
+
+          <Link
             to="/labs"
             className="text-xs text-accent hover:text-white px-2.5 py-1.5 rounded-md hover:bg-raised transition-colors flex items-center gap-1 font-medium"
           >
@@ -525,6 +533,33 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
+
+        {/* Featured Networking Module Entry Card */}
+        <section className="rounded-2xl bg-surface border border-cyan-500/30 p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 relative overflow-hidden shadow-lg shadow-cyan-500/5">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 blur-3xl pointer-events-none rounded-full" />
+          <div className="space-y-1.5 relative z-10 max-w-2xl">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-950/60 border border-cyan-800/40 text-cyan-400 text-[11px] font-mono">
+              <Sparkles className="w-3 h-3" />
+              <span>Interactive Learning System</span>
+            </div>
+            <h2 className="text-base sm:text-lg font-bold text-fg flex items-center gap-2">
+              <Network className="w-5 h-5 text-cyan-400" />
+              <span>Networking for Cybersecurity</span>
+            </h2>
+            <p className="text-xs text-zinc-300 leading-relaxed">
+              Master LANs, WANs, 7 OSI layers, CIDR subnetting, packet encapsulation, and network diagnostics with interactive visual simulations and hands-on mini-games.
+            </p>
+          </div>
+          <div className="flex items-center gap-2.5 relative z-10">
+            <Link
+              to="/networking"
+              className="px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-xs transition-colors flex items-center gap-1.5 shrink-0"
+            >
+              <span>Explore Networking</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </section>
 
         {/* Section: Learning Paths Selector */}
         <section className="space-y-4">

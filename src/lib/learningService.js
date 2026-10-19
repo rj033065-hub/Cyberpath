@@ -417,8 +417,8 @@ export function evaluateLocalBadges(userId) {
         isQuizPassed("quiz-linux");
     } else if (badge.slug === "network-navigator") {
       qualifies =
-        completedLessons.includes("networking-fundamentals") &&
-        isQuizPassed("quiz-networking");
+        (completedLessons.includes("networking-fundamentals") && isQuizPassed("quiz-networking")) ||
+        (completedLessons.includes("lan-wan-client-server") && (isQuizPassed("quiz-lan-wan") || isQuizPassed("quiz-switches-routers") || completedLessons.includes("switches-routers-mac-ip")));
     } else if (badge.slug === "web-apprentice") {
       qualifies =
         completedLessons.includes("how-websites-work") &&
