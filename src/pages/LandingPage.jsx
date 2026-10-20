@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ScrollIntroHero from "../components/ui/ScrollIntroHero";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import DecryptText from "../components/ui/DecryptText";
@@ -342,6 +343,8 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-page text-fg flex flex-col selection:bg-white/20 selection:text-white relative">
+      {/* SCROLL-SCRUBBED INTRO OVERLAY — first visit only */}
+      <ScrollIntroHero />
       {/* SECTION 1: STICKY NAVIGATION */}
       <header className="sticky top-0 z-50 w-full border-b border-white/12 bg-page/90 backdrop-blur-md transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
