@@ -110,6 +110,22 @@ const LABS = [
     skills: ["Source Code Inspection", "Base64 Decoding", "Web Reconnaissance"],
     relatedPath: "web-security",
   },
+
+    {
+      slug: "cookie-monster",
+      href: "/cookie-monster.html",
+      isExternal: true,
+      title: "Cookie Monster (CTF Challenge)",
+      description: "Find the secret cookie hidden in a browser cookie. Inspect dev tools to retrieve the flag.",
+      category: "Recon & Cryptography",
+      topic: "ctf-challenge",
+      topicLabel: "CTF Challenge",
+      difficulty: "Beginner",
+      estimatedTime: "5–10 min",
+      icon: Flag,
+      skills: ["Browser inspection", "Cookie analysis", "Web recon"],
+      relatedPath: "web-security",
+    }
 ];
 
 const TOPIC_FILTERS = [

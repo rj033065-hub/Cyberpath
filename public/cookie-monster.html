@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cookie Monster | CTF Challenge</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #0a0a0f;
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #12121a;
+      border: 1px solid #00f0ff33;
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 0 30px #00f0ff22;
+    }
+
+    h1 {
+      color: #00f0ff;
+      font-size: 2rem;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 30px;
+      font-size: 0.9rem;
+    }
+
+    .story {
+      background: #1a1a24;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #a855f7;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    .hint-btn {
+      background: transparent;
+      border: 1px solid #a855f7;
+      color: #a855f7;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      transition: 0.3s;
+    }
+
+    .hint-btn:hover {
+      background: #a855f722;
+    }
+
+    .hint-box {
+      display: none;
+      background: #1a1a24;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      color: #fbbf24;
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #00f0ff;
+      font-size: 0.9rem;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 15px;
+      background: #0a0a0f;
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input[type="text"]:focus {
+      border-color: #00f0ff;
+      box-shadow: 0 0 10px #00f0ff33;
+    }
+
+    button.submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(90deg, #00f0ff, #a855f7);
+      border: none;
+      border-radius: 6px;
+      color: #000;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button.submit-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: 500;
+      display: none;
+    }
+
+    .success {
+      background: #064e3b;
+      color: #34d399;
+      border: 1px solid #34d399;
+    }
+
+    .error {
+      background: #450a0a;
+      color: #f87171;
+      border: 1px solid #f87171;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.8rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Cookie Monster</h1>
+    <p class="subtitle">CTF Challenge • 100 Points</p>
+
+    <div class="story">
+      The cookie jar is not empty...<br>
+      Something delicious is stored in your browser.<br><br>
+      Can you find the secret cookie?
+    </div>
+
+    <button class="hint-btn" onclick="showHint()">Need a Hint?</button>
+    <div class="hint-box" id="hintBox">
+      Open Developer Tools (F12) → Go to Application / Storage → Cookies → Look carefully.
+    </div>
+
+    <div class="form-group">
+      <label>ENTER THE FLAG</label>
+      <input type="text" id="flagInput" placeholder="FLAG{...}" autocomplete="off">
+    </div>
+
+    <button class="submit-btn" onclick="checkFlag()">Submit Flag</button>
+
+    <div class="result" id="result"></div>
+
+    <div class="footer">
+      RED TEAM LAB • BEGINNER CHALLENGE
+    </div>
+  </div>
+
+  <script type="module">
+    import { supabase } from '/src/lib/supabase.js';
+    import { markLabStarted, markLabComplete } from '/src/lib/labService.js';
+    // Set the secret cookie when page loads
+    document.cookie = "secret_flag=FLAG{c00k13s_4r3_d3l1c10us}; path=/";
+    // Track start on load
+    window.addEventListener('load', async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user?.id) {
+        await markLabStarted(user.id, 'cookie-monster');
+      }
+    });
+
+    function showHint() {
+  // expose globally
+  window.showHint = showHint;
+      document.getElementById('hintBox').style.display = 'block';
+    }
+
+    function checkFlag() {
+  // expose globally
+  window.checkFlag = checkFlag;
+      const userFlag = document.getElementById('flagInput').value.trim();
+      const correctFlag = "FLAG{c00k13s_4r3_d3l1c10us}";
+      const resultDiv = document.getElementById('result');
+
+      resultDiv.style.display = 'block';
+
+      if (userFlag === correctFlag) {
+        resultDiv.className = 'result success';
+        resultDiv.innerText = "Correct! You found the delicious cookie!";
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user?.id) {
+          await markLabComplete(user.id, 'cookie-monster');
+        }
+      } else {
+        resultDiv.className = 'result error';
+        resultDiv.innerText = "Wrong flag. Try again.";
+      }
+    }
+
+    // Allow Enter key to submit
+    document.getElementById('flagInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        checkFlag();
+      }
+    });
+  </script>
+</body>
+</html>
